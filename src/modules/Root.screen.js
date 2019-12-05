@@ -1,6 +1,7 @@
 import React from 'react';
 import { BrowserRouter as Router, Switch, Route, Link } from 'react-router-dom';
-import { Login, Signup, Landing } from './screens';
+import { Landing } from './home/screens';
+import { Login, Signup } from './auth/screens';
 
 function RootScreen() {
   return (
@@ -9,10 +10,10 @@ function RootScreen() {
         <Route exact path="/">
           <Landing />
         </Route>
-        <Route path="/login">
+        <Route exact path="/login">
           <Login />
         </Route>
-        <Route path="/signup">
+        <Route exact path="/signup">
           <Signup />
         </Route>
       </Switch>

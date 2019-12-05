@@ -1,6 +1,6 @@
 import React from 'react';
 
-import RootScreen from './Root.screen';
+import RootScreen from './modules/Root.screen';
 
 import './App.css';
 
