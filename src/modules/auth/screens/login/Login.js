@@ -35,7 +35,15 @@ class LoginScreen extends Component {
         >
           {({ isSubmitting }) => {
             return (
-              <Form>
+              <Form
+                style={{
+                  border: '1px solid black',
+                  padding: '50px',
+                  width: '300px',
+                  display: 'flex',
+                  flexDirection: 'column'
+                }}
+              >
                 <label>Username</label>
                 <Field type="username" name="username" />
                 <ErrorMessage name="username" />
