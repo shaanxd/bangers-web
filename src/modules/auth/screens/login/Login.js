@@ -7,7 +7,7 @@ import { login } from '../../actions/auth';
 
 class LoginScreen extends Component {
   componentDidUpdate() {
-    if (this.props.auth.authToken) {
+    if (this.props.auth.authDetails) {
       this.props.history.replace('/');
     }
   }
@@ -18,7 +18,6 @@ class LoginScreen extends Component {
     const { isLoggingIn } = this.props.auth;
     return (
       <div>
-        <h1>{JSON.stringify(this.props.auth)}</h1>
         <Formik
           initialValues={{ username: '', password: '' }}
           validate={values => {

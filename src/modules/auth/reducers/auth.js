@@ -9,7 +9,7 @@ import {
 } from '../actions/auth';
 
 export const initial_state = {
-  authToken: null,
+  authDetails: null,
   isLoggingIn: false,
   loginError: null,
   isSigningUp: false,
@@ -28,7 +28,7 @@ export const login_success = (state = initial_state, { type, payload }) => {
   return {
     ...state,
     isLoggingIn: false,
-    authToken: payload,
+    authDetails: payload,
     loginError: null
   };
 };
@@ -53,7 +53,7 @@ export const signup_success = (state = initial_state, { type, payload }) => {
   return {
     ...state,
     isSigningUp: false,
-    authToken: payload
+    authDetails: payload
   };
 };
 

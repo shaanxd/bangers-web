@@ -6,7 +6,6 @@ class LandingScreen extends Component {
     return (
       <div>
         <h1>This is landing page</h1>
-        <h1>{JSON.stringify(this.props.auth)}</h1>
       </div>
     );
   }
