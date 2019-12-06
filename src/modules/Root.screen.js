@@ -1,9 +1,21 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { BrowserRouter as Router, Switch, Route, Link } from 'react-router-dom';
 import { Landing } from './home/screens';
 import { Login, Signup } from './auth/screens';
+import { retrieveAuthDetails } from './helper/localStorage';
+import { connect } from 'react-redux';
+import { login_successful } from './auth/actions/auth';
 
-function RootScreen() {
+const RootScreen = props => {
+  const loadFromUserToken = () => {
+    let authDetails = retrieveAuthDetails();
+    if (authDetails) {
+      props.setAuthDetails(JSON.parse(authDetails));
+    }
+  };
+  useEffect(() => {
+    loadFromUserToken();
+  }, []);
   return (
     <Router>
       <Switch>
@@ -19,6 +31,14 @@ function RootScreen() {
       </Switch>
     </Router>
   );
-}
+};
 
-export default RootScreen;
+const mapDispatchToProps = dispatch => {
+  return {
+    setAuthDetails: authDetails => {
+      dispatch(login_successful(authDetails));
+    }
+  };
+};
+
+export default connect(null, mapDispatchToProps)(RootScreen);

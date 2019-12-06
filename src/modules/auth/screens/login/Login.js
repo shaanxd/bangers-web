@@ -2,6 +2,7 @@ import React, { useEffect } from 'react';
 import { connect } from 'react-redux';
 import { Formik, Field, ErrorMessage, Form } from 'formik';
 import { withRouter } from 'react-router-dom';
+import * as Yup from 'yup';
 
 import { login } from '../../actions/auth';
 
@@ -24,16 +25,10 @@ const LoginScreen = props => {
     <div>
       <Formik
         initialValues={{ username: '', password: '' }}
-        validate={values => {
-          const errors = {};
-          if (!values.username) {
-            errors.username = 'Username is required.';
-          }
-          if (!values.password) {
-            errors.password = 'Password is required.';
-          }
-          return errors;
-        }}
+        validationSchema={Yup.object().shape({
+          username: Yup.string().required('Username is required'),
+          password: Yup.string().required('Password is required')
+        })}
         onSubmit={handleLoginSubmit}
       >
         {({ isSubmitting }) => {

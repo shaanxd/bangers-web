@@ -1,4 +1,5 @@
 import { takeEvery, put, call } from 'redux-saga/effects';
+import { setAuthDetails } from '../../helper/localStorage';
 
 import {
   LOGIN,
@@ -36,7 +37,6 @@ const api_post = async (endpoint, requestBody, authorization) => {
     : {
         'Content-Type': 'application/json'
       };
-
   const response = await fetch(url, {
     method: 'POST',
     headers,
@@ -55,6 +55,7 @@ const api_post = async (endpoint, requestBody, authorization) => {
 function* handleLoginSaga({ type, payload: { username, password } }) {
   try {
     const response = yield call(login_request, username, password);
+    response.authToken && setAuthDetails(response);
     yield put(login_successful(response));
   } catch (err) {
     yield put(login_failure(err.message));
@@ -64,6 +65,7 @@ function* handleLoginSaga({ type, payload: { username, password } }) {
 function* handleSignupSaga({ type, payload }) {
   try {
     const response = yield call(signup_request, payload);
+    response.authToken && setAuthDetails(response);
     yield put(signup_successful(response));
   } catch (err) {
     yield put(signup_failure(err.message));

@@ -2,6 +2,7 @@ import React, { useEffect } from 'react';
 import { connect } from 'react-redux';
 import { Formik, Field, ErrorMessage, Form } from 'formik';
 import { withRouter } from 'react-router-dom';
+import * as Yup from 'yup';
 
 import { signup } from '../../actions/auth';
 
@@ -30,25 +31,18 @@ const SignupScreen = props => {
           email: '',
           confirmPassword: ''
         }}
-        validate={values => {
-          const { username, password, email, confirmPassword } = values;
-          const errors = {};
-          if (!username) {
-            errors.username = 'Username is required.';
-          }
-          if (!password) {
-            errors.password = 'Password is required.';
-          }
-          if (!email) {
-            errors.email = 'Email is required';
-          }
-          if (!confirmPassword) {
-            errors.confirmPassword = 'Password confirmation is required.';
-          } else if (confirmPassword !== password) {
-            errors.confirmPassword = 'Passwords should match.';
-          }
-          return errors;
-        }}
+        validationSchema={Yup.object().shape({
+          username: Yup.string().required('Username is required'),
+          email: Yup.string()
+            .email('Invalid Email')
+            .required('Email is required'),
+          password: Yup.string()
+            .min(5, 'Password is too short')
+            .required('Password is required'),
+          confirmPassword: Yup.string()
+            .oneOf([Yup.ref('password'), null], 'Passwords must match')
+            .required('Password confirmation is required')
+        })}
         onSubmit={handleSignupSubmit}
       >
         {({ isSubmitting }) => {
