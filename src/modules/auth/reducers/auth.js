@@ -10,7 +10,8 @@ export const initial_state = {
 export const login = (state = initial_state, { type, payload }) => {
   return {
     ...state,
-    isLoggingIn: true
+    isLoggingIn: true,
+    loginError: null
   };
 };
 
@@ -18,7 +19,8 @@ export const login_success = (state = initial_state, { type, payload }) => {
   return {
     ...state,
     isLoggingIn: false,
-    authToken: payload
+    authToken: payload,
+    loginError: null
   };
 };
 
