@@ -1,5 +1,5 @@
 import { takeEvery, put, call } from 'redux-saga/effects';
-import { setAuthDetails } from '../../helper/localStorage';
+import { setAuthDetails } from '../helper/localStorage';
 
 import {
   LOGIN,

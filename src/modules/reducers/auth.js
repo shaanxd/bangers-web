@@ -1,4 +1,4 @@
-import createReducer from '../../helper/createReducer';
+import createReducer from '../helper/createReducer';
 import {
   LOGIN,
   LOGIN_SUCCESS,

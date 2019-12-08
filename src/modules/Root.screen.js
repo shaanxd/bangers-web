@@ -1,13 +1,12 @@
 import React, { useEffect, useState } from 'react';
-import { BrowserRouter as Router, Switch, Route, Link } from 'react-router-dom';
-import { Landing } from './home/screens';
-import { Login, Signup } from './auth/screens';
+import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
+import { Login, Signup, Landing } from './screens';
 import { retrieveAuthDetails } from './helper/localStorage';
 import { connect } from 'react-redux';
-import { login_successful } from './auth/actions/auth';
-import Toolbar from './shared/components/Toolbar/Toolbar';
-import SideDrawer from './shared/components/SideDrawer/SideDrawer';
-import Backdrop from './shared/components/Backdrop/Backdrop';
+import { login_successful } from './actions/auth';
+import Toolbar from './components/Toolbar/Toolbar';
+import SideDrawer from './components/SideDrawer/SideDrawer';
+import Backdrop from './components/Backdrop/Backdrop';
 
 const RootScreen = props => {
   const [sideDrawerOpen, setSideDrawerOpen] = useState(false);
