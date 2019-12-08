@@ -1,18 +1,31 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { connect } from 'react-redux';
 import { Formik, Field, ErrorMessage, Form } from 'formik';
 import { withRouter } from 'react-router-dom';
 import * as Yup from 'yup';
+
+import { Icomoon } from '../../components';
 
 import './Signup.css';
 
 import { signup } from '../../actions/auth';
 
 const SignupScreen = props => {
+  const [passwordVisible, setPasswordVisible] = useState(false);
+  const [confirmVisible, setConfirmVisible] = useState(false);
+
   const handleSignupSubmit = (values, { setSubmitting }) => {
     const { username, email, password } = values;
 
     props.signupUser({ username, email, password });
+  };
+
+  const handlePasswordVisible = () => {
+    setPasswordVisible(prevPasswordVisible => !prevPasswordVisible);
+  };
+
+  const handleConfirmPasswordVisible = () => {
+    setConfirmVisible(prevConfirmVisible => !prevConfirmVisible);
   };
 
   useEffect(() => {
@@ -52,6 +65,12 @@ const SignupScreen = props => {
         onSubmit={handleSignupSubmit}
       >
         {({ isSubmitting }) => {
+          const passwordParams = passwordVisible
+            ? { type: 'text', icon: 'eye' }
+            : { type: 'password', icon: 'eye-blocked' };
+          const confirmParams = confirmVisible
+            ? { type: 'text', icon: 'eye' }
+            : { type: 'password', icon: 'eye-blocked' };
           return (
             <Form className="signup__form">
               <span className="form__header">SIGNUP</span>
@@ -106,11 +125,21 @@ const SignupScreen = props => {
               <div className="form__input-parent">
                 <Field
                   className="form__input-nested"
-                  type="password"
+                  type={passwordParams.type}
                   name="password"
                   placeholder="Enter Password"
                 />
-                <button className="form__button-hide" type="button"></button>
+                <button
+                  onClick={handlePasswordVisible}
+                  className="form__button-hide"
+                  type="button"
+                >
+                  <Icomoon
+                    color="#888888"
+                    icon={passwordParams.icon}
+                    size={20}
+                  />
+                </button>
               </div>
               <ErrorMessage name="password">
                 {message => <label className="form__error">{message}</label>}
@@ -118,11 +147,21 @@ const SignupScreen = props => {
               <div className="form__input-parent">
                 <Field
                   className="form__input-nested"
-                  type="password"
+                  type={confirmParams.type}
                   name="confirmPassword"
                   placeholder="Confirm Password"
                 />
-                <button className="form__button-hide" type="button"></button>
+                <button
+                  onClick={handleConfirmPasswordVisible}
+                  className="form__button-hide"
+                  type="button"
+                >
+                  <Icomoon
+                    color="#888888"
+                    icon={confirmParams.icon}
+                    size={20}
+                  />
+                </button>
               </div>
               <ErrorMessage name="confirmPassword">
                 {message => <label className="form__error">{message}</label>}

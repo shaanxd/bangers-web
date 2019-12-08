@@ -45,7 +45,7 @@
 }
 
 .form__button-hide {
-  border: 1px solid black;
+  border: none;
   width: 40px;
   background: none;
 }
