@@ -28,12 +28,16 @@ const SignupScreen = props => {
     <div className="signup__body">
       <Formik
         initialValues={{
+          firstname: '',
+          lastname: '',
           username: '',
           password: '',
           email: '',
           confirmPassword: ''
         }}
         validationSchema={Yup.object().shape({
+          firstname: Yup.string().required('Firstname is required'),
+          lastname: Yup.string().required('Lastname is required'),
           username: Yup.string().required('Username is required'),
           email: Yup.string()
             .email('Invalid Email')
@@ -50,24 +54,86 @@ const SignupScreen = props => {
         {({ isSubmitting }) => {
           return (
             <Form className="signup__form">
-              <label>Username</label>
-              <Field type="username" name="username" />
-              <ErrorMessage name="username" />
+              <span className="form__header">SIGNUP</span>
+              <div className="form__name-parent">
+                <div className="form__name-child">
+                  <Field
+                    className="form__input form__name-input"
+                    type="text"
+                    name="firstname"
+                    placeholder="Enter Firstname"
+                  />
+                  <ErrorMessage name="firstname">
+                    {message => (
+                      <label className="form__error">{message}</label>
+                    )}
+                  </ErrorMessage>
+                </div>
+                <span className="form__name-space" />
+                <div className="form__name-child">
+                  <Field
+                    className="form__input form__name-input"
+                    type="text"
+                    name="lastname"
+                    placeholder="Enter Lastname"
+                  />
+                  <ErrorMessage name="lastname">
+                    {message => (
+                      <label className="form__error">{message}</label>
+                    )}
+                  </ErrorMessage>
+                </div>
+              </div>
 
-              <label>Email</label>
-              <Field type="email" name="email" />
-              <ErrorMessage name="email" />
+              <Field
+                className="form__input"
+                type="username"
+                name="username"
+                placeholder="Enter Username"
+              />
+              <ErrorMessage name="username">
+                {message => <label className="form__error">{message}</label>}
+              </ErrorMessage>
+              <Field
+                className="form__input"
+                type="email"
+                name="email"
+                placeholder="Enter Email"
+              />
+              <ErrorMessage name="email">
+                {message => <label className="form__error">{message}</label>}
+              </ErrorMessage>
+              <div className="form__input-parent">
+                <Field
+                  className="form__input-nested"
+                  type="password"
+                  name="password"
+                  placeholder="Enter Password"
+                />
+                <button className="form__button-hide" type="button"></button>
+              </div>
+              <ErrorMessage name="password">
+                {message => <label className="form__error">{message}</label>}
+              </ErrorMessage>
+              <div className="form__input-parent">
+                <Field
+                  className="form__input-nested"
+                  type="password"
+                  name="confirmPassword"
+                  placeholder="Confirm Password"
+                />
+                <button className="form__button-hide" type="button"></button>
+              </div>
+              <ErrorMessage name="confirmPassword">
+                {message => <label className="form__error">{message}</label>}
+              </ErrorMessage>
 
-              <label>Password</label>
-              <Field type="password" name="password" />
-              <ErrorMessage name="password" />
-
-              <label>Confirm Password</label>
-              <Field type="password" name="confirmPassword" />
-              <ErrorMessage name="confirmPassword" />
-
-              <button type="submit" disabled={isSigningUp}>
-                Submit
+              <button
+                className="form__submit"
+                type="submit"
+                disabled={isSigningUp}
+              >
+                SIGNUP
               </button>
             </Form>
           );
