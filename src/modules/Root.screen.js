@@ -4,9 +4,7 @@ import { Login, Signup, Landing } from './screens';
 import { retrieveAuthDetails } from './helper/localStorage';
 import { connect } from 'react-redux';
 import { login_successful } from './actions/auth';
-import Toolbar from './components/Toolbar/Toolbar';
-import SideDrawer from './components/SideDrawer/SideDrawer';
-import Backdrop from './components/Backdrop/Backdrop';
+import { Toolbar, SideDrawer, Backdrop } from './components';
 
 const RootScreen = props => {
   const [sideDrawerOpen, setSideDrawerOpen] = useState(false);
@@ -35,7 +33,8 @@ const RootScreen = props => {
       <Toolbar drawerClickHandler={drawerToggleClickHandler} />
       <SideDrawer isOpen={sideDrawerOpen} />
       {sideDrawerOpen && <Backdrop onClick={backdropClickHandler} />}
-      <main style={{ marginTop: '60px' }}>
+      <main>
+        <div style={{ height: '60px' }}></div>
         <Router>
           <Switch>
             <Route exact path="/">
