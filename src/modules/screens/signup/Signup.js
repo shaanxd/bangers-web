@@ -36,7 +36,13 @@ const SignupScreen = props => {
     }
   });
 
-  const { isSigningUp } = props.auth;
+  const { isSigningUp, signupError } = props.auth;
+  const passwordParams = passwordVisible
+    ? { type: 'text', icon: 'eye' }
+    : { type: 'password', icon: 'eye-blocked' };
+  const confirmParams = confirmVisible
+    ? { type: 'text', icon: 'eye' }
+    : { type: 'password', icon: 'eye-blocked' };
   return (
     <div className="signup__body">
       <Formik
@@ -65,15 +71,9 @@ const SignupScreen = props => {
         onSubmit={handleSignupSubmit}
       >
         {({ isSubmitting }) => {
-          const passwordParams = passwordVisible
-            ? { type: 'text', icon: 'eye' }
-            : { type: 'password', icon: 'eye-blocked' };
-          const confirmParams = confirmVisible
-            ? { type: 'text', icon: 'eye' }
-            : { type: 'password', icon: 'eye-blocked' };
           return (
             <Form className="signup__form">
-              <span className="form__header">SIGNUP</span>
+              <span className="form__header">Hello there, let's sign up!</span>
               <div className="form__name-parent">
                 <div className="form__name-child">
                   <Field
@@ -172,8 +172,11 @@ const SignupScreen = props => {
                 type="submit"
                 disabled={isSigningUp}
               >
-                SIGNUP
+                Signup
               </button>
+              {signupError && (
+                <label className="form__error-main">{signupError}</label>
+              )}
             </Form>
           );
         }}
