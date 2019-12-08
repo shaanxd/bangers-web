@@ -1,0 +1,17 @@
+.signup__body {
+  height: 100%;
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  padding: 50px;
+  box-sizing: border-box;
+}
+
+.signup__form {
+  display: flex;
+  flex-direction: column;
+  width: 300px;
+  padding: 50px;
+  background-color: rgb(242, 247, 184);
+  border-radius: 10px;
+}

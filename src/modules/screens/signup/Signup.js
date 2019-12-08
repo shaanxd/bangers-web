@@ -4,6 +4,8 @@ import { Formik, Field, ErrorMessage, Form } from 'formik';
 import { withRouter } from 'react-router-dom';
 import * as Yup from 'yup';
 
+import './Signup.css';
+
 import { signup } from '../../actions/auth';
 
 const SignupScreen = props => {
@@ -23,7 +25,7 @@ const SignupScreen = props => {
 
   const { isSigningUp } = props.auth;
   return (
-    <div>
+    <div className="signup__body">
       <Formik
         initialValues={{
           username: '',
@@ -47,15 +49,7 @@ const SignupScreen = props => {
       >
         {({ isSubmitting }) => {
           return (
-            <Form
-              style={{
-                border: '1px solid black',
-                padding: '50px',
-                width: '300px',
-                display: 'flex',
-                flexDirection: 'column'
-              }}
-            >
+            <Form className="signup__form">
               <label>Username</label>
               <Field type="username" name="username" />
               <ErrorMessage name="username" />

@@ -3,6 +3,7 @@ import { connect } from 'react-redux';
 import { Formik, Field, ErrorMessage, Form } from 'formik';
 import { withRouter } from 'react-router-dom';
 import * as Yup from 'yup';
+import './Login.css';
 
 import { login } from '../../actions/auth';
 
@@ -22,7 +23,7 @@ const LoginScreen = props => {
   });
 
   return (
-    <div>
+    <div className="login__body">
       <Formik
         initialValues={{ username: '', password: '' }}
         validationSchema={Yup.object().shape({
@@ -33,15 +34,7 @@ const LoginScreen = props => {
       >
         {({ isSubmitting }) => {
           return (
-            <Form
-              style={{
-                border: '1px solid black',
-                padding: '50px',
-                width: '300px',
-                display: 'flex',
-                flexDirection: 'column'
-              }}
-            >
+            <Form className="login__form">
               <label>Username</label>
               <Field type="username" name="username" />
               <ErrorMessage name="username" />

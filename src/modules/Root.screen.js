@@ -33,8 +33,9 @@ const RootScreen = props => {
       <Toolbar drawerClickHandler={drawerToggleClickHandler} />
       <SideDrawer isOpen={sideDrawerOpen} />
       {sideDrawerOpen && <Backdrop onClick={backdropClickHandler} />}
-      <main>
-        <div style={{ height: '60px' }}></div>
+      <main
+        style={{ height: '100%', paddingTop: '60px', boxSizing: 'border-box' }}
+      >
         <Router>
           <Switch>
             <Route exact path="/">
