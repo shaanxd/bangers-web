@@ -1,22 +1,46 @@
 import React from 'react';
+import { withRouter } from 'react-router-dom';
+import { connect } from 'react-redux';
 
 import './SideDrawer.css';
 
 const SideDrawer = props => {
   let drawerStyles = props.isOpen ? 'side-drawer open' : 'side-drawer';
-
-  return (
-    <nav className={drawerStyles}>
-      <ul>
-        <li>
-          <a href="/">Login</a>
-        </li>
-        <li>
-          <a href="/">Signup</a>
-        </li>
-      </ul>
-    </nav>
+  const { authDetails } = props.auth;
+  const renderUnauthRoutes = () => (
+    <ul>
+      <li>
+        <a href="/login">Login</a>
+      </li>
+      <li>
+        <a href="/signup">Signup</a>
+      </li>
+    </ul>
   );
+  const renderAuthRoutes = () => (
+    <ul>
+      <li>
+        <a href="/">Logout</a>
+      </li>
+    </ul>
+  );
+
+  const navigationRoutes = authDetails
+    ? renderAuthRoutes()
+    : renderUnauthRoutes();
+  return <nav className={drawerStyles}>{navigationRoutes}</nav>;
 };
 
-export default SideDrawer;
+const mapStateToProps = state => {
+  return {
+    auth: state.auth
+  };
+};
+
+const mapDispatchToProps = dispatch => {
+  return {};
+};
+
+export default withRouter(
+  connect(mapStateToProps, mapDispatchToProps)(SideDrawer)
+);

@@ -1,13 +1,13 @@
 import React from 'react';
 
+import { Icomoon } from '../';
+
 import './DrawerToggleButton.css';
 
 const DrawerToggleButton = props => {
   return (
     <button onClick={props.onClick} className="toggle-button">
-      <div className="toggle-button__line" />
-      <div className="toggle-button__line" />
-      <div className="toggle-button__line" />
+      <Icomoon icon="menu" color="white" size={30} />
     </button>
   );
 };

@@ -30,13 +30,17 @@ const RootScreen = props => {
 
   return (
     <div style={{ height: '100%' }}>
-      <Toolbar drawerClickHandler={drawerToggleClickHandler} />
-      <SideDrawer isOpen={sideDrawerOpen} />
-      {sideDrawerOpen && <Backdrop onClick={backdropClickHandler} />}
-      <main
-        style={{ height: '100%', paddingTop: '60px', boxSizing: 'border-box' }}
-      >
-        <Router>
+      <Router>
+        <Toolbar drawerClickHandler={drawerToggleClickHandler} />
+        <SideDrawer isOpen={sideDrawerOpen} />
+        {sideDrawerOpen && <Backdrop onClick={backdropClickHandler} />}
+        <main
+          style={{
+            height: '100%',
+            paddingTop: '60px',
+            boxSizing: 'border-box'
+          }}
+        >
           <Switch>
             <Route exact path="/">
               <Landing />
@@ -48,8 +52,8 @@ const RootScreen = props => {
               <Signup />
             </Route>
           </Switch>
-        </Router>
-      </main>
+        </main>
+      </Router>
     </div>
   );
 };
