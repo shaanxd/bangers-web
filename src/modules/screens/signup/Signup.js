@@ -15,9 +15,9 @@ const SignupScreen = props => {
   const [confirmVisible, setConfirmVisible] = useState(false);
 
   const handleSignupSubmit = (values, { setSubmitting }) => {
-    const { username, email, password } = values;
+    const { username, email, password, firstname, lastname } = values;
 
-    props.signupUser({ username, email, password });
+    props.signupUser({ username, email, password, firstname, lastname });
   };
 
   const handlePasswordVisible = () => {

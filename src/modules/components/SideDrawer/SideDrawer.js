@@ -20,7 +20,7 @@ const SideDrawer = props => {
   const renderAuthRoutes = () => (
     <ul>
       <li>
-        <a href="/">Logout</a>
+        <a href="/logout">Logout</a>
       </li>
     </ul>
   );

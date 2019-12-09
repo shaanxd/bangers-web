@@ -65,10 +65,12 @@ function* handleCheckAuthState({ type, payload }) {
     if (expirationDate <= new Date()) {
       yield put(logout());
     } else {
+      const { authToken, expiresInSeconds, userType } = token;
       yield put(
         login_successful({
-          authToken: token.authToken,
-          expiresInSeconds: token.expiresInSeconds
+          authToken,
+          expiresInSeconds,
+          userType
         })
       );
       yield put(
