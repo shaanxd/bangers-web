@@ -38,11 +38,11 @@ const SignupScreen = props => {
 
   const { isSigningUp, signupError } = props.auth;
   const passwordParams = passwordVisible
-    ? { type: 'text', icon: 'eye' }
-    : { type: 'password', icon: 'eye-blocked' };
+    ? { type: 'text', icon: 'eye-blocked' }
+    : { type: 'password', icon: 'eye' };
   const confirmParams = confirmVisible
-    ? { type: 'text', icon: 'eye' }
-    : { type: 'password', icon: 'eye-blocked' };
+    ? { type: 'text', icon: 'eye-blocked' }
+    : { type: 'password', icon: 'eye' };
   return (
     <div className="signup__body">
       <Formik
