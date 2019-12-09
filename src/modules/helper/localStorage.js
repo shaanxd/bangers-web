@@ -12,6 +12,7 @@ export const retrieveAuthDetails = () => {
   return authDetails;
 };
 
+/* Function to remove auth details from local storage */
 export const removeAuthDetails = () => {
   localStorage.removeItem('authDetails');
 };

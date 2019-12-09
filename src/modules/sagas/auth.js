@@ -13,51 +13,12 @@ import {
   LOGOUT
 } from '../actions/auth';
 
-/* METHOD TO MAKE REQUEST TO LOGIN
-TO DO MOVE BASEURL TO ENV AND MODE THIS TO SEPARATE MODULE */
-const login_request = async (username, password) => {
-  const endpoint = 'users/login';
-  return api_post(endpoint, { username, password });
-};
-
-/* METHOD TO MAKE REQUEST TO SIGNUP
-TO DO MOVE BASEURL TO ENV AND MODE THIS TO SEPARATE MODULE */
-const signup_request = async userData => {
-  const endpoint = 'users/signup';
-  return api_post(endpoint, { ...userData });
-};
-
-/* METHOD TO MAKE POST REQUESTS
-TO DO MOVE THIS TO A SEPARATE MODULE */
-const api_post = async (endpoint, requestBody, authorization) => {
-  const url = `${process.env.REACT_APP_BASE_URL}${endpoint}`;
-  const body = JSON.stringify(requestBody);
-  const headers = authorization
-    ? {
-        'Content-Type': 'application/json',
-        Authorization: `Bearer ${authorization}`
-      }
-    : {
-        'Content-Type': 'application/json'
-      };
-  const response = await fetch(url, {
-    method: 'POST',
-    headers,
-    body
-  });
-
-  const data = await response.json();
-
-  if (response.status >= 400) {
-    throw new Error(data.message);
-  }
-  return data;
-};
+import { postLogin, postSignup } from '../api/auth';
 
 /* function executed by the watcher saga when login is dispatched */
 function* handleLoginSaga({ type, payload: { username, password } }) {
   try {
-    const response = yield call(login_request, username, password);
+    const response = yield call(postLogin, username, password);
     response.authToken && setAuthDetails(response);
     yield put(login_successful(response));
   } catch (err) {
@@ -67,7 +28,7 @@ function* handleLoginSaga({ type, payload: { username, password } }) {
 
 function* handleSignupSaga({ type, payload }) {
   try {
-    const response = yield call(signup_request, payload);
+    const response = yield call(postSignup, payload);
     response.authToken && setAuthDetails(response);
     yield put(signup_successful(response));
   } catch (err) {
@@ -76,7 +37,6 @@ function* handleSignupSaga({ type, payload }) {
 }
 
 function* handleLogoutSaga({ type, payload }) {
-  console.log('==========');
   try {
     removeAuthDetails();
     yield put(logout_success());

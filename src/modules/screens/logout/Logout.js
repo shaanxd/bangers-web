@@ -1,14 +1,13 @@
 import React, { useEffect } from 'react';
 import { connect } from 'react-redux';
-import { withRouter } from 'react-router-dom';
+import { withRouter, Redirect } from 'react-router-dom';
 import { logout } from '../../actions/auth';
 
 const LogoutScreen = props => {
   useEffect(() => {
     props.logoutUser();
-    props.history.replace('/');
   });
-  return <h1>Logout</h1>;
+  return <Redirect to="/"></Redirect>;
 };
 
 const mapStateToProps = state => {
