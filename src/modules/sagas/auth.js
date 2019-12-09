@@ -1,4 +1,5 @@
 import { takeEvery, put, call, delay } from 'redux-saga/effects';
+import Moment from 'moment';
 import {
   setAuthDetails,
   removeAuthDetails,
@@ -26,12 +27,12 @@ import { postLogin, postSignup } from '../api/auth';
 function* handleLoginSaga({ type, payload: { username, password } }) {
   try {
     const response = yield call(postLogin, username, password);
-    const expirationDate = yield new Date(
-      new Date().getTime() + response.expiresInSeconds * 1000
-    );
-    response.authToken && setAuthDetails({ ...response, expirationDate });
+    const expirationDate = Moment()
+      .add(response.expiresInSeconds, 's')
+      .format();
+    yield setAuthDetails({ ...response, expirationDate });
     yield put(login_successful(response));
-    yield put(check_auth_timeout(response.expiresInSeconds));
+    yield put(check_auth_timeout(response.expiresInSeconds * 1000));
   } catch (err) {
     yield put(login_failure(err.message));
   }
@@ -40,8 +41,12 @@ function* handleLoginSaga({ type, payload: { username, password } }) {
 function* handleSignupSaga({ type, payload }) {
   try {
     const response = yield call(postSignup, payload);
-    response.authToken && setAuthDetails(response);
+    const expirationDate = Moment()
+      .add(response.expiresInSeconds, 's')
+      .format();
+    yield setAuthDetails({ ...response, expirationDate });
     yield put(signup_successful(response));
+    yield put(check_auth_timeout(response.expiresInSeconds * 1000));
   } catch (err) {
     yield put(signup_failure(err.message));
   }
@@ -61,8 +66,9 @@ function* handleCheckAuthState({ type, payload }) {
   if (!token) {
     yield put(logout());
   } else {
-    const expirationDate = yield new Date(token.expirationDate);
-    if (expirationDate <= new Date()) {
+    const expirationDate = yield Moment(token.expirationDate);
+    const currentMoment = yield Moment();
+    if (expirationDate.isBefore(currentMoment)) {
       yield put(logout());
     } else {
       const { authToken, expiresInSeconds, userType } = token;
@@ -73,17 +79,13 @@ function* handleCheckAuthState({ type, payload }) {
           userType
         })
       );
-      yield put(
-        check_auth_timeout(
-          (expirationDate.getTime() - new Date().getTime()) / 1000
-        )
-      );
+      yield put(check_auth_timeout(expirationDate.diff(currentMoment, 'ms')));
     }
   }
 }
 
 function* handleCheckAuthTimeout({ type, payload }) {
-  yield delay(payload * 1000);
+  yield delay(payload);
   yield put(logout());
 }
 
