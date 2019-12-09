@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
-import { Login, Signup, Landing } from './screens';
+import { Login, Signup, Landing, Logout } from './screens';
 import { retrieveAuthDetails } from './helper/localStorage';
 import { connect } from 'react-redux';
 import { login_successful } from './actions/auth';
@@ -26,6 +26,7 @@ const RootScreen = props => {
 
   useEffect(() => {
     loadFromUserToken();
+    // eslint-disable-next-line
   }, []);
 
   return (
@@ -50,6 +51,9 @@ const RootScreen = props => {
             </Route>
             <Route exact path="/signup">
               <Signup />
+            </Route>
+            <Route exact path="/logout">
+              <Logout />
             </Route>
           </Switch>
         </main>

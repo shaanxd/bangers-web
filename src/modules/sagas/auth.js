@@ -1,5 +1,5 @@
 import { takeEvery, put, call } from 'redux-saga/effects';
-import { setAuthDetails } from '../helper/localStorage';
+import { setAuthDetails, removeAuthDetails } from '../helper/localStorage';
 
 import {
   LOGIN,
@@ -7,7 +7,10 @@ import {
   login_failure,
   signup_successful,
   SIGNUP,
-  signup_failure
+  signup_failure,
+  logout_failure,
+  logout_success,
+  LOGOUT
 } from '../actions/auth';
 
 /* METHOD TO MAKE REQUEST TO LOGIN
@@ -72,6 +75,16 @@ function* handleSignupSaga({ type, payload }) {
   }
 }
 
+function* handleLogoutSaga({ type, payload }) {
+  console.log('==========');
+  try {
+    removeAuthDetails();
+    yield put(logout_success());
+  } catch (err) {
+    yield put(logout_failure(err.message));
+  }
+}
+
 /* 
 Watches LOGIN action dispatches. Is imported in root saga.js
 file and yielded in array along with other sagas to make root
@@ -85,4 +98,8 @@ function* watchSignup() {
   yield takeEvery(SIGNUP, handleSignupSaga);
 }
 
-export { watchLogin, watchSignup };
+function* watchLogout() {
+  yield takeEvery(LOGOUT, handleLogoutSaga);
+}
+
+export { watchLogin, watchSignup, watchLogout };
