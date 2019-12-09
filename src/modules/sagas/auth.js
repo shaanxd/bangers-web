@@ -1,5 +1,9 @@
-import { takeEvery, put, call } from 'redux-saga/effects';
-import { setAuthDetails, removeAuthDetails } from '../helper/localStorage';
+import { takeEvery, put, call, delay } from 'redux-saga/effects';
+import {
+  setAuthDetails,
+  removeAuthDetails,
+  retrieveAuthDetails
+} from '../helper/localStorage';
 
 import {
   LOGIN,
@@ -10,17 +14,24 @@ import {
   signup_failure,
   logout_failure,
   logout_success,
-  LOGOUT
+  LOGOUT,
+  CHECK_AUTH_STATE,
+  CHECK_AUTH_TIMEOUT,
+  logout,
+  check_auth_timeout
 } from '../actions/auth';
 
 import { postLogin, postSignup } from '../api/auth';
 
-/* function executed by the watcher saga when login is dispatched */
 function* handleLoginSaga({ type, payload: { username, password } }) {
   try {
     const response = yield call(postLogin, username, password);
-    response.authToken && setAuthDetails(response);
+    const expirationDate = yield new Date(
+      new Date().getTime() + response.expiresInSeconds * 1000
+    );
+    response.authToken && setAuthDetails({ ...response, expirationDate });
     yield put(login_successful(response));
+    yield put(check_auth_timeout(response.expiresInSeconds));
   } catch (err) {
     yield put(login_failure(err.message));
   }
@@ -45,11 +56,36 @@ function* handleLogoutSaga({ type, payload }) {
   }
 }
 
-/* 
-Watches LOGIN action dispatches. Is imported in root saga.js
-file and yielded in array along with other sagas to make root
-saga which is then run in the configureStore function in store.js
-*/
+function* handleCheckAuthState({ type, payload }) {
+  const token = yield retrieveAuthDetails();
+  if (!token) {
+    yield put(logout());
+  } else {
+    const expirationDate = yield new Date(token.expirationDate);
+    if (expirationDate <= new Date()) {
+      yield put(logout());
+    } else {
+      console.log(token);
+      yield put(
+        login_successful({
+          authToken: token.authToken,
+          expiresInSeconds: token.expiresInSeconds
+        })
+      );
+      yield put(
+        check_auth_timeout(
+          (expirationDate.getTime() - new Date().getTime()) / 1000
+        )
+      );
+    }
+  }
+}
+
+function* handleCheckAuthTimeout({ type, payload }) {
+  yield delay(payload);
+  yield put(logout());
+}
+
 function* watchLogin() {
   yield takeEvery(LOGIN, handleLoginSaga);
 }
@@ -62,4 +98,18 @@ function* watchLogout() {
   yield takeEvery(LOGOUT, handleLogoutSaga);
 }
 
-export { watchLogin, watchSignup, watchLogout };
+function* watchCheckAuthState() {
+  yield takeEvery(CHECK_AUTH_STATE, handleCheckAuthState);
+}
+
+function* watchCheckAuthTimeout() {
+  yield takeEvery(CHECK_AUTH_TIMEOUT, handleCheckAuthTimeout);
+}
+
+export {
+  watchLogin,
+  watchSignup,
+  watchLogout,
+  watchCheckAuthState,
+  watchCheckAuthTimeout
+};

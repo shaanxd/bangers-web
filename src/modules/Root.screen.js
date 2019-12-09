@@ -1,20 +1,12 @@
 import React, { useEffect, useState } from 'react';
 import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
 import { Login, Signup, Landing, Logout } from './screens';
-import { retrieveAuthDetails } from './helper/localStorage';
 import { connect } from 'react-redux';
-import { login_successful } from './actions/auth';
+import { check_auth_state } from './actions/auth';
 import { Toolbar, SideDrawer, Backdrop } from './components';
 
 const RootScreen = props => {
   const [sideDrawerOpen, setSideDrawerOpen] = useState(false);
-
-  const loadFromUserToken = () => {
-    let authDetails = retrieveAuthDetails();
-    if (authDetails) {
-      props.setAuthDetails(JSON.parse(authDetails));
-    }
-  };
 
   const drawerToggleClickHandler = () => {
     setSideDrawerOpen(prevSideDrawerOpen => !prevSideDrawerOpen);
@@ -25,7 +17,7 @@ const RootScreen = props => {
   };
 
   useEffect(() => {
-    loadFromUserToken();
+    props.checkAuthState();
     // eslint-disable-next-line
   }, []);
 
@@ -64,8 +56,8 @@ const RootScreen = props => {
 
 const mapDispatchToProps = dispatch => {
   return {
-    setAuthDetails: authDetails => {
-      dispatch(login_successful(authDetails));
+    checkAuthState: () => {
+      dispatch(check_auth_state());
     }
   };
 };
