@@ -65,7 +65,6 @@ function* handleCheckAuthState({ type, payload }) {
     if (expirationDate <= new Date()) {
       yield put(logout());
     } else {
-      console.log(token);
       yield put(
         login_successful({
           authToken: token.authToken,
@@ -82,7 +81,7 @@ function* handleCheckAuthState({ type, payload }) {
 }
 
 function* handleCheckAuthTimeout({ type, payload }) {
-  yield delay(payload);
+  yield delay(payload * 1000);
   yield put(logout());
 }
 
