@@ -6,7 +6,7 @@ import * as Yup from 'yup';
 import GoogleLogin from 'react-google-login';
 
 import './Login.css';
-
+import '../../shared/css/Forms.css';
 import { Icomoon } from '../../components';
 import { login, auth_google } from '../../actions/auth';
 
@@ -27,6 +27,22 @@ const LoginScreen = props => {
   };
 
   const handleGoogleError = () => {};
+
+  const renderGoogleButton = ({ onClick, disabled }) => {
+    return (
+      <button className="form__submit-google" onClick={onClick}>
+        <div className="form__submit-google-div">
+          <Icomoon
+            className="form__submit-google-icon"
+            icon="google"
+            size={30}
+            color="#D2514D"
+          />
+          <label className="form__submit-google-label">Login with Google</label>
+        </div>
+      </button>
+    );
+  };
 
   useEffect(() => {
     const { authDetails } = props.auth;
@@ -97,10 +113,11 @@ const LoginScreen = props => {
                 <label className="form__error-main">{loginError}</label>
               )}
               <GoogleLogin
-                clientId="711825979883-d9v96h3u0f9oj5jg1enn7ckvt58b6epr.apps.googleusercontent.com"
+                clientId={process.env.REACT_APP_GOOGLE_CLIENT_ID}
                 buttonText="Login with google"
                 onSuccess={handleGoogleLogin}
                 onFailure={handleGoogleError}
+                render={renderGoogleButton}
               />
             </Form>
           );
