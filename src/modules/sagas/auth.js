@@ -19,10 +19,11 @@ import {
   CHECK_AUTH_STATE,
   CHECK_AUTH_TIMEOUT,
   logout,
-  check_auth_timeout
+  check_auth_timeout,
+  AUTH_GOOGLE
 } from '../actions/auth';
 
-import { postLogin, postSignup } from '../api/auth';
+import { postLogin, postSignup, postGoogleAuth } from '../api/auth';
 
 function* handleLoginSaga({ type, payload: { username, password } }) {
   try {
@@ -89,6 +90,28 @@ function* handleCheckAuthTimeout({ type, payload }) {
   yield put(logout());
 }
 
+function* handleAuthGoogle({ type, payload: { accessToken, origin } }) {
+  try {
+    const response = yield call(postGoogleAuth, accessToken);
+    const expirationDate = Moment()
+      .add(response.expiresInSeconds, 's')
+      .format();
+    yield setAuthDetails({ ...response, expirationDate });
+    if (origin === 'SIGNUP') {
+      yield put(signup_successful(response));
+    } else {
+      yield put(login_successful(response));
+    }
+    yield put(check_auth_timeout(response.expiresInSeconds * 1000));
+  } catch (err) {
+    if (origin === 'SIGNUP') {
+      yield put(signup_failure(err.message));
+    } else {
+      yield put(login_failure(err.message));
+    }
+  }
+}
+
 function* watchLogin() {
   yield takeEvery(LOGIN, handleLoginSaga);
 }
@@ -109,10 +132,15 @@ function* watchCheckAuthTimeout() {
   yield takeEvery(CHECK_AUTH_TIMEOUT, handleCheckAuthTimeout);
 }
 
+function* watchAuthGoogle() {
+  yield takeEvery(AUTH_GOOGLE, handleAuthGoogle);
+}
+
 export {
   watchLogin,
   watchSignup,
   watchLogout,
   watchCheckAuthState,
-  watchCheckAuthTimeout
+  watchCheckAuthTimeout,
+  watchAuthGoogle
 };

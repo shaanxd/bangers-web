@@ -75,6 +75,13 @@ export const check_auth_timeout = payload => {
   };
 };
 
+export const auth_google = payload => {
+  return {
+    type: AUTH_GOOGLE,
+    payload
+  };
+};
+
 export const LOGIN = 'LOGIN';
 export const LOGIN_SUCCESS = 'LOGIN_SUCCESS';
 export const LOGIN_FAILURE = 'LOGIN_FAILURE';
@@ -89,3 +96,5 @@ export const LOGOUT_FAILURE = 'LOGOUT_FAILURE';
 
 export const CHECK_AUTH_STATE = 'CHECK_AUTH_STATE';
 export const CHECK_AUTH_TIMEOUT = 'CHECK_AUTH_TIMEOUT';
+
+export const AUTH_GOOGLE = 'AUTH_GOOGLE';

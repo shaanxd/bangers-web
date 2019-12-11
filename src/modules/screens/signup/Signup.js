@@ -3,12 +3,13 @@ import { connect } from 'react-redux';
 import { Formik, Field, ErrorMessage, Form } from 'formik';
 import { withRouter } from 'react-router-dom';
 import * as Yup from 'yup';
+import GoogleLogin from 'react-google-login';
 
 import { Icomoon } from '../../components';
 
 import './Signup.css';
 
-import { signup } from '../../actions/auth';
+import { signup, auth_google } from '../../actions/auth';
 
 const SignupScreen = props => {
   const [passwordVisible, setPasswordVisible] = useState(false);
@@ -27,6 +28,12 @@ const SignupScreen = props => {
   const handleConfirmPasswordVisible = () => {
     setConfirmVisible(prevConfirmVisible => !prevConfirmVisible);
   };
+
+  const handleGoogleSignup = response => {
+    props.authGoogle({ accessToken: response.accessToken, origin: 'SIGNUP' });
+  };
+
+  const handleGoogleError = () => {};
 
   useEffect(() => {
     const { authDetails } = props.auth;
@@ -177,6 +184,12 @@ const SignupScreen = props => {
               {signupError && (
                 <label className="form__error-main">{signupError}</label>
               )}
+              <GoogleLogin
+                clientId="711825979883-d9v96h3u0f9oj5jg1enn7ckvt58b6epr.apps.googleusercontent.com"
+                buttonText="Signup with google"
+                onSuccess={handleGoogleSignup}
+                onFailure={handleGoogleError}
+              />
             </Form>
           );
         }}
@@ -195,6 +208,9 @@ const mapDispatchToProps = dispatch => {
   return {
     signupUser: userData => {
       dispatch(signup(userData));
+    },
+    authGoogle: accessTokenData => {
+      dispatch(auth_google(accessTokenData));
     }
   };
 };

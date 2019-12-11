@@ -4,16 +4,20 @@ export const POST = (endpoint, requestBody, authorization = null) => {
   const headers = createRequestHeader(authorization);
 
   return new Promise(async (resolve, reject) => {
-    const response = await fetch(url, {
-      method: 'POST',
-      headers,
-      body
-    });
-    const data = await response.json();
-    if (response.status >= 400) {
-      reject(new Error(data.message));
+    try {
+      const response = await fetch(url, {
+        method: 'POST',
+        headers,
+        body
+      });
+      const data = await response.json();
+      if (response.status >= 400) {
+        reject(new Error(data.message));
+      }
+      resolve(data);
+    } catch (err) {
+      reject(err);
     }
-    resolve(data);
   });
 };
 

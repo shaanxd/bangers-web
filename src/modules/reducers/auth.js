@@ -8,7 +8,8 @@ import {
   SIGNUP_FAILURE,
   LOGOUT,
   LOGOUT_SUCCESS,
-  LOGOUT_FAILURE
+  LOGOUT_FAILURE,
+  AUTH_GOOGLE
 } from '../actions/auth';
 
 export const initial_state = {
@@ -94,6 +95,20 @@ export const logout_failure = (state = initial_state, { type, payload }) => {
   };
 };
 
+export const auth_google = (state = initial_state, { type, payload }) => {
+  return payload.origin === 'SIGNUP'
+    ? {
+        ...state,
+        isSigningUp: true,
+        signupError: null
+      }
+    : {
+        ...state,
+        isLoggingIn: true,
+        loginError: null
+      };
+};
+
 export const authReducer = createReducer(initial_state, {
   [LOGIN]: login,
   [LOGIN_SUCCESS]: login_success,
@@ -105,5 +120,7 @@ export const authReducer = createReducer(initial_state, {
 
   [LOGOUT]: logout,
   [LOGOUT_SUCCESS]: logout_success,
-  [LOGOUT_FAILURE]: logout_failure
+  [LOGOUT_FAILURE]: logout_failure,
+
+  [AUTH_GOOGLE]: auth_google
 });

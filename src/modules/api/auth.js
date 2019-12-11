@@ -9,3 +9,8 @@ export const postSignup = async userData => {
   const endpoint = 'users/signup';
   return POST(endpoint, { ...userData });
 };
+
+export const postGoogleAuth = async access_token => {
+  const endpoint = 'users/google';
+  return POST(endpoint, { access_token });
+};
