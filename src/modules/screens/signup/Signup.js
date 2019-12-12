@@ -185,7 +185,7 @@ const SignupScreen = props => {
               </div>
               <a
                 className="form__submit-google"
-                href={`${process.env.REACT_APP_BASE_URL}users/google`}
+                href={`${process.env.REACT_APP_BASE_URL}auth/google`}
               >
                 <div className="form__submit-google-div">
                   <Icomoon icon="google2" size={35} color="#d2514d" />
@@ -198,7 +198,7 @@ const SignupScreen = props => {
               </a>
               <a
                 className="form__submit-facebook"
-                href={`${process.env.REACT_APP_BASE_URL}users/facebook`}
+                href={`${process.env.REACT_APP_BASE_URL}auth/facebook`}
               >
                 <div className="form__submit-google-div">
                   <Icomoon icon="facebook2" size={35} color="#4169E1" />
