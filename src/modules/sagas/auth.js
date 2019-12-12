@@ -20,10 +20,12 @@ import {
   CHECK_AUTH_TIMEOUT,
   logout,
   check_auth_timeout,
-  AUTH_GOOGLE
+  AUTH_REDIRECT,
+  auth_redirect_failure,
+  auth_redirect_success
 } from '../actions/auth';
 
-import { postLogin, postSignup, postGoogleAuth } from '../api/auth';
+import { postLogin, postSignup } from '../api/auth';
 
 function* handleLoginSaga({ type, payload: { username, password } }) {
   try {
@@ -65,7 +67,7 @@ function* handleLogoutSaga({ type, payload }) {
 function* handleCheckAuthState({ type, payload }) {
   const token = yield retrieveAuthDetails();
   if (!token) {
-    yield put(logout());
+    //  yield put(logout());
   } else {
     const expirationDate = yield Moment(token.expirationDate);
     const currentMoment = yield Moment();
@@ -90,25 +92,16 @@ function* handleCheckAuthTimeout({ type, payload }) {
   yield put(logout());
 }
 
-function* handleAuthGoogle({ type, payload: { accessToken, origin } }) {
+function* handleAuthRedirect({ type, payload }) {
   try {
-    const response = yield call(postGoogleAuth, accessToken);
     const expirationDate = Moment()
-      .add(response.expiresInSeconds, 's')
+      .add(payload.expiresInSeconds, 's')
       .format();
-    yield setAuthDetails({ ...response, expirationDate });
-    if (origin === 'SIGNUP') {
-      yield put(signup_successful(response));
-    } else {
-      yield put(login_successful(response));
-    }
-    yield put(check_auth_timeout(response.expiresInSeconds * 1000));
+    yield setAuthDetails({ ...payload, expirationDate });
+    yield put(auth_redirect_success(payload));
+    yield put(check_auth_timeout(payload.expiresInSeconds * 1000));
   } catch (err) {
-    if (origin === 'SIGNUP') {
-      yield put(signup_failure(err.message));
-    } else {
-      yield put(login_failure(err.message));
-    }
+    yield put(auth_redirect_failure(err.message));
   }
 }
 
@@ -132,8 +125,8 @@ function* watchCheckAuthTimeout() {
   yield takeEvery(CHECK_AUTH_TIMEOUT, handleCheckAuthTimeout);
 }
 
-function* watchAuthGoogle() {
-  yield takeEvery(AUTH_GOOGLE, handleAuthGoogle);
+function* watchAuthRedirect() {
+  yield takeEvery(AUTH_REDIRECT, handleAuthRedirect);
 }
 
 export {
@@ -142,5 +135,5 @@ export {
   watchLogout,
   watchCheckAuthState,
   watchCheckAuthTimeout,
-  watchAuthGoogle
+  watchAuthRedirect
 };

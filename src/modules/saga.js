@@ -6,7 +6,7 @@ import {
   watchLogout,
   watchCheckAuthState,
   watchCheckAuthTimeout,
-  watchAuthGoogle
+  watchAuthRedirect
 } from './sagas/auth';
 
 function* rootSaga() {
@@ -16,7 +16,7 @@ function* rootSaga() {
     watchLogout(),
     watchCheckAuthState(),
     watchCheckAuthTimeout(),
-    watchAuthGoogle()
+    watchAuthRedirect()
   ]);
 }
 

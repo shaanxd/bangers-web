@@ -3,14 +3,13 @@ import { connect } from 'react-redux';
 import { Formik, Field, ErrorMessage, Form } from 'formik';
 import { withRouter } from 'react-router-dom';
 import * as Yup from 'yup';
-import GoogleLogin from 'react-google-login';
 
 import { Icomoon } from '../../components';
 
 import './Signup.css';
 import '../../shared/css/Forms.css';
 
-import { signup, auth_google } from '../../actions/auth';
+import { signup } from '../../actions/auth';
 
 const SignupScreen = props => {
   const [passwordVisible, setPasswordVisible] = useState(false);
@@ -28,30 +27,6 @@ const SignupScreen = props => {
 
   const handleConfirmPasswordVisible = () => {
     setConfirmVisible(prevConfirmVisible => !prevConfirmVisible);
-  };
-
-  const handleGoogleSignup = response => {
-    props.authGoogle({ accessToken: response.accessToken, origin: 'SIGNUP' });
-  };
-
-  const handleGoogleError = () => {};
-
-  const renderGoogleButton = ({ onClick, disabled }) => {
-    return (
-      <button className="form__submit-google" onClick={onClick}>
-        <div className="form__submit-google-div">
-          <Icomoon
-            className="form__submit-google-icon"
-            icon="google"
-            size={30}
-            color="#D2514D"
-          />
-          <label className="form__submit-google-label">
-            Signup with Google
-          </label>
-        </div>
-      </button>
-    );
   };
 
   useEffect(() => {
@@ -203,13 +178,37 @@ const SignupScreen = props => {
               {signupError && (
                 <label className="form__error-main">{signupError}</label>
               )}
-              <GoogleLogin
-                clientId={process.env.REACT_APP_GOOGLE_CLIENT_ID}
-                buttonText="Signup with google"
-                onSuccess={handleGoogleSignup}
-                onFailure={handleGoogleError}
-                render={renderGoogleButton}
-              />
+              <div className="form__separator-div">
+                <div className="form__separator-line" />
+                <div className="form__separator-label-div">OR</div>
+                <div className="form__separator-line" />
+              </div>
+              <a
+                className="form__submit-google"
+                href={`${process.env.REACT_APP_BASE_URL}users/google`}
+              >
+                <div className="form__submit-google-div">
+                  <Icomoon icon="google2" size={35} color="#d2514d" />
+                  <div className="form__submit-google-label-div">
+                    <label className="form__submit-google-label">
+                      Continue with Google
+                    </label>
+                  </div>
+                </div>
+              </a>
+              <a
+                className="form__submit-google"
+                href={`${process.env.REACT_APP_BASE_URL}users/facebook`}
+              >
+                <div className="form__submit-google-div">
+                  <Icomoon icon="facebook2" size={35} color="#4169E1" />
+                  <div className="form__submit-google-label-div">
+                    <label className="form__submit-google-label">
+                      Continue with Facebook
+                    </label>
+                  </div>
+                </div>
+              </a>
             </Form>
           );
         }}
@@ -228,9 +227,6 @@ const mapDispatchToProps = dispatch => {
   return {
     signupUser: userData => {
       dispatch(signup(userData));
-    },
-    authGoogle: accessTokenData => {
-      dispatch(auth_google(accessTokenData));
     }
   };
 };

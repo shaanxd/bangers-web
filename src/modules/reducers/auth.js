@@ -9,7 +9,9 @@ import {
   LOGOUT,
   LOGOUT_SUCCESS,
   LOGOUT_FAILURE,
-  AUTH_GOOGLE
+  AUTH_REDIRECT,
+  AUTH_REDIRECT_SUCCESS,
+  AUTH_REDIRECT_FAILURE
 } from '../actions/auth';
 
 export const initial_state = {
@@ -19,7 +21,9 @@ export const initial_state = {
   isSigningUp: false,
   signupError: null,
   isLoggingOut: false,
-  logoutError: null
+  logoutError: null,
+  isAuthRedirecting: false,
+  authRedirectError: null
 };
 
 export const login = (state = initial_state, { type, payload }) => {
@@ -95,18 +99,35 @@ export const logout_failure = (state = initial_state, { type, payload }) => {
   };
 };
 
-export const auth_google = (state = initial_state, { type, payload }) => {
-  return payload.origin === 'SIGNUP'
-    ? {
-        ...state,
-        isSigningUp: true,
-        signupError: null
-      }
-    : {
-        ...state,
-        isLoggingIn: true,
-        loginError: null
-      };
+export const auth_redirect = (state = initial_state, { type, payload }) => {
+  return {
+    ...state,
+    isAuthRedirecting: true,
+    authRedirectError: null
+  };
+};
+
+export const auth_redirect_success = (
+  state = initial_state,
+  { type, payload }
+) => {
+  return {
+    ...state,
+    isAuthRedirecting: false,
+    authDetails: payload,
+    authRedirectError: null
+  };
+};
+
+export const auth_redirect_failure = (
+  state = initial_state,
+  { type, payload }
+) => {
+  return {
+    ...state,
+    isAuthRedirecting: false,
+    authRedirectError: payload
+  };
 };
 
 export const authReducer = createReducer(initial_state, {
@@ -122,5 +143,7 @@ export const authReducer = createReducer(initial_state, {
   [LOGOUT_SUCCESS]: logout_success,
   [LOGOUT_FAILURE]: logout_failure,
 
-  [AUTH_GOOGLE]: auth_google
+  [AUTH_REDIRECT]: auth_redirect,
+  [AUTH_REDIRECT_SUCCESS]: auth_redirect_success,
+  [AUTH_REDIRECT_FAILURE]: auth_redirect_failure
 });

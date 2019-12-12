@@ -75,9 +75,23 @@ export const check_auth_timeout = payload => {
   };
 };
 
-export const auth_google = payload => {
+export const auth_redirect = payload => {
   return {
-    type: AUTH_GOOGLE,
+    type: AUTH_REDIRECT,
+    payload
+  };
+};
+
+export const auth_redirect_success = payload => {
+  return {
+    type: AUTH_REDIRECT_SUCCESS,
+    payload
+  };
+};
+
+export const auth_redirect_failure = payload => {
+  return {
+    type: AUTH_REDIRECT_FAILURE,
     payload
   };
 };
@@ -97,4 +111,6 @@ export const LOGOUT_FAILURE = 'LOGOUT_FAILURE';
 export const CHECK_AUTH_STATE = 'CHECK_AUTH_STATE';
 export const CHECK_AUTH_TIMEOUT = 'CHECK_AUTH_TIMEOUT';
 
-export const AUTH_GOOGLE = 'AUTH_GOOGLE';
+export const AUTH_REDIRECT = 'AUTH_REDIRECT';
+export const AUTH_REDIRECT_SUCCESS = 'AUTH_REDIRECT_SUCCESS';
+export const AUTH_REDIRECT_FAILURE = 'AUTH_REDIRECT_FAILURE';
