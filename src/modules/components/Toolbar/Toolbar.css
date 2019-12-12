@@ -21,7 +21,6 @@
   color: white;
   text-decoration: none;
   font-size: 1.5rem;
-  font-family: 'Roboto', sans-serif;
 }
 
 .spacer {
@@ -41,7 +40,6 @@
   align-items: center;
   box-sizing: border-box;
   border-bottom: 3px solid royalblue;
-  font-family: 'Roboto', sans-serif;
 }
 
 .toolbar__navigation-items li {

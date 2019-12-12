@@ -197,13 +197,13 @@ const SignupScreen = props => {
                 </div>
               </a>
               <a
-                className="form__submit-google"
+                className="form__submit-facebook"
                 href={`${process.env.REACT_APP_BASE_URL}users/facebook`}
               >
                 <div className="form__submit-google-div">
                   <Icomoon icon="facebook2" size={35} color="#4169E1" />
                   <div className="form__submit-google-label-div">
-                    <label className="form__submit-google-label">
+                    <label className="form__submit-facebook-label">
                       Continue with Facebook
                     </label>
                   </div>
