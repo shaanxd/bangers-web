@@ -8,6 +8,7 @@ import {
   watchCheckAuthTimeout,
   watchAuthRedirect
 } from './sagas/auth';
+import { watchVehicleSaga } from './sagas/vehicles';
 
 function* rootSaga() {
   yield all([
@@ -16,7 +17,8 @@ function* rootSaga() {
     watchLogout(),
     watchCheckAuthState(),
     watchCheckAuthTimeout(),
-    watchAuthRedirect()
+    watchAuthRedirect(),
+    watchVehicleSaga()
   ]);
 }
 

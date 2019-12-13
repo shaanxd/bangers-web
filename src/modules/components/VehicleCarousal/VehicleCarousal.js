@@ -32,30 +32,38 @@ const VehicleCarousal = props => {
       }
     ]
   };
-  return (
-    <div className="carousal__main-div">
-      <Slider {...settings}>
+
+  const { carouselData, isLoading, carouselError } = props;
+
+  const renderCarouselList = () => {
+    const listItems = renderListItems();
+    return <Slider {...settings}>{listItems}</Slider>;
+  };
+
+  const renderListItems = () => {
+    return carouselData.map(carouselItem => {
+      return (
         <div className="carousel__parent-div">
-          <h3>1</h3>
+          <h3>{carouselItem.name}</h3>
         </div>
-        <div className="carousel__parent-div">
-          <h3>2</h3>
-        </div>
-        <div className="carousel__parent-div">
-          <h3>3</h3>
-        </div>
-        <div className="carousel__parent-div">
-          <h3>4</h3>
-        </div>
-        <div className="carousel__parent-div">
-          <h3>5</h3>
-        </div>
-        <div className="carousel__parent-div">
-          <h3>6</h3>
-        </div>
-      </Slider>
-    </div>
-  );
+      );
+    });
+  };
+
+  const renderLoading = () => {
+    return <h1>Loading</h1>;
+  };
+
+  const renderError = () => {
+    return <h1>{carouselError}</h1>;
+  };
+
+  const itemToRender = carouselError
+    ? renderError()
+    : isLoading
+    ? renderLoading()
+    : renderCarouselList();
+  return <div className="carousal__main-div">{itemToRender}</div>;
 };
 
 export default VehicleCarousal;
