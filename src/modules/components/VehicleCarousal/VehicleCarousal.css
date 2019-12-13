@@ -1,0 +1,14 @@
+.carousel__parent-div {
+  border: 1px solid black;
+  text-align: center;
+  height: 250px;
+}
+
+.carousal__main-div {
+}
+
+.slick-slide {
+  padding: 10px;
+  box-sizing: border-box;
+  border: 1px solid red;
+}

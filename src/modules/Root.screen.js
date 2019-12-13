@@ -4,6 +4,8 @@ import { Login, Signup, Landing, Logout, AuthRedirect } from './screens';
 import { connect } from 'react-redux';
 import { check_auth_state } from './actions/auth';
 import { Toolbar, SideDrawer, Backdrop } from './components';
+import 'slick-carousel/slick/slick.css';
+import 'slick-carousel/slick/slick-theme.css';
 
 const RootScreen = props => {
   const [sideDrawerOpen, setSideDrawerOpen] = useState(false);
