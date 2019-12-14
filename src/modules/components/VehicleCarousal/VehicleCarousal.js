@@ -1,6 +1,8 @@
 import React from 'react';
 import Slider from 'react-slick';
 
+import { Vehicle } from '../';
+
 import './VehicleCarousal.css';
 
 const VehicleCarousal = props => {
@@ -33,7 +35,7 @@ const VehicleCarousal = props => {
     ]
   };
 
-  const { carouselData, isLoading, carouselError } = props;
+  const { vehicles, isLoading, error, onBookClick } = props;
 
   const renderCarouselList = () => {
     const listItems = renderListItems();
@@ -41,11 +43,13 @@ const VehicleCarousal = props => {
   };
 
   const renderListItems = () => {
-    return carouselData.map(carouselItem => {
+    return vehicles.map(carouselItem => {
       return (
-        <div className="carousel__parent-div">
-          <h3>{carouselItem.name}</h3>
-        </div>
+        <Vehicle
+          key={carouselItem.id}
+          onBookClick={onBookClick}
+          vehicle={carouselItem}
+        />
       );
     });
   };
@@ -55,10 +59,10 @@ const VehicleCarousal = props => {
   };
 
   const renderError = () => {
-    return <h1>{carouselError}</h1>;
+    return <h1>{error}</h1>;
   };
 
-  const itemToRender = carouselError
+  const itemToRender = error
     ? renderError()
     : isLoading
     ? renderLoading()

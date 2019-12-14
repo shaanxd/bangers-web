@@ -1,0 +1,17 @@
+.vehicle__parent-div {
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  background-color: rgba(65, 105, 225, 0.1);
+  padding: 20px;
+}
+
+.vehicle__image {
+  width: 80%;
+  margin: auto;
+}
+
+.vehicle__name {
+  margin: 0;
+  font-size: 1.3rem;
+}

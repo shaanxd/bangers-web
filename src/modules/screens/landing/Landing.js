@@ -1,25 +1,36 @@
 import React, { useEffect } from 'react';
 import { connect } from 'react-redux';
+import { withRouter } from 'react-router-dom';
+
 import { VehicleCarousal } from '../../components';
 import { get_carousel } from '../../actions/vehicles';
 
 const LandingScreen = props => {
   const {
-    carouselList,
-    carouselListLoading,
-    carouselListError
-  } = props.vehicles;
+    auth: { authDetails },
+    vehicles: { carouselList, carouselListLoading, carouselListError }
+  } = props;
 
   useEffect(() => {
     if (carouselList.length === 0) props.getCarousel();
+    // eslint-disable-next-line
   }, []);
+
+  const handleOnBookClick = () => {
+    if (authDetails) {
+      props.history.push('/vehicles');
+    } else {
+      props.history.push('/login');
+    }
+  };
 
   return (
     <div>
       <VehicleCarousal
-        carouselData={carouselList}
+        vehicles={carouselList}
         isLoading={carouselListLoading}
-        carouselError={carouselListError}
+        error={carouselListError}
+        onBookClick={handleOnBookClick}
       />
     </div>
   );
@@ -40,4 +51,6 @@ const mapDispatchToProps = dispatch => {
   };
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(LandingScreen);
+export default withRouter(
+  connect(mapStateToProps, mapDispatchToProps)(LandingScreen)
+);
