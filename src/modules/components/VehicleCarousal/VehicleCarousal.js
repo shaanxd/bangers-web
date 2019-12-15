@@ -24,12 +24,13 @@ const VehicleCarousal = props => {
         }
       },
       {
-        breakpoint: 768,
+        breakpoint: 767,
         settings: {
           slidesToShow: 1,
           slidesToScroll: 1,
           infinite: true,
-          dots: true
+          dots: true,
+          swipeToSlide: true
         }
       }
     ]

@@ -2,16 +2,51 @@
   text-align: center;
   display: flex;
   flex-direction: column;
-  background-color: rgba(65, 105, 225, 0.1);
+  border: 1px solid royalblue;
   padding: 20px;
+  z-index: 0;
 }
 
 .vehicle__image {
-  width: 80%;
+  width: 60%;
   margin: auto;
 }
 
 .vehicle__name {
   margin: 0;
   font-size: 1.3rem;
+}
+
+.vehicle__book-btn {
+  border: none;
+  padding: 10px;
+  margin-top: 10px;
+  background-color: royalblue;
+  color: white;
+  font-family: 'Roboto', sans-serif;
+  font-size: 0.8rem;
+}
+
+.vehicle__details-div {
+  background-color: white;
+  height: 100px;
+  margin-top: 10px;
+}
+
+@media (max-width: 1025px) {
+  .vehicle__image {
+    width: 70%;
+  }
+}
+
+@media (max-width: 769px) {
+  .vehicle__image {
+    width: 50%;
+  }
+}
+
+@media (max-width: 500px) {
+  .vehicle__image {
+    width: 70%;
+  }
 }

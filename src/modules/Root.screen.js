@@ -1,6 +1,14 @@
 import React, { useEffect, useState } from 'react';
 import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
-import { Login, Signup, Landing, Logout, AuthRedirect } from './screens';
+import {
+  Login,
+  Signup,
+  Landing,
+  Logout,
+  AuthRedirect,
+  Vehicle,
+  Vehicles
+} from './screens';
 import { connect } from 'react-redux';
 import { check_auth_state } from './actions/auth';
 import { Toolbar, SideDrawer, Backdrop } from './components';
@@ -51,6 +59,12 @@ const RootScreen = props => {
             </Route>
             <Route exact path="/authRedirect">
               <AuthRedirect />
+            </Route>
+            <Route exact path="/vehicles">
+              <Vehicles />
+            </Route>
+            <Route exact path="/vehicles/:id">
+              <Vehicle />
             </Route>
           </Switch>
         </main>

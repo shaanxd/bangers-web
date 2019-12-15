@@ -12,13 +12,15 @@ const LandingScreen = props => {
   } = props;
 
   useEffect(() => {
-    if (carouselList.length === 0) props.getCarousel();
+    if (carouselList.length === 0) {
+      props.getCarousel();
+    }
     // eslint-disable-next-line
   }, []);
 
-  const handleOnBookClick = () => {
+  const handleOnBookClick = vehicleID => {
     if (authDetails) {
-      props.history.push('/vehicles');
+      props.history.push(`/vehicles/${vehicleID}`);
     } else {
       props.history.push('/login');
     }
