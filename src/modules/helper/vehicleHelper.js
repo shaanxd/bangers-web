@@ -21,3 +21,8 @@ export const getMaxReturnDate = startDate =>
   moment(startDate)
     .add(2, 'w')
     .toDate();
+
+export const getDateStringInUTC = date =>
+  moment(date)
+    .utc()
+    .format();

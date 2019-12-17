@@ -7,7 +7,6 @@ import { get_carousel } from '../../actions/vehicles';
 
 const LandingScreen = props => {
   const {
-    auth: { authDetails },
     vehicles: { carouselList, carouselListLoading, carouselListError }
   } = props;
 
@@ -19,11 +18,7 @@ const LandingScreen = props => {
   }, []);
 
   const handleOnBookClick = vehicleID => {
-    if (authDetails) {
-      props.history.push(`/vehicles/${vehicleID}`);
-    } else {
-      props.history.push('/login');
-    }
+    props.history.push(`/vehicles/${vehicleID}`);
   };
 
   return (

@@ -5,8 +5,6 @@ import DatePicker from 'react-datepicker';
 
 import 'react-datepicker/dist/react-datepicker.css';
 
-import { get_vehicle } from '../../actions/vehicles';
-
 import './Vehicle.css';
 import {
   getImageUrl,
@@ -14,25 +12,45 @@ import {
   getNextDate,
   getMinStartDate,
   getMinReturnDate,
-  getMaxReturnDate
+  getMaxReturnDate,
+  getDateStringInUTC
 } from '../../helper/vehicleHelper';
+import { getVehicle, createBooking } from '../../api/vehicles';
 
 const VehicleScreen = props => {
   const [startDate, setStartDate] = useState(new Date());
   const [returnDate, setReturnDate] = useState(getTomorrow());
+  const [vehicleLoading, setVehicleLoading] = useState(true);
+  const [vehicleError, setVehicleError] = useState(null);
+  const [vehicleDetails, setVehicleDetails] = useState(null);
+  const [bookingLoading, setBookingLoading] = useState(false);
+  const [bookingError, setBookingError] = useState(null);
+
+  const {
+    match: {
+      params: { id }
+    },
+    auth: { authDetails }
+  } = props;
+
+  const getVehicleAPICall = () => {
+    getVehicle(id)
+      .then(response => {
+        setVehicleLoading(false);
+        setVehicleDetails(response);
+      })
+      .catch(err => {
+        setVehicleLoading(false);
+        setVehicleError(err.message);
+      });
+  };
 
   useEffect(
     () => {
-      props.getVehicle(props.match.params.id);
+      getVehicleAPICall();
     }, //eslint-disable-next-line
     []
   );
-
-  const {
-    selectedVehicle,
-    getVehicleLoading,
-    getVehicleError
-  } = props.vehicles;
 
   const handleStartDateChange = selectedDate => {
     setStartDate(selectedDate);
@@ -44,7 +62,29 @@ const VehicleScreen = props => {
   };
 
   const handleBookClick = () => {
-    console.log('Booked');
+    setBookingLoading(true);
+    setBookingError(null);
+    if (authDetails) {
+      const startDateUTC = getDateStringInUTC(startDate);
+      const returnDateUTC = getDateStringInUTC(returnDate);
+      createBooking(
+        {
+          startDate: startDateUTC,
+          returnDate: returnDateUTC,
+          vehicleId: vehicleDetails.id
+        },
+        authDetails.authToken
+      )
+        .then(response => {
+          setBookingLoading(false);
+        })
+        .catch(err => {
+          setBookingLoading(false);
+          setBookingError(err.message);
+        });
+    } else {
+      props.history.push('/login');
+    }
   };
 
   const renderLoading = () => {
@@ -58,13 +98,13 @@ const VehicleScreen = props => {
   const renderError = () => {
     return (
       <div>
-        <h1>{getVehicleError}</h1>
+        <h1>{vehicleError}</h1>
       </div>
     );
   };
 
   const renderVehicle = () => {
-    const { image, name } = selectedVehicle;
+    const { image, name } = vehicleDetails;
 
     return (
       <div className="vehicle__display-div">
@@ -75,6 +115,8 @@ const VehicleScreen = props => {
           onChange={handleStartDateChange}
           className="vehicle__datepicker"
           minDate={getMinStartDate()}
+          dateFormat="MMMM d, yyyy h:mm aa"
+          showTimeSelect
         />
         <DatePicker
           selected={returnDate}
@@ -82,7 +124,10 @@ const VehicleScreen = props => {
           className="vehicle__datepicker"
           maxDate={getMaxReturnDate(startDate)}
           minDate={getMinReturnDate(startDate)}
+          dateFormat="MMMM d, yyyy h:mm aa"
+          showTimeSelect
         />
+        {bookingLoading && <label>Loading</label>}
         <button
           type="button"
           onClick={handleBookClick}
@@ -90,28 +135,27 @@ const VehicleScreen = props => {
         >
           Book Now!
         </button>
+        {bookingError && <label>{bookingError}</label>}
       </div>
     );
   };
-  return getVehicleError
+
+  return vehicleError
     ? renderError()
-    : getVehicleLoading
+    : vehicleLoading
     ? renderLoading()
-    : selectedVehicle && renderVehicle();
+    : vehicleDetails && renderVehicle();
 };
 
 const mapStateToProps = state => {
   return {
+    auth: state.auth,
     vehicles: state.vehicles
   };
 };
 
 const mapDispatchToProps = dispatch => {
-  return {
-    getVehicle: vehicleId => {
-      dispatch(get_vehicle(vehicleId));
-    }
-  };
+  return {};
 };
 
 export default withRouter(
