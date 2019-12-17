@@ -1,0 +1,23 @@
+.vehicle__display-div {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.vehicle__image {
+  width: 50%;
+}
+
+.vehicle__label-header {
+  margin: 0;
+}
+
+.vehicle__datepicker {
+  padding: 10px 30px;
+  margin-top: 20px;
+}
+
+.vehicle__button-book {
+  margin-top: 20px;
+  padding: 10px 30px;
+}
