@@ -8,11 +8,18 @@ import 'react-datepicker/dist/react-datepicker.css';
 import { get_vehicle } from '../../actions/vehicles';
 
 import './Vehicle.css';
-import { getImageUrl } from '../../helper/vehicleHelper';
+import {
+  getImageUrl,
+  getTomorrow,
+  getNextDate,
+  getMinStartDate,
+  getMinReturnDate,
+  getMaxReturnDate
+} from '../../helper/vehicleHelper';
 
 const VehicleScreen = props => {
   const [startDate, setStartDate] = useState(new Date());
-  const [returnDate, setReturnDate] = useState(new Date());
+  const [returnDate, setReturnDate] = useState(getTomorrow());
 
   useEffect(
     () => {
@@ -29,6 +36,7 @@ const VehicleScreen = props => {
 
   const handleStartDateChange = selectedDate => {
     setStartDate(selectedDate);
+    setReturnDate(getNextDate(selectedDate));
   };
 
   const handleReturnDateChange = selectedDate => {
@@ -63,16 +71,17 @@ const VehicleScreen = props => {
         <img src={getImageUrl(image)} alt="Sample" className="vehicle__image" />
         <h1 className="vehicle__label-header">{name}</h1>
         <DatePicker
-          showPopperArrow={false}
           selected={startDate}
           onChange={handleStartDateChange}
           className="vehicle__datepicker"
+          minDate={getMinStartDate()}
         />
         <DatePicker
-          showPopperArrow={false}
           selected={returnDate}
           onChange={handleReturnDateChange}
           className="vehicle__datepicker"
+          maxDate={getMaxReturnDate(startDate)}
+          minDate={getMinReturnDate(startDate)}
         />
         <button
           type="button"
