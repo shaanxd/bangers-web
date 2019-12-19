@@ -2,10 +2,11 @@ import React, { useEffect, useState } from 'react';
 import { withRouter } from 'react-router-dom';
 import { connect } from 'react-redux';
 import DatePicker from 'react-datepicker';
+import Slider from 'react-slick';
 
 import 'react-datepicker/dist/react-datepicker.css';
-
 import './Vehicle.css';
+
 import {
   getImageUrl,
   getTomorrow,
@@ -103,43 +104,63 @@ const VehicleScreen = props => {
     );
   };
 
+  const renderImages = () => {
+    var settings = {
+      infinite: true,
+      speed: 500,
+      slidesToShow: 1,
+      slidesToScroll: 1,
+      initialSlide: 0
+    };
+    const { images } = vehicleDetails;
+    const imageComponents = images.map(imageUrl => (
+      <img
+        className="vehicle__image"
+        src={getImageUrl(imageUrl)}
+        alt="Sample"
+      />
+    ));
+    return <Slider {...settings}>{imageComponents}</Slider>;
+  };
+
   const renderVehicle = () => {
-    const { defaultImage, name } = vehicleDetails;
+    const { name } = vehicleDetails;
+    const carousal = renderImages();
 
     return (
       <div className="vehicle__display-div">
-        <img
-          src={getImageUrl(defaultImage)}
-          alt="Sample"
-          className="vehicle__image"
-        />
-        <h1 className="vehicle__label-header">{name}</h1>
-        <DatePicker
-          selected={startDate}
-          onChange={handleStartDateChange}
-          className="vehicle__datepicker"
-          minDate={getMinStartDate()}
-          dateFormat="MMMM d, yyyy h:mm aa"
-          showTimeSelect
-        />
-        <DatePicker
-          selected={returnDate}
-          onChange={handleReturnDateChange}
-          className="vehicle__datepicker"
-          maxDate={getMaxReturnDate(startDate)}
-          minDate={getMinReturnDate(startDate)}
-          dateFormat="MMMM d, yyyy h:mm aa"
-          showTimeSelect
-        />
-        {bookingLoading && <label>Loading</label>}
-        <button
-          type="button"
-          onClick={handleBookClick}
-          className="vehicle__button-book"
-        >
-          Book Now!
-        </button>
-        {bookingError && <label>{bookingError}</label>}
+        <div className="vehicle__display-inner-div">
+          <div className="vehicle__image-div">{carousal}</div>
+          <div className="vehicle__booking-div">
+            <label className="vehicle__label-header">{name}</label>
+            <DatePicker
+              selected={startDate}
+              onChange={handleStartDateChange}
+              className="vehicle__datepicker"
+              minDate={getMinStartDate()}
+              dateFormat="MMMM d, yyyy h:mm aa"
+              showTimeSelect
+            />
+            <DatePicker
+              selected={returnDate}
+              onChange={handleReturnDateChange}
+              className="vehicle__datepicker"
+              maxDate={getMaxReturnDate(startDate)}
+              minDate={getMinReturnDate(startDate)}
+              dateFormat="MMMM d, yyyy h:mm aa"
+              showTimeSelect
+            />
+            {bookingLoading && <label>Loading</label>}
+            <button
+              type="button"
+              onClick={handleBookClick}
+              className="vehicle__button-book"
+            >
+              Book Now!
+            </button>
+            {bookingError && <label>{bookingError}</label>}
+          </div>
+        </div>
       </div>
     );
   };

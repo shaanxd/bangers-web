@@ -1,27 +1,71 @@
 .vehicle__display-div {
+  height: 100%;
   display: flex;
-  flex-direction: column;
   align-items: center;
+  justify-content: center;
+  box-sizing: border-box;
+}
+
+.vehicle__display-inner-div {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  padding: 30px;
+  width: 1024px;
+  box-sizing: border-box;
+  background-color: lightgray;
+}
+
+.vehicle__image-div {
+  flex: 1;
+  min-height: 0;
+  min-width: 0;
+}
+
+.slick-slide {
+  padding: 0;
 }
 
 .vehicle__image {
-  width: 30%;
+  width: 100%;
+  vertical-align: bottom;
 }
 
 .vehicle__label-header {
   margin: 0;
+  text-align: center;
+  font-size: 2rem;
 }
 
 .vehicle__datepicker {
   padding: 10px 30px;
   margin-top: 20px;
-  width: 300px;
+  width: 100%;
   box-sizing: border-box;
 }
 
 .vehicle__button-book {
   margin-top: 20px;
   padding: 10px 30px;
-  width: 300px;
   box-sizing: border-box;
+}
+
+.vehicle__booking-div {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  padding: 30px;
+}
+
+@media (max-width: 1024px) {
+  .vehicle__display-inner-div {
+    flex-direction: column;
+    align-items: stretch;
+    width: 100%;
+  }
+
+  .vehicle__image-div {
+    flex: none;
+    width: 100%;
+  }
 }
