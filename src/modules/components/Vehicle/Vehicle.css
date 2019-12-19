@@ -7,8 +7,8 @@
   z-index: 0;
 }
 
-.vehicle__image {
-  width: 60%;
+.vehicle__image-default {
+  width: 100%;
   margin: auto;
 }
 
@@ -31,22 +31,4 @@
   background-color: white;
   height: 100px;
   margin-top: 10px;
-}
-
-@media (max-width: 1025px) {
-  .vehicle__image {
-    width: 70%;
-  }
-}
-
-@media (max-width: 769px) {
-  .vehicle__image {
-    width: 50%;
-  }
-}
-
-@media (max-width: 500px) {
-  .vehicle__image {
-    width: 70%;
-  }
 }

@@ -5,7 +5,7 @@
 }
 
 .vehicle__image {
-  width: 50%;
+  width: 30%;
 }
 
 .vehicle__label-header {
@@ -15,9 +15,13 @@
 .vehicle__datepicker {
   padding: 10px 30px;
   margin-top: 20px;
+  width: 300px;
+  box-sizing: border-box;
 }
 
 .vehicle__button-book {
   margin-top: 20px;
   padding: 10px 30px;
+  width: 300px;
+  box-sizing: border-box;
 }

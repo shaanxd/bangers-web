@@ -6,7 +6,7 @@ import './Vehicle.css';
 
 const Vehicle = props => {
   const {
-    vehicle: { id, image, name },
+    vehicle: { id, defaultImage, name },
     onBookClick
   } = props;
 
@@ -16,7 +16,11 @@ const Vehicle = props => {
 
   return (
     <div key={id} className="vehicle__parent-div">
-      <img alt="haha" className="vehicle__image" src={getImageUrl(image)} />
+      <img
+        alt="haha"
+        className="vehicle__image-default"
+        src={getImageUrl(defaultImage)}
+      />
       <label className="vehicle__name">{name}</label>
       <button
         className="vehicle__book-btn"

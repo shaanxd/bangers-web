@@ -104,11 +104,15 @@ const VehicleScreen = props => {
   };
 
   const renderVehicle = () => {
-    const { image, name } = vehicleDetails;
+    const { defaultImage, name } = vehicleDetails;
 
     return (
       <div className="vehicle__display-div">
-        <img src={getImageUrl(image)} alt="Sample" className="vehicle__image" />
+        <img
+          src={getImageUrl(defaultImage)}
+          alt="Sample"
+          className="vehicle__image"
+        />
         <h1 className="vehicle__label-header">{name}</h1>
         <DatePicker
           selected={startDate}
