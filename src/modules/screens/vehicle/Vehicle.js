@@ -16,7 +16,8 @@ import {
   getMaxReturnDate,
   getDateStringInUTC
 } from '../../helper/vehicleHelper';
-import { getVehicle, createBooking } from '../../api/vehicles';
+import { getVehicle, createBooking, getEquipment } from '../../api/vehicles';
+import { EquipmentSelect } from '../../components';
 
 const VehicleScreen = props => {
   const [startDate, setStartDate] = useState(new Date());
@@ -26,6 +27,10 @@ const VehicleScreen = props => {
   const [vehicleDetails, setVehicleDetails] = useState(null);
   const [bookingLoading, setBookingLoading] = useState(false);
   const [bookingError, setBookingError] = useState(null);
+  const [equipment, setEquipment] = useState([]);
+  const [equipmentLoading, setEquipmentLoading] = useState(true);
+  const [equipmentError, setEquipmentError] = useState(null);
+  const [selectedEquipment, setSelectedEquipment] = useState([]);
 
   const {
     match: {
@@ -33,6 +38,14 @@ const VehicleScreen = props => {
     },
     auth: { authDetails }
   } = props;
+
+  useEffect(
+    () => {
+      getVehicleAPICall();
+      getEquipmentAPICall();
+    }, //eslint-disable-next-line
+    []
+  );
 
   const getVehicleAPICall = () => {
     getVehicle(id)
@@ -46,12 +59,17 @@ const VehicleScreen = props => {
       });
   };
 
-  useEffect(
-    () => {
-      getVehicleAPICall();
-    }, //eslint-disable-next-line
-    []
-  );
+  const getEquipmentAPICall = () => {
+    getEquipment()
+      .then(response => {
+        setEquipmentLoading(false);
+        setEquipment(response);
+      })
+      .catch(err => {
+        setEquipmentLoading(false);
+        setEquipmentError(err.message);
+      });
+  };
 
   const handleStartDateChange = selectedDate => {
     setStartDate(selectedDate);
@@ -60,6 +78,16 @@ const VehicleScreen = props => {
 
   const handleReturnDateChange = selectedDate => {
     setReturnDate(selectedDate);
+  };
+
+  const handleCheckedChange = id => {
+    let newArray;
+    if (selectedEquipment.includes(id)) {
+      newArray = selectedEquipment.filter(equipment => equipment !== id);
+    } else {
+      newArray = [...selectedEquipment, id];
+    }
+    setSelectedEquipment(newArray);
   };
 
   const handleBookClick = () => {
@@ -113,8 +141,9 @@ const VehicleScreen = props => {
       initialSlide: 0
     };
     const { images } = vehicleDetails;
-    const imageComponents = images.map(imageUrl => (
+    const imageComponents = images.map((imageUrl, index) => (
       <img
+        key={index}
         className="vehicle__image"
         src={getImageUrl(imageUrl)}
         alt="Sample"
@@ -159,6 +188,17 @@ const VehicleScreen = props => {
               Book Now!
             </button>
             {bookingError && <label>{bookingError}</label>}
+            {equipmentError ? (
+              <label>{equipmentError}</label>
+            ) : equipmentLoading ? (
+              <label>Loading</label>
+            ) : (
+              <EquipmentSelect
+                equipment={equipment}
+                selectedEquipment={selectedEquipment}
+                handleCheckedChange={handleCheckedChange}
+              />
+            )}
           </div>
         </div>
       </div>

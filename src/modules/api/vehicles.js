@@ -14,3 +14,8 @@ export const createBooking = (bookingDetails, authToken) => {
   const endpoint = 'bookings/create-booking';
   return POST(endpoint, { ...bookingDetails }, authToken);
 };
+
+export const getEquipment = () => {
+  const endpoint = 'bookings/equipment';
+  return GET(endpoint);
+};
