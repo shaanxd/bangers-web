@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect } from 'react';
 import { withRouter } from 'react-router-dom';
 import { connect } from 'react-redux';
 import DatePicker from 'react-datepicker';
@@ -18,19 +18,36 @@ import {
 } from '../../helper/vehicleHelper';
 import { getVehicle, createBooking, getEquipment } from '../../api/vehicles';
 import { EquipmentSelect } from '../../components';
+import { useMergedState } from '../../helper/useMergedState';
 
 const VehicleScreen = props => {
-  const [startDate, setStartDate] = useState(new Date());
-  const [returnDate, setReturnDate] = useState(getTomorrow());
-  const [vehicleLoading, setVehicleLoading] = useState(true);
-  const [vehicleError, setVehicleError] = useState(null);
-  const [vehicleDetails, setVehicleDetails] = useState(null);
-  const [bookingLoading, setBookingLoading] = useState(false);
-  const [bookingError, setBookingError] = useState(null);
-  const [equipment, setEquipment] = useState([]);
-  const [equipmentLoading, setEquipmentLoading] = useState(true);
-  const [equipmentError, setEquipmentError] = useState(null);
-  const [selectedEquipment, setSelectedEquipment] = useState([]);
+  const [state, setState] = useMergedState({
+    startDate: new Date(),
+    returnDate: getTomorrow(),
+    vehicleLoading: true,
+    vehicleError: null,
+    vehicleDetails: null,
+    bookingLoading: false,
+    bookingError: null,
+    equipment: [],
+    equipmentLoading: true,
+    equipmentError: null,
+    selectedEquipment: []
+  });
+
+  const {
+    startDate,
+    returnDate,
+    vehicleLoading,
+    vehicleError,
+    vehicleDetails,
+    bookingLoading,
+    bookingError,
+    equipment,
+    equipmentLoading,
+    equipmentError,
+    selectedEquipment
+  } = state;
 
   const {
     match: {
@@ -50,32 +67,30 @@ const VehicleScreen = props => {
   const getVehicleAPICall = async () => {
     try {
       const response = await getVehicle(id);
-      setVehicleLoading(false);
-      setVehicleDetails(response);
+      setState({ vehicleLoading: false, vehicleDetails: response });
     } catch (err) {
-      setVehicleLoading(false);
-      setVehicleError(err.message);
+      setState({ vehicleLoading: false, vehicleError: err.message });
     }
   };
 
   const getEquipmentAPICall = async () => {
     try {
       const response = await getEquipment();
-      setEquipmentLoading(false);
-      setEquipment(response);
+      setState({ equipmentLoading: false, equipment: response });
     } catch (err) {
-      setEquipmentLoading(false);
-      setEquipmentError(err.message);
+      setState({ equipmentLoading: false, equipmentError: err.message });
     }
   };
 
   const handleStartDateChange = selectedDate => {
-    setStartDate(selectedDate);
-    setReturnDate(getNextDate(selectedDate));
+    setState({
+      startDate: selectedDate,
+      returnDate: getNextDate(selectedDate)
+    });
   };
 
   const handleReturnDateChange = selectedDate => {
-    setReturnDate(selectedDate);
+    setState({ returnDate: selectedDate });
   };
 
   const handleCheckedChange = id => {
@@ -85,13 +100,12 @@ const VehicleScreen = props => {
     } else {
       newArray = [...selectedEquipment, id];
     }
-    setSelectedEquipment(newArray);
+    setState({ selectedEquipment: newArray });
   };
 
   const handleBookClick = async () => {
     try {
-      setBookingLoading(true);
-      setBookingError(null);
+      setState({ bookingLoading: true, bookingError: null });
       if (authDetails) {
         const startDateUTC = getDateStringInUTC(startDate);
         const returnDateUTC = getDateStringInUTC(returnDate);
@@ -99,18 +113,17 @@ const VehicleScreen = props => {
           {
             startDate: startDateUTC,
             returnDate: returnDateUTC,
-            vehicleId: vehicleDetails.id,
+            vehicleId: id,
             equipment: selectedEquipment
           },
           authDetails.authToken
         );
-        setBookingLoading(false);
+        setState({ bookingLoading: false });
       } else {
         props.history.push('/login');
       }
     } catch (err) {
-      setBookingLoading(false);
-      setBookingError(err.message);
+      setState({ bookingLoading: false, bookingError: err.message });
     }
   };
 
@@ -151,9 +164,8 @@ const VehicleScreen = props => {
   };
 
   const renderVehicle = () => {
-    const { name } = vehicleDetails;
     const carousal = renderImages();
-
+    const { name } = vehicleDetails;
     return (
       <div className="vehicle__display-div">
         <div className="vehicle__display-inner-div">
