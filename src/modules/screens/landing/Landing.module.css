@@ -1,10 +1,19 @@
-.parentDiv {
-  display: flex;
-  padding: 10px;
-  justify-content: center;
-  padding-top: 80px;
-  border: 1px solid blue;
-  box-sizing: border-box;
+.rootDiv {
   height: 100vh;
+  overflow: auto;
+  padding-top: 80px;
+  box-sizing: border-box;
+}
+
+.landingDiv {
+  height: calc(100vh - 80px);
+}
+
+.vehicleListDiv {
+  padding: 10px;
+  box-sizing: border-box;
+  justify-content: center;
   align-items: center;
+  display: flex;
+  height: calc(100vh - 80px);
 }

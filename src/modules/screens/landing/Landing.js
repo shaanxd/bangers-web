@@ -23,13 +23,16 @@ const LandingScreen = props => {
   };
 
   return (
-    <div className={styles.parentDiv}>
-      <VehicleCarousal
-        vehicles={carouselList}
-        isLoading={carouselListLoading}
-        error={carouselListError}
-        onBookClick={handleOnBookClick}
-      />
+    <div className={styles.rootDiv}>
+      <div className={styles.landingDiv} />
+      <div className={styles.vehicleListDiv}>
+        <VehicleCarousal
+          vehicles={carouselList}
+          isLoading={carouselListLoading}
+          error={carouselListError}
+          onBookClick={handleOnBookClick}
+        />
+      </div>
     </div>
   );
 };
