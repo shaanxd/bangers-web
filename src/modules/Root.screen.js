@@ -39,9 +39,7 @@ const RootScreen = props => {
         {sideDrawerOpen && <Backdrop onClick={backdropClickHandler} />}
         <main
           style={{
-            height: '100%',
-            paddingTop: '60px',
-            boxSizing: 'border-box'
+            height: '100%'
           }}
         >
           <Switch>
