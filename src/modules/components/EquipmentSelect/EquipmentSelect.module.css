@@ -1,0 +1,21 @@
+.div {
+  padding: 5px;
+  border-bottom: 1px solid grey;
+  padding: 10px;
+}
+
+.checkboxLabel {
+  font-family: inherit;
+  padding: 0px 10px;
+  font-size: 0.9rem;
+}
+
+.parentDiv {
+  margin-top: 20px;
+}
+
+.parentLabel {
+  font-family: inherit;
+  font-weight: 600;
+  font-size: 1rem;
+}

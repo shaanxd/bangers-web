@@ -1,0 +1,86 @@
+.parentDiv {
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-sizing: border-box;
+}
+
+.childDiv {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  padding: 30px;
+  width: 1024px;
+  box-sizing: border-box;
+}
+
+.carousalDiv {
+  flex: 1;
+  min-height: 0;
+  min-width: 0;
+}
+
+.image {
+  width: 50%;
+  vertical-align: bottom;
+}
+
+.bookingDiv {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  padding: 30px;
+}
+
+.vehicleHeader {
+  margin: 0;
+  text-align: center;
+  font-size: 1.5rem;
+  font-weight: 600;
+}
+
+.datePicker {
+  padding: 10px 30px;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+.datePickerLabel {
+  font-family: inherit;
+  font-weight: 600;
+  font-size: 1rem;
+  margin-top: 20px;
+  margin-bottom: 5px;
+}
+
+.bookBtn {
+  margin-top: 30px;
+  padding: 10px 30px;
+  box-sizing: border-box;
+  font-family: inherit;
+  font-weight: 600;
+  font-size: 1rem;
+  background-color: transparent;
+  border: 1px solid grey;
+}
+
+@media (max-width: 1024px) {
+  .childDiv {
+    flex-direction: column;
+    align-items: stretch;
+    width: 100%;
+    padding: 10px;
+  }
+
+  .image {
+    flex: none;
+    max-width: 50%;
+    align-self: center;
+    justify-self: center;
+  }
+
+  .carousalDiv {
+    text-align: center;
+  }
+}

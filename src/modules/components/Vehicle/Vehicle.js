@@ -2,7 +2,7 @@ import React from 'react';
 
 import { getImageUrl } from '../../helper/vehicleHelper';
 
-import './Vehicle.css';
+import styles from './Vehicle.module.css';
 
 const Vehicle = props => {
   const {
@@ -15,20 +15,22 @@ const Vehicle = props => {
   };
 
   return (
-    <div key={id} className="vehicle__parent-div">
-      <img
-        alt="haha"
-        className="vehicle__image-default"
-        src={getImageUrl(defaultImage)}
-      />
-      <label className="vehicle__name">{name}</label>
-      <button
-        className="vehicle__book-btn"
-        type="button"
-        onClick={handleOnClick}
-      >
-        Book
-      </button>
+    <div key={id} className={styles.parentDiv}>
+      <div className={styles.childDiv}>
+        <img
+          alt="haha"
+          className={styles.image}
+          src={getImageUrl(defaultImage)}
+        />
+        <label className={styles.headerLabel}>{name}</label>
+        <button
+          className={styles.bookBtn}
+          type="button"
+          onClick={handleOnClick}
+        >
+          Rent
+        </button>
+      </div>
     </div>
   );
 };

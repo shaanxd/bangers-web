@@ -4,6 +4,7 @@ import { withRouter } from 'react-router-dom';
 
 import { VehicleCarousal } from '../../components';
 import { get_carousel } from '../../actions/vehicles';
+import styles from './Landing.module.css';
 
 const LandingScreen = props => {
   const {
@@ -22,7 +23,7 @@ const LandingScreen = props => {
   };
 
   return (
-    <div>
+    <div className={styles.parentDiv}>
       <VehicleCarousal
         vehicles={carouselList}
         isLoading={carouselListLoading}

@@ -5,6 +5,7 @@ import DatePicker from 'react-datepicker';
 import Slider from 'react-slick';
 
 import 'react-datepicker/dist/react-datepicker.css';
+import styles from './Vehicle.module.css';
 import './Vehicle.css';
 
 import {
@@ -155,7 +156,7 @@ const VehicleScreen = props => {
     const imageComponents = images.map((imageUrl, index) => (
       <img
         key={index}
-        className="vehicle__image"
+        className={styles.image}
         src={getImageUrl(imageUrl)}
         alt="Sample"
       />
@@ -167,23 +168,25 @@ const VehicleScreen = props => {
     const carousal = renderImages();
     const { name } = vehicleDetails;
     return (
-      <div className="vehicle__display-div">
-        <div className="vehicle__display-inner-div">
-          <div className="vehicle__image-div">{carousal}</div>
-          <div className="vehicle__booking-div">
-            <label className="vehicle__label-header">{name}</label>
+      <div className={styles.parentDiv}>
+        <div className={styles.childDiv}>
+          <div className={styles.carousalDiv}>{carousal}</div>
+          <div className={styles.bookingDiv}>
+            <label className={styles.vehicleHeader}>{name.toUpperCase()}</label>
+            <label className={styles.datePickerLabel}>PICK-UP DATE</label>
             <DatePicker
               selected={startDate}
               onChange={handleStartDateChange}
-              className="vehicle__datepicker"
+              className={styles.datePicker}
               minDate={getMinStartDate()}
               dateFormat="MMMM d, yyyy h:mm aa"
               showTimeSelect
             />
+            <label className={styles.datePickerLabel}>DROP-OFF DATE</label>
             <DatePicker
               selected={returnDate}
               onChange={handleReturnDateChange}
-              className="vehicle__datepicker"
+              className={styles.datePicker}
               maxDate={getMaxReturnDate(startDate)}
               minDate={getMinReturnDate(startDate)}
               dateFormat="MMMM d, yyyy h:mm aa"
@@ -193,7 +196,7 @@ const VehicleScreen = props => {
             <button
               type="button"
               onClick={handleBookClick}
-              className="vehicle__button-book"
+              className={styles.bookBtn}
             >
               Book Now!
             </button>
