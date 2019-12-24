@@ -1,19 +1,36 @@
 import React from 'react';
 import Slider from 'react-slick';
 
-import { Vehicle } from '../';
+import { Vehicle, Icomoon } from '../';
 
-import './VehicleCarousal.css';
+import styles from './VehicleCarousal.module.css';
+
+const LeftButton = props => {
+  return (
+    <div {...props} className={styles.prevArrowBtn}>
+      <Icomoon icon="circle-left" color="#000000" size={25} />
+    </div>
+  );
+};
+
+const RightButton = props => {
+  return (
+    <div {...props} className={styles.nextArrowBtn}>
+      <Icomoon icon="circle-right" color="#000000" size={25} />
+    </div>
+  );
+};
 
 const VehicleCarousal = props => {
   var settings = {
     dots: true,
-    arrows: false,
     infinite: true,
     speed: 500,
     slidesToShow: 4,
     slidesToScroll: 4,
     initialSlide: 0,
+    prevArrow: <LeftButton />,
+    nextArrow: <RightButton />,
     responsive: [
       {
         breakpoint: 1200,
@@ -76,7 +93,7 @@ const VehicleCarousal = props => {
     : isLoading
     ? renderLoading()
     : renderCarouselList();
-  return <div className="carousal__main-div">{itemToRender}</div>;
+  return <div className={styles.parentDiv}>{itemToRender}</div>;
 };
 
 export default VehicleCarousal;

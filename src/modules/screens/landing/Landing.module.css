@@ -1,3 +1,5 @@
 .parentDiv {
-  padding: 40px 20px;
+  display: flex;
+  padding: 10px;
+  justify-content: center;
 }

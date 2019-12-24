@@ -1,15 +1,14 @@
 .parentDiv {
-  display: flex;
-  justify-content: center;
   z-index: 0;
+  padding: 10px;
 }
 
 .childDiv {
   display: flex;
   flex-direction: column;
   background-color: rgb(247, 247, 247);
-  width: 70%;
-  padding: 30px;
+  padding: 20px;
+  box-sizing: border-box;
   border-radius: 2px;
 }
 
