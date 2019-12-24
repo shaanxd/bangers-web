@@ -47,28 +47,26 @@ const VehicleScreen = props => {
     []
   );
 
-  const getVehicleAPICall = () => {
-    getVehicle(id)
-      .then(response => {
-        setVehicleLoading(false);
-        setVehicleDetails(response);
-      })
-      .catch(err => {
-        setVehicleLoading(false);
-        setVehicleError(err.message);
-      });
+  const getVehicleAPICall = async () => {
+    try {
+      const response = await getVehicle(id);
+      setVehicleLoading(false);
+      setVehicleDetails(response);
+    } catch (err) {
+      setVehicleLoading(false);
+      setVehicleError(err.message);
+    }
   };
 
-  const getEquipmentAPICall = () => {
-    getEquipment()
-      .then(response => {
-        setEquipmentLoading(false);
-        setEquipment(response);
-      })
-      .catch(err => {
-        setEquipmentLoading(false);
-        setEquipmentError(err.message);
-      });
+  const getEquipmentAPICall = async () => {
+    try {
+      const response = await getEquipment();
+      setEquipmentLoading(false);
+      setEquipment(response);
+    } catch (err) {
+      setEquipmentLoading(false);
+      setEquipmentError(err.message);
+    }
   };
 
   const handleStartDateChange = selectedDate => {
@@ -90,29 +88,29 @@ const VehicleScreen = props => {
     setSelectedEquipment(newArray);
   };
 
-  const handleBookClick = () => {
-    setBookingLoading(true);
-    setBookingError(null);
-    if (authDetails) {
-      const startDateUTC = getDateStringInUTC(startDate);
-      const returnDateUTC = getDateStringInUTC(returnDate);
-      createBooking(
-        {
-          startDate: startDateUTC,
-          returnDate: returnDateUTC,
-          vehicleId: vehicleDetails.id
-        },
-        authDetails.authToken
-      )
-        .then(response => {
-          setBookingLoading(false);
-        })
-        .catch(err => {
-          setBookingLoading(false);
-          setBookingError(err.message);
-        });
-    } else {
-      props.history.push('/login');
+  const handleBookClick = async () => {
+    try {
+      setBookingLoading(true);
+      setBookingError(null);
+      if (authDetails) {
+        const startDateUTC = getDateStringInUTC(startDate);
+        const returnDateUTC = getDateStringInUTC(returnDate);
+        const response = await createBooking(
+          {
+            startDate: startDateUTC,
+            returnDate: returnDateUTC,
+            vehicleId: vehicleDetails.id,
+            equipment: selectedEquipment
+          },
+          authDetails.authToken
+        );
+        setBookingLoading(false);
+      } else {
+        props.history.push('/login');
+      }
+    } catch (err) {
+      setBookingLoading(false);
+      setBookingError(err.message);
     }
   };
 
