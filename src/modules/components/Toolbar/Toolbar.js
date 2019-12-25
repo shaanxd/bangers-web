@@ -2,7 +2,7 @@ import React from 'react';
 import { withRouter } from 'react-router-dom';
 import { connect } from 'react-redux';
 
-import { DrawerToggleButton } from '../';
+import { DrawerToggleButton, Icomoon } from '../';
 
 import './Toolbar.css';
 
@@ -42,9 +42,30 @@ const Toolbar = props => {
   const renderAuthRoutes = () => (
     <ul>
       <li>
-        <a className={'toolbar__navigation-link'} href="/logout">
-          Logout
-        </a>
+        <div className="toolbar__navigation-div">
+          <div className="toolbar__navigation-display-div">
+            <Icomoon icon="user" color="#FFFFFF" size={20} />
+            <label className="toolbar__navigation-profile-label">Profile</label>
+          </div>
+          <div className="toolbar__navigation-dropdown">
+            <div className="toolbar__navigation-profile">
+              <img
+                src="https://freeiconshop.com/wp-content/uploads/edd/person-flat-128x128.png"
+                alt="Profile"
+                className="toolbar__navigation-profile-img"
+              />
+              <div className="toolbar__navigation-profile-div">
+                <label className="profile__name-label">Shahid Hassan</label>
+                <a type="button" className="profile__edit-btn">
+                  Edit Profile
+                </a>
+              </div>
+            </div>
+            <a className="toolbar__navigation-dropdown-item" href="/logout">
+              Logout
+            </a>
+          </div>
+        </div>
       </li>
     </ul>
   );

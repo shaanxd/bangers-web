@@ -44,12 +44,14 @@
 .toolbar__navigation-link {
   color: white;
   text-decoration: none;
-  padding: 0rem 1rem;
+  padding: 20px 30px;
   display: flex;
   justify-content: center;
   align-items: center;
   box-sizing: border-box;
   border-bottom: 3px solid #212121;
+  font-style: inherit;
+  font-weight: 600;
 }
 
 .toolbar__navigation-items li {
@@ -84,6 +86,99 @@
 .toolbar__logo-dark {
   font-family: inherit;
   font-weight: 1000;
+}
+
+.toolbar__navigation-div {
+  height: 100%;
+  position: relative;
+}
+
+.toolbar__navigation-dropdown {
+  position: absolute;
+  right: 0;
+  background-color: #212121;
+  display: none;
+}
+
+.toolbar__navigation-div:hover .toolbar__navigation-dropdown {
+  display: block;
+}
+
+.toolbar__navigation-dropdown-item {
+  font-style: inherit;
+  font-weight: 600;
+  padding: 20px 30px;
+  display: inline-block;
+  text-decoration: none;
+  color: white;
+  border-bottom: 3px solid #212121;
+  width: 100%;
+  box-sizing: border-box;
+  text-align: center;
+}
+
+.toolbar__navigation-dropdown-item:hover {
+  border-bottom: 3px solid rgb(231, 8, 135);
+}
+
+.toolbar__navigation-display-div {
+  color: white;
+  text-decoration: none;
+  padding: 20px 30px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  box-sizing: border-box;
+  border-bottom: 3px solid #212121;
+  height: 100%;
+}
+
+.toolbar__navigation-display-div:hover,
+.toolbar__navigation-display-div:active {
+  border-bottom: 3px solid rgb(231, 8, 135);
+}
+
+.toolbar__navigation-profile-label {
+  font-style: inherit;
+  font-weight: 600;
+  margin-left: 15px;
+}
+
+.toolbar__navigation-profile {
+  display: flex;
+  padding: 20px;
+}
+
+.toolbar__navigation-profile-img {
+  height: 50px;
+  width: 50px;
+}
+
+.toolbar__navigation-profile-div {
+  white-space: nowrap;
+  display: flex;
+  margin-left: 10px;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+}
+
+.profile__edit-btn {
+  text-decoration: none;
+  color: white;
+  font-family: inherit;
+  font-size: 0.8rem;
+  font-weight: 400;
+}
+
+.profile__edit-btn:hover {
+  border-bottom: 1px solid rgb(231, 8, 135);
+}
+
+.profile__name-label {
+  color: white;
+  font-family: inherit;
+  font-weight: 600;
 }
 
 @media (max-width: 768px) {
