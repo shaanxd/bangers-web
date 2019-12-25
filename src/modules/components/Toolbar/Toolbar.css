@@ -76,6 +76,16 @@
   z-index: 15;
 }
 
+.toolbar__logo-light {
+  font-family: inherit;
+  font-weight: 300;
+}
+
+.toolbar__logo-dark {
+  font-family: inherit;
+  font-weight: 1000;
+}
+
 @media (max-width: 768px) {
   .toolbar__navigation-items {
     display: none;
