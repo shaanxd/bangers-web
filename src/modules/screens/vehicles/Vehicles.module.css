@@ -1,34 +1,52 @@
 .parentDiv {
   height: 100%;
-  padding-top: 80px;
+  padding-top: 100px;
   box-sizing: border-box;
   display: flex;
-  flex-direction: row-reverse;
+  justify-content: center;
+  padding-left: 20px;
+  padding-right: 20px;
+  padding-bottom: 20px;
+}
+
+.childDiv {
+  display: flex;
+  padding: 10px;
+  width: 1024px;
+  box-sizing: border-box;
 }
 
 .vehicleListDiv {
   display: flex;
   flex-wrap: wrap;
-  flex: 1;
   overflow: auto;
-  align-items: center;
-  justify-content: center;
+  flex-direction: row;
+  padding: 10px;
 }
 
 .filterListDiv {
   height: calc(100% - 2px);
-  padding: 40px;
+  padding: 30px;
   min-width: 300px;
   box-sizing: border-box;
+  background-color: lightgray;
 }
 
 .vehicleDiv {
-  max-width: 250px;
+  flex: 1;
+  min-width: 250px;
 }
 
 .clearBtn {
   margin-top: 10px;
   padding: 10px 30px;
+  width: 100%;
+  background-color: transparent;
+  border: 1px solid grey;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen,
+    Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+  font-size: 1rem;
+  font-weight: 600;
 }
 
 .vehicleTypeHeader {
@@ -40,9 +58,9 @@
 }
 
 @media (max-width: 1024px) {
-  .parentDiv {
-    display: block;
-    flex-direction: column-reverse;
+  .childDiv {
+    flex-direction: column;
+    width: 100%;
   }
   .filterListDiv {
     height: auto;

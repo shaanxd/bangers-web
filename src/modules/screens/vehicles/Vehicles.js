@@ -113,7 +113,7 @@ const VehiclesScreen = props => {
           className={styles.clearBtn}
           onClick={handleClearClick}
         >
-          Clear Filter
+          CLEAR
         </button>
       </div>
     );
@@ -140,12 +140,14 @@ const VehiclesScreen = props => {
 
   return (
     <div className={styles.parentDiv}>
-      {renderVehicleFilters()}
-      {vehiclesLoading
-        ? renderVehicleLoading()
-        : vehiclesError
-        ? renderVehicleError()
-        : renderVehicleList()}
+      <div className={styles.childDiv}>
+        {renderVehicleFilters()}
+        {vehiclesLoading
+          ? renderVehicleLoading()
+          : vehiclesError
+          ? renderVehicleError()
+          : renderVehicleList()}
+      </div>
     </div>
   );
 };
