@@ -4,13 +4,14 @@
   align-items: center;
   justify-content: center;
   box-sizing: border-box;
+  padding-top: 80px;
+  overflow: auto;
 }
 
 .childDiv {
   display: flex;
   flex-direction: row;
   align-items: center;
-  padding: 30px;
   width: 1024px;
   box-sizing: border-box;
 }
@@ -31,6 +32,7 @@
   flex-direction: column;
   flex: 1;
   padding: 30px;
+  box-sizing: border-box;
 }
 
 .vehicleHeader {
@@ -66,21 +68,20 @@
 }
 
 @media (max-width: 1024px) {
+  .parentDiv {
+    display: block;
+  }
   .childDiv {
     flex-direction: column;
-    align-items: stretch;
     width: 100%;
-    padding: 10px;
-  }
-
-  .image {
-    flex: none;
-    max-width: 50%;
-    align-self: center;
-    justify-self: center;
   }
 
   .carousalDiv {
-    text-align: center;
+    width: 80%;
+    margin-top: 30px;
+  }
+
+  .bookingDiv {
+    width: 100%;
   }
 }

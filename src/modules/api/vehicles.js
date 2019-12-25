@@ -19,3 +19,13 @@ export const getEquipment = () => {
   const endpoint = 'bookings/equipment';
   return GET(endpoint);
 };
+
+export const getVehicleList = typeId => {
+  const endpoint = typeId ? `vehicles?type=${typeId}` : 'vehicles';
+  return GET(endpoint);
+};
+
+export const getVehicleTypes = () => {
+  const endpoint = 'vehicles/vehicle-types';
+  return GET(endpoint);
+};

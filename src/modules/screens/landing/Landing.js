@@ -22,6 +22,10 @@ const LandingScreen = props => {
     props.history.push(`/vehicles/${vehicleID}`);
   };
 
+  const handleViewMoreClick = () => {
+    props.history.push('/vehicles');
+  };
+
   return (
     <div className={styles.rootDiv}>
       <div className={styles.landingDiv} />
@@ -32,6 +36,9 @@ const LandingScreen = props => {
           error={carouselListError}
           onBookClick={handleOnBookClick}
         />
+        <button onClick={handleViewMoreClick} className={styles.viewMoreBtn}>
+          View more
+        </button>
       </div>
     </div>
   );
