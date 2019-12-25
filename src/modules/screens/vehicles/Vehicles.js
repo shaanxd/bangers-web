@@ -14,7 +14,9 @@ const VehiclesScreen = props => {
 
     vehicleTypes: [],
     vehicleTypesLoading: true,
-    vehicleTypesError: null
+    vehicleTypesError: null,
+
+    selectedFilterType: null
   });
 
   useEffect(
@@ -32,7 +34,8 @@ const VehiclesScreen = props => {
     vehiclesLoading,
     vehicleTypes,
     vehicleTypesLoading,
-    vehicleTypesError
+    vehicleTypesError,
+    selectedFilterType
   } = state;
 
   const getVehiclesFromAPI = async vehicleType => {
@@ -58,8 +61,21 @@ const VehiclesScreen = props => {
   };
 
   const handleOnTypeChange = ({ target: { value } }) => {
-    setState({ vehiclesLoading: true, vehiclesError: null });
+    setState({
+      vehiclesLoading: true,
+      vehiclesError: null,
+      selectedFilterType: value
+    });
     getVehiclesFromAPI(value);
+  };
+
+  const handleClearClick = () => {
+    setState({
+      vehiclesLoading: true,
+      vehiclesError: null,
+      selectedFilterType: null
+    });
+    getVehiclesFromAPI();
   };
 
   const renderVehicleItem = (vehicle, key) => {
@@ -88,8 +104,9 @@ const VehiclesScreen = props => {
             name="vehicleType"
             onChange={handleOnTypeChange}
             disabled={vehiclesLoading}
+            checked={selectedFilterType === vehicleType.id}
           />
-          <label>{vehicleType.type}</label>
+          <label className={styles.vehicleTypeLabel}>{vehicleType.type}</label>
         </div>
       );
     });
@@ -105,7 +122,19 @@ const VehiclesScreen = props => {
     ) : (
       renderVehicleFilterList()
     );
-    return <div className={styles.filterListDiv}>{componentToRender}</div>;
+    return (
+      <div className={styles.filterListDiv}>
+        <label className={styles.vehicleTypeHeader}>VEHICLE TYPE:</label>
+        {componentToRender}
+        <button
+          type="button"
+          className={styles.clearBtn}
+          onClick={handleClearClick}
+        >
+          Clear Filter
+        </button>
+      </div>
+    );
   };
 
   const renderVehicleLoading = () => {

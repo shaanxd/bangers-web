@@ -9,21 +9,32 @@
 .vehicleListDiv {
   display: flex;
   flex-wrap: wrap;
-  justify-content: space-evenly;
-  padding-top: 20px;
-  padding-bottom: 20px;
   flex: 1;
   overflow: auto;
+  align-items: center;
+  justify-content: center;
 }
 
 .filterListDiv {
   height: calc(100% - 2px);
-  min-width: 400px;
-  border: 1px solid black;
+  border: 1px solid blue;
+  padding: 40px;
+  box-sizing: border-box;
 }
 
 .vehicleDiv {
-  max-width: 300px;
+  max-width: 250px;
+}
+
+.clearBtn {
+  padding: 10px 30px;
+}
+
+.vehicleTypeHeader {
+  font-style: inherit;
+  font-size: 1rem;
+  font-weight: 600;
+  border-bottom: 1px solid grey;
 }
 
 @media (max-width: 1024px) {
@@ -33,6 +44,5 @@
   }
   .filterListDiv {
     height: auto;
-    padding: 10px;
   }
 }
