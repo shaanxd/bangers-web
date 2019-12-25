@@ -5,6 +5,7 @@ import { useMergedState } from '../../helper/useMergedState';
 import styles from './Vehicles.module.css';
 import { getVehicleList, getVehicleTypes } from '../../api/vehicles';
 import { Vehicle } from '../../components';
+import Select from 'react-select';
 
 const VehiclesScreen = props => {
   const [state, setState] = useMergedState({
@@ -50,7 +51,11 @@ const VehiclesScreen = props => {
   const getVehicleTypesFromAPI = async () => {
     try {
       const response = await getVehicleTypes();
-      setState({ vehicleTypes: response, vehicleTypesLoading: false });
+      const vehicleTypes = response.map(({ id, type }) => ({
+        value: id,
+        label: type
+      }));
+      setState({ vehicleTypes, vehicleTypesLoading: false });
     } catch (err) {
       setState({ vehicleTypesError: err.message, vehicleTypesLoading: false });
     }
@@ -60,11 +65,12 @@ const VehiclesScreen = props => {
     console.log('Booked');
   };
 
-  const handleOnTypeChange = ({ target: { value } }) => {
+  const handleOnTypeChange = selectedValue => {
+    const { value } = selectedValue;
     setState({
       vehiclesLoading: true,
       vehiclesError: null,
-      selectedFilterType: value
+      selectedFilterType: selectedValue
     });
     getVehiclesFromAPI(value);
   };
@@ -94,38 +100,14 @@ const VehiclesScreen = props => {
   };
 
   const renderVehicleFilterList = () => {
-    const listItems = vehicleTypes.map((vehicleType, index) => {
-      return (
-        <div className={styles.vehicleTypeDivChild}>
-          <input
-            type="radio"
-            value={vehicleType.id}
-            className={styles.vehicleTypeBtn}
-            name="vehicleType"
-            onChange={handleOnTypeChange}
-            disabled={vehiclesLoading}
-            checked={selectedFilterType === vehicleType.id}
-          />
-          <label className={styles.vehicleTypeLabel}>{vehicleType.type}</label>
-        </div>
-      );
-    });
-
-    return <div className={styles.vehicleTypeDivParent}>{listItems}</div>;
-  };
-
-  const renderVehicleFilters = () => {
-    const componentToRender = vehicleTypesLoading ? (
-      <label>Loading</label>
-    ) : vehicleTypesError ? (
-      <label>{vehicleTypesError}</label>
-    ) : (
-      renderVehicleFilterList()
-    );
     return (
-      <div className={styles.filterListDiv}>
+      <div className={styles.vehicleTypeDivParent}>
         <label className={styles.vehicleTypeHeader}>VEHICLE TYPE:</label>
-        {componentToRender}
+        <Select
+          value={selectedFilterType}
+          onChange={handleOnTypeChange}
+          options={vehicleTypes}
+        />
         <button
           type="button"
           className={styles.clearBtn}
@@ -137,6 +119,17 @@ const VehiclesScreen = props => {
     );
   };
 
+  const renderVehicleFilters = () => {
+    const componentToRender = vehicleTypesLoading ? (
+      <label>Loading</label>
+    ) : vehicleTypesError ? (
+      <label>{vehicleTypesError}</label>
+    ) : (
+      renderVehicleFilterList()
+    );
+    return <div className={styles.filterListDiv}>{componentToRender}</div>;
+  };
+
   const renderVehicleLoading = () => {
     return <div className={styles.loadingDiv}>Loading</div>;
   };
@@ -144,8 +137,6 @@ const VehiclesScreen = props => {
   const renderVehicleError = () => {
     return <div className={styles.errorDiv}>{vehiclesError}</div>;
   };
-
-  console.log(state);
 
   return (
     <div className={styles.parentDiv}>
