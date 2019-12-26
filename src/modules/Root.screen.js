@@ -7,7 +7,8 @@ import {
   Logout,
   AuthRedirect,
   Vehicle,
-  Vehicles
+  Vehicles,
+  Profile
 } from './screens';
 import { connect } from 'react-redux';
 import { check_auth_state } from './actions/auth';
@@ -63,6 +64,9 @@ const RootScreen = props => {
             </Route>
             <Route exact path="/vehicles/:id">
               <Vehicle />
+            </Route>
+            <Route exact path="/profile">
+              <Profile />
             </Route>
           </Switch>
         </main>

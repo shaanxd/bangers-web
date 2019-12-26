@@ -28,7 +28,6 @@ const LandingScreen = props => {
 
   return (
     <div className={styles.rootDiv}>
-      <div className={styles.landingDiv} />
       <div className={styles.vehicleListDiv}>
         <VehicleCarousal
           vehicles={carouselList}
@@ -40,6 +39,7 @@ const LandingScreen = props => {
           View more
         </button>
       </div>
+      {/* <div className={styles.landingDiv} /> */}
     </div>
   );
 };
