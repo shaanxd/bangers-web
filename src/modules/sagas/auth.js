@@ -27,9 +27,9 @@ import {
 
 import { postLogin, postSignup } from '../api/auth';
 
-function* handleLoginSaga({ type, payload: { username, password } }) {
+function* handleLoginSaga({ type, payload: { email, password } }) {
   try {
-    const response = yield call(postLogin, username, password);
+    const response = yield call(postLogin, email, password);
     const expirationDate = Moment()
       .add(response.expiresInSeconds, 's')
       .format();

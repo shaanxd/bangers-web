@@ -110,7 +110,7 @@ const VehicleScreen = props => {
       if (authDetails) {
         const startDateUTC = getDateStringInUTC(startDate);
         const returnDateUTC = getDateStringInUTC(returnDate);
-        const response = await createBooking(
+        await createBooking(
           {
             startDate: startDateUTC,
             returnDate: returnDateUTC,

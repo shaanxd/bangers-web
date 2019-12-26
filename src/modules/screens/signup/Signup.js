@@ -16,9 +16,9 @@ const SignupScreen = props => {
   const [confirmVisible, setConfirmVisible] = useState(false);
 
   const handleSignupSubmit = (values, { setSubmitting }) => {
-    const { username, email, password, firstname, lastname } = values;
+    const { email, password, firstname, lastname } = values;
 
-    props.signupUser({ username, email, password, firstname, lastname });
+    props.signupUser({ email, password, firstname, lastname });
   };
 
   const handlePasswordVisible = () => {
@@ -50,7 +50,6 @@ const SignupScreen = props => {
         initialValues={{
           firstname: '',
           lastname: '',
-          username: '',
           password: '',
           email: '',
           confirmPassword: ''
@@ -58,7 +57,6 @@ const SignupScreen = props => {
         validationSchema={Yup.object().shape({
           firstname: Yup.string().required('Firstname is required'),
           lastname: Yup.string().required('Lastname is required'),
-          username: Yup.string().required('Username is required'),
           email: Yup.string()
             .email('Invalid Email')
             .required('Email is required'),
@@ -104,16 +102,6 @@ const SignupScreen = props => {
                   </ErrorMessage>
                 </div>
               </div>
-
-              <Field
-                className="form__input"
-                type="username"
-                name="username"
-                placeholder="Enter Username"
-              />
-              <ErrorMessage name="username">
-                {message => <label className="form__error">{message}</label>}
-              </ErrorMessage>
               <Field
                 className="form__input"
                 type="email"

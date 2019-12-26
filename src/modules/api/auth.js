@@ -1,8 +1,8 @@
 import { POST } from './core';
 
-export const postLogin = (username, password) => {
+export const postLogin = (email, password) => {
   const endpoint = 'auth/login';
-  return POST(endpoint, { username, password });
+  return POST(endpoint, { email, password });
 };
 
 export const postSignup = userData => {

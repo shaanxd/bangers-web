@@ -17,8 +17,8 @@ const LoginScreen = props => {
   };
   const { isLoggingIn, loginError } = props.auth;
 
-  const handleLoginSubmit = ({ username, password }, { setSubmitting }) => {
-    props.loginUser({ username, password });
+  const handleLoginSubmit = ({ email, password }, { setSubmitting }) => {
+    props.loginUser({ email, password });
   };
 
   useEffect(() => {
@@ -36,9 +36,11 @@ const LoginScreen = props => {
   return (
     <div className="login__body">
       <Formik
-        initialValues={{ username: '', password: '' }}
+        initialValues={{ email: '', password: '' }}
         validationSchema={Yup.object().shape({
-          username: Yup.string().required('Username is required'),
+          email: Yup.string()
+            .email('Invalid email')
+            .required('Email is required'),
           password: Yup.string().required('Password is required')
         })}
         onSubmit={handleLoginSubmit}
@@ -50,11 +52,11 @@ const LoginScreen = props => {
 
               <Field
                 className="form__input"
-                type="username"
-                name="username"
-                placeholder="Enter Username"
+                type="email"
+                name="email"
+                placeholder="Enter Email"
               />
-              <ErrorMessage name="username">
+              <ErrorMessage name="email">
                 {message => <label className="form__error">{message}</label>}
               </ErrorMessage>
               <div className="form__input-parent">
