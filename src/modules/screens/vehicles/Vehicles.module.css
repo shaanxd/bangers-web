@@ -51,7 +51,7 @@
 
 .vehicleTypeHeader {
   display: inline-block;
-  font-style: inherit;
+  font-family: inherit;
   font-size: 1rem;
   font-weight: 600;
   margin-bottom: 10px;

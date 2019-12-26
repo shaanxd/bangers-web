@@ -50,7 +50,7 @@
   align-items: center;
   box-sizing: border-box;
   border-bottom: 3px solid #212121;
-  font-style: inherit;
+  font-family: inherit;
   font-weight: 600;
 }
 
@@ -105,7 +105,7 @@
 }
 
 .toolbar__navigation-dropdown-item {
-  font-style: inherit;
+  font-family: inherit;
   font-weight: 600;
   padding: 20px 30px;
   display: inline-block;
@@ -138,7 +138,7 @@
 }
 
 .toolbar__navigation-profile-label {
-  font-style: inherit;
+  font-family: inherit;
   font-weight: 600;
   margin-left: 15px;
 }

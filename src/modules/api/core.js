@@ -3,12 +3,18 @@ export const POST = (endpoint, requestBody = {}, authorization = null) => {
   const body = createRequestBody(requestBody);
   const headers = createRequestHeader(authorization);
 
+  return APIPOST(url, body, headers);
+};
+
+export const GET = (endpoint, authorization = null) => {
+  const url = createRequestUrl(endpoint);
+  const headers = createRequestHeader(authorization);
+
   return new Promise(async (resolve, reject) => {
     try {
       const response = await fetch(url, {
-        method: 'POST',
-        headers,
-        body
+        method: 'GET',
+        headers
       });
       const data = await response.json();
       if (response.status >= 400) {
@@ -21,15 +27,21 @@ export const POST = (endpoint, requestBody = {}, authorization = null) => {
   });
 };
 
-export const GET = (endpoint, authorization = null) => {
+export const FDPOST = (endpoint, requestBody = {}, authorization = null) => {
   const url = createRequestUrl(endpoint);
-  const headers = createRequestHeader(authorization);
+  const body = createFormDataBody(requestBody);
+  const headers = createFormDataHeader(authorization);
 
+  return APIPOST(url, body, headers);
+};
+
+const APIPOST = (url, body, headers) => {
   return new Promise(async (resolve, reject) => {
     try {
       const response = await fetch(url, {
-        method: 'GET',
-        headers
+        method: 'POST',
+        headers,
+        body
       });
       const data = await response.json();
       if (response.status >= 400) {
@@ -59,4 +71,22 @@ const createRequestHeader = authorization => {
     : {
         'Content-Type': 'application/json'
       };
+};
+
+const createFormDataBody = obj => {
+  let data = new FormData();
+  for (let key in obj) {
+    if (obj.hasOwnProperty(key)) {
+      data.append(key, obj[key]);
+    }
+  }
+  return data;
+};
+
+const createFormDataHeader = authorization => {
+  return authorization
+    ? {
+        Authorization: `Bearer ${authorization}`
+      }
+    : {};
 };
