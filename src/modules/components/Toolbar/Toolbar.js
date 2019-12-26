@@ -56,7 +56,7 @@ const Toolbar = props => {
               />
               <div className="toolbar__navigation-profile-div">
                 <label className="profile__name-label">Shahid Hassan</label>
-                <a type="button" className="profile__edit-btn">
+                <a href="/profile" type="button" className="profile__edit-btn">
                   Edit Profile
                 </a>
               </div>

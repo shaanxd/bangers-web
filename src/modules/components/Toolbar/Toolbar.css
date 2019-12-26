@@ -111,14 +111,13 @@
   display: inline-block;
   text-decoration: none;
   color: white;
-  border-bottom: 3px solid #212121;
   width: 100%;
   box-sizing: border-box;
   text-align: center;
 }
 
 .toolbar__navigation-dropdown-item:hover {
-  border-bottom: 3px solid rgb(231, 8, 135);
+  background-color: rgb(231, 8, 135);
 }
 
 .toolbar__navigation-display-div {
@@ -146,7 +145,7 @@
 
 .toolbar__navigation-profile {
   display: flex;
-  padding: 20px;
+  padding: 20px 30px;
 }
 
 .toolbar__navigation-profile-img {
@@ -157,7 +156,7 @@
 .toolbar__navigation-profile-div {
   white-space: nowrap;
   display: flex;
-  margin-left: 10px;
+  margin-left: 20px;
   justify-content: center;
   align-items: center;
   flex-direction: column;
