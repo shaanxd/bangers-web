@@ -1,6 +1,8 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { connect } from 'react-redux';
+import { useDropzone } from 'react-dropzone';
 
+import { Icomoon } from '../../components';
 import { useMergedState } from '../../helper/useMergedState';
 import { addDocument } from '../../api/user';
 
@@ -8,21 +10,48 @@ import styles from './Profile.module.css';
 
 const ProfileScreen = props => {
   const [state, setState] = useMergedState({
-    documentList: [],
+    documents: [],
     documentLoading: true,
     documentError: null,
-    selectedDocument: null
+
+    file: null,
+    fileType: null,
+    filePreview: null
   });
-  const handleOnEditClick = () => {};
-  const handleFileChange = ({ target: { files } }) => {
-    setState({ selectedDocument: files[0] });
+
+  const { file, filePreview } = state;
+
+  useEffect(
+    () => () => {
+      URL.revokeObjectURL(filePreview);
+    },
+    [filePreview]
+  );
+
+  const onDrop = acceptedFiles => {
+    if (acceptedFiles.length > 0) {
+      setState({
+        file: acceptedFiles[0],
+        filePreview: URL.createObjectURL(acceptedFiles[0])
+      });
+    }
   };
+
+  const { getRootProps, getInputProps } = useDropzone({
+    multiple: false,
+    accept: 'image/jpeg',
+    onDrop,
+    disabled: file
+  });
+
+  const handleOnEditClick = () => {};
+
   const handleFileUpload = async () => {
     try {
       const response = await addDocument(
         {
           type: 'DRIVING_LICENSE',
-          document: state.selectedDocument
+          document: state.file
         },
         props.auth.authDetails.authToken
       );
@@ -31,6 +60,11 @@ const ProfileScreen = props => {
       console.log(err);
     }
   };
+
+  const handleRemoveFile = () => {
+    setState({ file: null, filePreview: null });
+  };
+
   return (
     <div className={styles.parentDiv}>
       <div className={styles.innerDiv}>
@@ -52,8 +86,39 @@ const ProfileScreen = props => {
         </div>
         <div className={styles.editDiv}>
           <div className={styles.rightDiv}>
-            <input type="file" name="document" onChange={handleFileChange} />
-            <button type="button" onClick={handleFileUpload}>
+            <div {...getRootProps({ className: styles.dropzone })}>
+              <input {...getInputProps()} />
+              {file ? (
+                <div className={styles.displayDiv}>
+                  <img
+                    className={styles.image}
+                    src={filePreview}
+                    alt="Selected"
+                  />
+                  <div className={styles.imageDetailsDiv}>
+                    <label className={styles.imageLabel}>{file.name}</label>
+                    <button
+                      className={styles.removeBtn}
+                      type="button"
+                      onClick={handleRemoveFile}
+                    >
+                      <Icomoon icon="cross" color="#000000" size={15} />
+                    </button>
+                  </div>
+                  {/* <p>Drag 'n' drop some files here, or click to select files</p> */}
+                </div>
+              ) : (
+                <div className={styles.activeDiv}>
+                  <p>Drag 'n' drop some files here, or click to select files</p>
+                </div>
+              )}
+            </div>
+            <button
+              type="button"
+              className={styles.uploadBtn}
+              onClick={handleFileUpload}
+              disabled={file === null}
+            >
               Upload
             </button>
           </div>

@@ -51,11 +51,11 @@
 .image {
   height: 120px;
   width: 120px;
+  vertical-align: bottom;
 }
 
 .editDiv {
-  border: 1px solid red;
-  margin-top: 20px;
+  margin-top: 10px;
   display: flex;
   flex-direction: row;
 }
@@ -67,7 +67,78 @@
 }
 
 .rightDiv {
-  border: 1px solid blue;
   flex: 1;
-  height: 100px;
+  box-sizing: border-box;
+}
+
+.activeDiv {
+  padding: 20px;
+}
+
+.dropzone {
+  border: 1px solid black;
+  background-color: #fafafa;
+  display: flex;
+  flex-direction: column;
+  border: 2px dashed gray;
+  border-radius: 2px;
+  color: #bdbdbd;
+  outline: none;
+  align-items: center;
+  justify-content: center;
+  font-family: inherit;
+  font-weight: 600;
+  text-align: center;
+}
+
+.uploadBtn {
+  margin-top: 10px;
+  width: 100%;
+  padding: 20px;
+  border: 1px solid gray;
+  background-color: transparent;
+  font-family: inherit;
+  font-weight: 600;
+  color: gray;
+}
+
+.displayDiv {
+  position: relative;
+  padding: 20px;
+  display: flex;
+  opacity: 1;
+}
+
+.imageDetailsDiv {
+  padding: 10px;
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+.imageLabel {
+  font-size: 0.9rem;
+  color: gray;
+}
+
+.removeBtn {
+  background-color: transparent;
+  border: none;
+  width: 120px;
+  padding: 10px 20px;
+  margin-top: 10px;
+  border: 1px solid gray;
+  cursor: pointer;
+}
+
+@media (max-width: 400px) {
+  .displayDiv {
+    flex-direction: column;
+  }
+  .imageDetailsDiv {
+    padding: 0;
+    margin-top: 10px;
+  }
 }
