@@ -69,6 +69,7 @@
 .rightDiv {
   flex: 1;
   box-sizing: border-box;
+  padding: 10px;
 }
 
 .activeDiv {
@@ -89,6 +90,7 @@
   font-family: inherit;
   font-weight: 600;
   text-align: center;
+  margin-bottom: 10px;
 }
 
 .uploadBtn {
@@ -107,20 +109,7 @@
   padding: 20px;
   display: flex;
   opacity: 1;
-}
-
-.imageDetailsDiv {
-  padding: 10px;
-  box-sizing: border-box;
-  display: flex;
   flex-direction: column;
-  align-items: center;
-  justify-content: center;
-}
-
-.imageLabel {
-  font-size: 0.9rem;
-  color: gray;
 }
 
 .removeBtn {
@@ -133,12 +122,43 @@
   cursor: pointer;
 }
 
+.fileListDiv {
+  border: 1px solid gray;
+  padding: 10px;
+  margin-bottom: 10px;
+  box-sizing: border-box;
+}
+
+.fileListItem {
+  border-bottom: 1px solid gray;
+  padding: 15px;
+  display: flex;
+  justify-content: space-between;
+}
+
+.imageLabel {
+  text-decoration: none;
+}
+
+.imageLabel:hover {
+  color: red;
+}
+
+.errorDiv {
+  margin-top: 10px;
+  padding: 10px;
+  text-align: center;
+  color: red;
+}
+
 @media (max-width: 400px) {
   .displayDiv {
     flex-direction: column;
   }
-  .imageDetailsDiv {
-    padding: 0;
-    margin-top: 10px;
+}
+
+@media (max-width: 700px) {
+  .editDiv {
+    flex-direction: column;
   }
 }

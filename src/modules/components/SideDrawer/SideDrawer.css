@@ -28,14 +28,15 @@
   margin: 0.5rem 0;
 }
 
-.side-drawer a {
+.side-drawer span {
   color: red;
   text-decoration: none;
   font-size: 1.1rem;
+  cursor: pointer;
 }
 
-.side-drawer a:hover,
-.side-drawer a:active {
+.side-drawer span:hover,
+.side-drawer span:active {
   color: blue;
 }
 

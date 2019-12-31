@@ -25,11 +25,12 @@
   height: 100%;
 }
 
-.toolbar__logo a {
+.toolbar__logo span {
   color: white;
   text-decoration: none;
   font-size: 1.5rem;
   text-align: center;
+  cursor: pointer;
 }
 
 .spacer {
@@ -52,6 +53,7 @@
   border-bottom: 3px solid #212121;
   font-family: inherit;
   font-weight: 600;
+  cursor: pointer;
 }
 
 .toolbar__navigation-items li {
@@ -114,6 +116,7 @@
   width: 100%;
   box-sizing: border-box;
   text-align: center;
+  cursor: pointer;
 }
 
 .toolbar__navigation-dropdown-item:hover {
@@ -168,6 +171,7 @@
   font-family: inherit;
   font-size: 0.8rem;
   font-weight: 400;
+  cursor: pointer;
 }
 
 .profile__edit-btn:hover {

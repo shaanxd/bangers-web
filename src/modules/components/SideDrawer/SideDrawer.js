@@ -7,20 +7,33 @@ import './SideDrawer.css';
 const SideDrawer = props => {
   let drawerStyles = props.isOpen ? 'side-drawer open' : 'side-drawer';
   const { authDetails } = props.auth;
+
+  const handleLoginClick = () => {
+    props.history.push('/login');
+  };
+
+  const handleSignupClick = () => {
+    props.history.push('/signup');
+  };
+
+  const handleLogoutClick = () => {
+    props.history.push('/logout');
+  };
+
   const renderUnauthRoutes = () => (
     <ul>
       <li>
-        <a href="/login">Login</a>
+        <span onClick={handleLoginClick}>Login</span>
       </li>
       <li>
-        <a href="/signup">Signup</a>
+        <span onClick={handleSignupClick}>Signup</span>
       </li>
     </ul>
   );
   const renderAuthRoutes = () => (
     <ul>
       <li>
-        <a href="/logout">Logout</a>
+        <span onClick={handleLogoutClick}>Logout</span>
       </li>
     </ul>
   );

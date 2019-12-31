@@ -8,32 +8,53 @@ import './Toolbar.css';
 
 const Toolbar = props => {
   const { authDetails } = props.auth;
+
+  const handleProfileClick = () => {
+    props.history.push('/profile');
+  };
+
+  const handleLoginClick = () => {
+    props.history.push('/login');
+  };
+
+  const handleSignupClick = () => {
+    props.history.push('/signup');
+  };
+
+  const handleLogoutClick = () => {
+    props.history.push('/logout');
+  };
+
+  const handleHomeClick = () => {
+    props.history.push('/');
+  };
+
   const renderUnauthRoutes = () => {
     return (
       <ul>
         <li>
-          <a
+          <span
             className={
               props.location.pathname === '/login'
                 ? 'toolbar__navigation-link active'
                 : 'toolbar__navigation-link'
             }
-            href="/login"
+            onClick={handleLoginClick}
           >
             Login
-          </a>
+          </span>
         </li>
         <li>
-          <a
+          <span
             className={
               props.location.pathname === '/signup'
                 ? 'toolbar__navigation-link active'
                 : 'toolbar__navigation-link'
             }
-            href="/signup"
+            onClick={handleSignupClick}
           >
             Signup
-          </a>
+          </span>
         </li>
       </ul>
     );
@@ -56,14 +77,20 @@ const Toolbar = props => {
               />
               <div className="toolbar__navigation-profile-div">
                 <label className="profile__name-label">Shahid Hassan</label>
-                <a href="/profile" type="button" className="profile__edit-btn">
+                <span
+                  onClick={handleProfileClick}
+                  className="profile__edit-btn"
+                >
                   Edit Profile
-                </a>
+                </span>
               </div>
             </div>
-            <a className="toolbar__navigation-dropdown-item" href="/logout">
+            <span
+              className="toolbar__navigation-dropdown-item"
+              onClick={handleLogoutClick}
+            >
               Logout
-            </a>
+            </span>
           </div>
         </div>
       </li>
@@ -80,10 +107,10 @@ const Toolbar = props => {
           <DrawerToggleButton onClick={props.drawerClickHandler} />
         </div>
         <div className="toolbar__logo">
-          <a href="/">
+          <span onClick={handleHomeClick}>
             <span className="toolbar__logo-light">BANGERS</span>
             <span className="toolbar__logo-dark">RENTALS</span>
-          </a>
+          </span>
         </div>
         <div className="spacer" />
         <div className="toolbar__navigation-items">{navigationRoutes}</div>

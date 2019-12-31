@@ -1,10 +1,14 @@
 import React, { useEffect } from 'react';
 import { connect } from 'react-redux';
 import { useDropzone } from 'react-dropzone';
+import { withRouter } from 'react-router-dom';
+import Select from 'react-select';
 
 import { Icomoon } from '../../components';
 import { useMergedState } from '../../helper/useMergedState';
-import { addDocument } from '../../api/user';
+import { addDocument, getUser, getDocuments } from '../../api/user';
+import { documentTypes, documentTypesArray } from '../../constants/constants';
+import { getImageUrl } from '../../helper/vehicleHelper';
 
 import styles from './Profile.module.css';
 
@@ -16,10 +20,24 @@ const ProfileScreen = props => {
 
     file: null,
     fileType: null,
-    filePreview: null
+    filePreview: null,
+
+    profile: null,
+    profileLoading: true,
+    profileError: null
   });
 
-  const { file, filePreview } = state;
+  const { file, filePreview, documents, documentError, fileType } = state;
+  const {
+    auth: { authDetails }
+  } = props;
+
+  useEffect(() => {
+    if (!authDetails) {
+      props.history.replace('/');
+    }
+    //eslint-disable-next-line
+  }, []);
 
   useEffect(
     () => () => {
@@ -27,6 +45,40 @@ const ProfileScreen = props => {
     },
     [filePreview]
   );
+
+  useEffect(() => {
+    getUserFromAPI();
+    getDocumentsFromAPI();
+    //eslint-disable-next-line
+  }, []);
+
+  const getUserFromAPI = async () => {
+    try {
+      const {
+        auth: {
+          authDetails: { authToken }
+        }
+      } = props;
+      const response = await getUser(authToken);
+      setState({ profile: response, profileLoading: false });
+    } catch (err) {
+      setState({ profileLoading: false, profileError: err.message });
+    }
+  };
+
+  const getDocumentsFromAPI = async () => {
+    try {
+      const {
+        auth: {
+          authDetails: { authToken }
+        }
+      } = props;
+      const response = await getDocuments(authToken);
+      setState({ documents: [...response], documentLoading: false });
+    } catch (err) {
+      setState({ documentLoading: false, documentError: err.message });
+    }
+  };
 
   const onDrop = acceptedFiles => {
     if (acceptedFiles.length > 0) {
@@ -46,23 +98,64 @@ const ProfileScreen = props => {
 
   const handleOnEditClick = () => {};
 
+  const handleTypeChange = selectedValue => {
+    setState({ fileType: selectedValue.value });
+  };
+
   const handleFileUpload = async () => {
+    const {
+      auth: {
+        authDetails: { authToken }
+      }
+    } = props;
     try {
-      const response = await addDocument(
-        {
-          type: 'DRIVING_LICENSE',
-          document: state.file
-        },
-        props.auth.authDetails.authToken
-      );
-      console.log(response);
+      if (fileType) {
+        setState({ documentLoading: true, documentError: null });
+        const response = await addDocument(
+          {
+            type: fileType,
+            document: state.file
+          },
+          authToken
+        );
+        setState({
+          documentLoading: false,
+          documents: [...response],
+          file: null
+        });
+      } else {
+        setState({ documentError: 'Please select a document type.' });
+      }
     } catch (err) {
-      console.log(err);
+      setState({ documentLoading: false, documentError: err.message });
     }
   };
 
   const handleRemoveFile = () => {
     setState({ file: null, filePreview: null });
+  };
+
+  const renderFileList = () => {
+    const filesToRender = documents.map(document => {
+      return (
+        <div className={styles.fileListItem} key={document.id}>
+          <label className={styles.fileTypeLabel}>
+            {document.type === documentTypes.DRIVING_LICENSE
+              ? 'Driving License'
+              : 'Other Document'}
+          </label>
+          <a
+            href={getImageUrl(document.img)}
+            target="_blank"
+            rel="noopener noreferrer"
+            className={styles.imageLabel}
+          >
+            View Image
+          </a>
+        </div>
+      );
+    });
+    return filesToRender;
   };
 
   return (
@@ -84,8 +177,13 @@ const ProfileScreen = props => {
             Edit Profile
           </button>
         </div>
+
         <div className={styles.editDiv}>
+          <div className={styles.leftDiv} />
           <div className={styles.rightDiv}>
+            {documents.length > 0 && (
+              <div className={styles.fileListDiv}>{renderFileList()}</div>
+            )}
             <div {...getRootProps({ className: styles.dropzone })}>
               <input {...getInputProps()} />
               {file ? (
@@ -95,17 +193,13 @@ const ProfileScreen = props => {
                     src={filePreview}
                     alt="Selected"
                   />
-                  <div className={styles.imageDetailsDiv}>
-                    <label className={styles.imageLabel}>{file.name}</label>
-                    <button
-                      className={styles.removeBtn}
-                      type="button"
-                      onClick={handleRemoveFile}
-                    >
-                      <Icomoon icon="cross" color="#000000" size={15} />
-                    </button>
-                  </div>
-                  {/* <p>Drag 'n' drop some files here, or click to select files</p> */}
+                  <button
+                    className={styles.removeBtn}
+                    type="button"
+                    onClick={handleRemoveFile}
+                  >
+                    <Icomoon icon="cross" color="#000000" size={15} />
+                  </button>
                 </div>
               ) : (
                 <div className={styles.activeDiv}>
@@ -113,6 +207,11 @@ const ProfileScreen = props => {
                 </div>
               )}
             </div>
+            <Select
+              options={documentTypesArray}
+              value={fileType}
+              onChange={handleTypeChange}
+            />
             <button
               type="button"
               className={styles.uploadBtn}
@@ -123,6 +222,9 @@ const ProfileScreen = props => {
             </button>
           </div>
         </div>
+        {documentError && (
+          <div className={styles.errorDiv}>{documentError}</div>
+        )}
       </div>
     </div>
   );
@@ -138,4 +240,6 @@ const mapDispatchToProps = dispatch => {
   return {};
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(ProfileScreen);
+export default withRouter(
+  connect(mapStateToProps, mapDispatchToProps)(ProfileScreen)
+);
