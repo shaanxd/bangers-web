@@ -12,7 +12,13 @@ import {
 } from './screens';
 import { connect } from 'react-redux';
 import { check_auth_state } from './actions/auth';
-import { Toolbar, SideDrawer, Backdrop } from './components';
+import {
+  Toolbar,
+  SideDrawer,
+  Backdrop,
+  AuthRoute,
+  UnauthRoute
+} from './components';
 import 'slick-carousel/slick/slick.css';
 import 'slick-carousel/slick/slick-theme.css';
 
@@ -48,10 +54,10 @@ const RootScreen = props => {
               <Landing />
             </Route>
             <Route exact path="/login">
-              <Login />
+              <UnauthRoute component={Login} />
             </Route>
             <Route exact path="/signup">
-              <Signup />
+              <UnauthRoute component={Signup} />
             </Route>
             <Route exact path="/logout">
               <Logout />
@@ -66,7 +72,7 @@ const RootScreen = props => {
               <Vehicle />
             </Route>
             <Route exact path="/profile">
-              <Profile />
+              <AuthRoute component={Profile} />
             </Route>
           </Switch>
         </main>

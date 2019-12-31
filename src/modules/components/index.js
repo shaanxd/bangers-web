@@ -6,3 +6,5 @@ export { default as Icomoon } from './Icomoon/Icomoon';
 export { default as VehicleCarousal } from './VehicleCarousal/VehicleCarousal';
 export { default as Vehicle } from './Vehicle/Vehicle';
 export { default as EquipmentSelect } from './EquipmentSelect/EquipmentSelect';
+export { default as AuthRoute } from './AuthRoute/AuthRoute';
+export { default as UnauthRoute } from './UnauthRoute/UnauthRoute';

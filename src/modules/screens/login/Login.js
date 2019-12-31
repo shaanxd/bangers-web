@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import { connect } from 'react-redux';
 import { Formik, Field, ErrorMessage, Form } from 'formik';
 import { withRouter } from 'react-router-dom';
@@ -20,14 +20,6 @@ const LoginScreen = props => {
   const handleLoginSubmit = ({ email, password }, { setSubmitting }) => {
     props.loginUser({ email, password });
   };
-
-  useEffect(() => {
-    const { authDetails } = props.auth;
-
-    if (authDetails) {
-      props.history.replace('/');
-    }
-  });
 
   const passwordParams = passwordVisible
     ? { type: 'text', icon: 'eye-blocked' }

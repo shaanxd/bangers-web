@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import { connect } from 'react-redux';
 import { Formik, Field, ErrorMessage, Form } from 'formik';
 import { withRouter } from 'react-router-dom';
@@ -28,14 +28,6 @@ const SignupScreen = props => {
   const handleConfirmPasswordVisible = () => {
     setConfirmVisible(prevConfirmVisible => !prevConfirmVisible);
   };
-
-  useEffect(() => {
-    const { authDetails } = props.auth;
-
-    if (authDetails) {
-      props.history.replace('/');
-    }
-  });
 
   const { isSigningUp, signupError } = props.auth;
   const passwordParams = passwordVisible
