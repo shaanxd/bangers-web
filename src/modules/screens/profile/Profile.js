@@ -96,7 +96,7 @@ const ProfileScreen = props => {
   });
 
   const handleTypeChange = selectedValue => {
-    setState({ fileType: selectedValue.value });
+    setState({ fileType: selectedValue });
   };
 
   const handleFileUpload = async () => {
@@ -110,7 +110,7 @@ const ProfileScreen = props => {
         setState({ documentLoading: true, documentError: null });
         const response = await addDocument(
           {
-            type: fileType,
+            type: fileType.value,
             document: state.file
           },
           authToken
@@ -118,7 +118,8 @@ const ProfileScreen = props => {
         setState({
           documentLoading: false,
           documents: [...response],
-          file: null
+          file: null,
+          fileType: null
         });
       } else {
         setState({ documentError: 'Please select a document type.' });
