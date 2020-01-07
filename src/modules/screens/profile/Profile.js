@@ -27,17 +27,16 @@ const ProfileScreen = props => {
     profileError: null
   });
 
-  const { file, filePreview, documents, documentError, fileType } = state;
   const {
-    auth: { authDetails }
-  } = props;
-
-  useEffect(() => {
-    if (!authDetails) {
-      props.history.replace('/');
-    }
-    //eslint-disable-next-line
-  }, []);
+    file,
+    filePreview,
+    documents,
+    documentError,
+    fileType,
+    profile,
+    profileLoading,
+    profileError
+  } = state;
 
   useEffect(
     () => () => {
@@ -95,8 +94,6 @@ const ProfileScreen = props => {
     onDrop,
     disabled: file
   });
-
-  const handleOnEditClick = () => {};
 
   const handleTypeChange = selectedValue => {
     setState({ fileType: selectedValue.value });
@@ -158,76 +155,87 @@ const ProfileScreen = props => {
     return filesToRender;
   };
 
-  return (
-    <div className={styles.parentDiv}>
-      <div className={styles.innerDiv}>
-        <div className={styles.profileInnerDiv}>
-          <img
-            src="https://freeiconshop.com/wp-content/uploads/edd/person-flat-128x128.png"
-            alt="Profile"
-            className={styles.image}
-          />
-          <label className={styles.name}>Shahid Hassan</label>
-          <label className={styles.email}>shaahid.xd@gmail.com</label>
-          <button
-            className={styles.editBtn}
-            type="button"
-            onClick={handleOnEditClick}
-          >
-            Edit Profile
-          </button>
-        </div>
-
-        <div className={styles.editDiv}>
-          <div className={styles.leftDiv} />
-          <div className={styles.rightDiv}>
-            {documents.length > 0 && (
-              <div className={styles.fileListDiv}>{renderFileList()}</div>
-            )}
-            <div {...getRootProps({ className: styles.dropzone })}>
-              <input {...getInputProps()} />
-              {file ? (
-                <div className={styles.displayDiv}>
-                  <img
-                    className={styles.image}
-                    src={filePreview}
-                    alt="Selected"
-                  />
-                  <button
-                    className={styles.removeBtn}
-                    type="button"
-                    onClick={handleRemoveFile}
-                  >
-                    <Icomoon icon="cross" color="#000000" size={15} />
-                  </button>
-                </div>
-              ) : (
-                <div className={styles.activeDiv}>
-                  <p>Drag 'n' drop some files here, or click to select files</p>
-                </div>
-              )}
-            </div>
-            <Select
-              options={documentTypesArray}
-              value={fileType}
-              onChange={handleTypeChange}
+  const renderProfileContent = () => {
+    return (
+      <div className={styles.parentDiv}>
+        <div className={styles.innerDiv}>
+          <div className={styles.profileInnerDiv}>
+            <img
+              src="https://freeiconshop.com/wp-content/uploads/edd/person-flat-128x128.png"
+              alt="Profile"
+              className={styles.image}
             />
-            <button
-              type="button"
-              className={styles.uploadBtn}
-              onClick={handleFileUpload}
-              disabled={file === null}
-            >
-              Upload
-            </button>
+            <label
+              className={styles.name}
+            >{`${profile.firstname} ${profile.lastname}`}</label>
+            <label className={styles.email}>{profile.email}</label>
           </div>
+          <div className={styles.editDiv}>
+            {/* <div className={styles.leftDiv}>
+              <label className={styles.divHeader}>USER PROFILE</label>
+            </div> */}
+            <div className={styles.rightDiv}>
+              <label className={styles.divHeader}>USER DOCUMENTS</label>
+              {documents.length > 0 && (
+                <div className={styles.fileListDiv}>{renderFileList()}</div>
+              )}
+              <div {...getRootProps({ className: styles.dropzone })}>
+                <input {...getInputProps()} />
+                {file ? (
+                  <div className={styles.displayDiv}>
+                    <img
+                      className={styles.image}
+                      src={filePreview}
+                      alt="Selected"
+                    />
+                    <button
+                      className={styles.removeBtn}
+                      type="button"
+                      onClick={handleRemoveFile}
+                    >
+                      <Icomoon icon="cross" color="#000000" size={15} />
+                    </button>
+                  </div>
+                ) : (
+                  <div className={styles.activeDiv}>
+                    <p>
+                      Drag 'n' drop some files here, or click to select files
+                    </p>
+                  </div>
+                )}
+              </div>
+              <Select
+                options={documentTypesArray}
+                value={fileType}
+                onChange={handleTypeChange}
+              />
+              <button
+                type="button"
+                className={styles.uploadBtn}
+                onClick={handleFileUpload}
+                disabled={file === null}
+              >
+                UPLOAD
+              </button>
+            </div>
+          </div>
+          {documentError && (
+            <div className={styles.errorDiv}>{documentError}</div>
+          )}
         </div>
-        {documentError && (
-          <div className={styles.errorDiv}>{documentError}</div>
-        )}
       </div>
-    </div>
-  );
+    );
+  };
+
+  const renderLoading = () => <div>Loading</div>;
+
+  const renderProfileError = () => <div>{profileError}</div>;
+
+  return profileLoading
+    ? renderLoading()
+    : profileError
+    ? renderProfileError()
+    : profile && renderProfileContent();
 };
 
 const mapStateToProps = state => {

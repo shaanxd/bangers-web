@@ -29,6 +29,10 @@ const Toolbar = props => {
     props.history.push('/');
   };
 
+  const handleBookingClick = () => {
+    props.history.push('/bookings');
+  };
+
   const renderUnauthRoutes = () => {
     return (
       <ul>
@@ -69,22 +73,19 @@ const Toolbar = props => {
             <label className="toolbar__navigation-profile-label">Profile</label>
           </div>
           <div className="toolbar__navigation-dropdown">
-            <div className="toolbar__navigation-profile">
-              <img
-                src="https://freeiconshop.com/wp-content/uploads/edd/person-flat-128x128.png"
-                alt="Profile"
-                className="toolbar__navigation-profile-img"
-              />
-              <div className="toolbar__navigation-profile-div">
-                <label className="profile__name-label">Shahid Hassan</label>
-                <span
-                  onClick={handleProfileClick}
-                  className="profile__edit-btn"
-                >
-                  Edit Profile
-                </span>
-              </div>
-            </div>
+            <span
+              className="toolbar__navigation-dropdown-item"
+              onClick={handleProfileClick}
+            >
+              Profile
+            </span>
+
+            <span
+              className="toolbar__navigation-dropdown-item"
+              onClick={handleBookingClick}
+            >
+              Bookings
+            </span>
             <span
               className="toolbar__navigation-dropdown-item"
               onClick={handleLogoutClick}

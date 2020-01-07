@@ -61,9 +61,9 @@
 }
 
 .leftDiv {
-  border: 1px solid green;
   flex: 1;
-  height: 100px;
+  box-sizing: border-box;
+  padding: 10px;
 }
 
 .rightDiv {
@@ -149,6 +149,13 @@
   padding: 10px;
   text-align: center;
   color: red;
+}
+
+.divHeader {
+  font-family: inherit;
+  font-weight: 600;
+  margin-bottom: 10px;
+  display: block;
 }
 
 @media (max-width: 400px) {
