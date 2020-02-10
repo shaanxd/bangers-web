@@ -2,14 +2,8 @@ import React, { useEffect } from 'react';
 import { withRouter } from 'react-router-dom';
 import { connect } from 'react-redux';
 import DatePicker from 'react-datepicker';
-import Slider from 'react-slick';
-
-import 'react-datepicker/dist/react-datepicker.css';
-import styles from './Vehicle.module.css';
-import './Vehicle.css';
 
 import {
-  getImageUrl,
   getTomorrow,
   getNextDate,
   getMinStartDate,
@@ -18,8 +12,12 @@ import {
   getDateStringInUTC
 } from '../../helper/vehicleHelper';
 import { getVehicle, createBooking, getEquipment } from '../../api/vehicles';
-import { EquipmentSelect } from '../../components';
+import { EquipmentSelect, CarImage } from '../../components';
 import { useMergedState } from '../../helper/useMergedState';
+
+import 'react-datepicker/dist/react-datepicker.css';
+import styles from './Vehicle.module.css';
+import './Vehicle.css';
 
 const VehicleScreen = props => {
   const [state, setState] = useMergedState({
@@ -144,28 +142,12 @@ const VehicleScreen = props => {
     );
   };
 
-  const renderImages = () => {
-    var settings = {
-      infinite: true,
-      speed: 500,
-      slidesToShow: 1,
-      slidesToScroll: 1,
-      initialSlide: 0
-    };
-    const { images } = vehicleDetails;
-    const imageComponents = images.map((imageUrl, index) => (
-      <img key={index} className={styles.image} src={getImageUrl(imageUrl)} alt="Sample" />
-    ));
-    return <Slider {...settings}>{imageComponents}</Slider>;
-  };
-
   const renderVehicle = () => {
-    const carousal = renderImages();
     const { name } = vehicleDetails;
     return (
       <div className={styles.parentDiv}>
         <div className={styles.childDiv}>
-          <div className={styles.carousalDiv}>{carousal}</div>
+          <CarImage images={vehicleDetails.images} />
           <div className={styles.bookingDiv}>
             <label className={styles.vehicleHeader}>{name.toUpperCase()}</label>
             <label className={styles.datePickerLabel}>PICK-UP DATE</label>

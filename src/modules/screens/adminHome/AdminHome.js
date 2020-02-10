@@ -22,6 +22,7 @@ const AdminHome = props => {
 
   useEffect(() => {
     loadBookingsFromApi();
+    //eslint-disable-next-line
   }, []);
 
   const loadBookingsFromApi = async () => {

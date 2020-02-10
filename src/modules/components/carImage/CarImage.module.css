@@ -1,0 +1,37 @@
+.carousel__div {
+  width: 450px;
+  min-height: 0;
+  min-width: 0;
+  padding: 5px;
+}
+
+.image {
+  width: 100%;
+  border: 1px solid transparent;
+}
+
+.selected__image {
+  width: 100%;
+  border: 1px solid gray;
+}
+
+.image__div {
+  flex: 1;
+  vertical-align: bottom;
+  box-sizing: border-box;
+  padding: 2px;
+}
+
+.select__div {
+  padding: 3px;
+  border-top: 1px solid #d2d2d2;
+  box-sizing: border-box;
+}
+
+.large__div {
+  padding: 6px;
+}
+
+.image__div:focus {
+  outline: none;
+}

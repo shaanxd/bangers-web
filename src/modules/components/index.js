@@ -13,3 +13,4 @@ export { default as AppButton } from './appButton/AppButton';
 export { default as Glitch } from './glitch/Glitch';
 export { default as PasswordInput } from './passwordInput/PasswordInput';
 export { default as Separator } from './separator/Separator';
+export { default as CarImage } from './carImage/CarImage';

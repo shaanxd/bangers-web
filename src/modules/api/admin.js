@@ -1,4 +1,4 @@
-import { GET, POST } from './core';
+import { GET } from './core';
 
 export const getBookings = authToken => {
   const endpoint = `admin/get-bookings`;
