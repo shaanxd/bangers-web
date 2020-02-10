@@ -10,3 +10,8 @@ export const documentTypesArray = [
   },
   { value: documentTypes.OTHER_DOCUMENTS, label: 'Other documents' }
 ];
+
+export const USER_TYPES = {
+  ADMIN: 'ADMIN_USER',
+  CUSTOMER: 'CUSTOMER_USER'
+};

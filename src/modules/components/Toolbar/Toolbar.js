@@ -2,7 +2,7 @@ import React from 'react';
 import { withRouter } from 'react-router-dom';
 import { connect } from 'react-redux';
 
-import { DrawerToggleButton, Icomoon } from '../';
+import { DrawerToggleButton } from '../';
 
 import './Toolbar.css';
 
@@ -39,9 +39,7 @@ const Toolbar = props => {
         <li>
           <span
             className={
-              props.location.pathname === '/login'
-                ? 'toolbar__navigation-link active'
-                : 'toolbar__navigation-link'
+              props.location.pathname === '/login' ? 'toolbar__navigation-link active' : 'toolbar__navigation-link'
             }
             onClick={handleLoginClick}
           >
@@ -51,9 +49,7 @@ const Toolbar = props => {
         <li>
           <span
             className={
-              props.location.pathname === '/signup'
-                ? 'toolbar__navigation-link active'
-                : 'toolbar__navigation-link'
+              props.location.pathname === '/signup' ? 'toolbar__navigation-link active' : 'toolbar__navigation-link'
             }
             onClick={handleSignupClick}
           >
@@ -69,27 +65,17 @@ const Toolbar = props => {
       <li>
         <div className="toolbar__navigation-div">
           <div className="toolbar__navigation-display-div">
-            <Icomoon icon="user" color="#FFFFFF" size={20} />
             <label className="toolbar__navigation-profile-label">Profile</label>
           </div>
           <div className="toolbar__navigation-dropdown">
-            <span
-              className="toolbar__navigation-dropdown-item"
-              onClick={handleProfileClick}
-            >
+            <span className="toolbar__navigation-dropdown-item" onClick={handleProfileClick}>
               Profile
             </span>
 
-            <span
-              className="toolbar__navigation-dropdown-item"
-              onClick={handleBookingClick}
-            >
+            <span className="toolbar__navigation-dropdown-item" onClick={handleBookingClick}>
               Bookings
             </span>
-            <span
-              className="toolbar__navigation-dropdown-item"
-              onClick={handleLogoutClick}
-            >
+            <span className="toolbar__navigation-dropdown-item" onClick={handleLogoutClick}>
               Logout
             </span>
           </div>
@@ -98,9 +84,7 @@ const Toolbar = props => {
     </ul>
   );
 
-  const navigationRoutes = authDetails
-    ? renderAuthRoutes()
-    : renderUnauthRoutes();
+  const navigationRoutes = authDetails ? renderAuthRoutes() : renderUnauthRoutes();
   return (
     <header className="toolbar">
       <nav className="toolbar__navigation">
@@ -130,6 +114,4 @@ const mapDispatchToProps = dispatch => {
   return {};
 };
 
-export default withRouter(
-  connect(mapStateToProps, mapDispatchToProps)(Toolbar)
-);
+export default withRouter(connect(mapStateToProps, mapDispatchToProps)(Toolbar));

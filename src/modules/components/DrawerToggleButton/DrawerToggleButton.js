@@ -1,13 +1,12 @@
 import React from 'react';
+import { IoIosMenu } from 'react-icons/io';
 
-import { Icomoon } from '../';
-
-import './DrawerToggleButton.css';
+import styles from './DrawerToggleButton.module.css';
 
 const DrawerToggleButton = props => {
   return (
-    <button onClick={props.onClick} className="toggle-button">
-      <Icomoon icon="menu" color="white" size={30} />
+    <button onClick={props.onClick} className={styles.toggle__button}>
+      <IoIosMenu size={30} />
     </button>
   );
 };

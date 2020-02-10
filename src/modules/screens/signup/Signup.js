@@ -3,8 +3,7 @@ import { connect } from 'react-redux';
 import { Formik, Field, ErrorMessage, Form } from 'formik';
 import { withRouter } from 'react-router-dom';
 import * as Yup from 'yup';
-
-import { Icomoon } from '../../components';
+import { AiOutlineEye, AiOutlineEyeInvisible } from 'react-icons/ai';
 
 import './Signup.css';
 import '../../shared/css/Forms.css';
@@ -30,12 +29,8 @@ const SignupScreen = props => {
   };
 
   const { isSigningUp, signupError } = props.auth;
-  const passwordParams = passwordVisible
-    ? { type: 'text', icon: 'eye-blocked' }
-    : { type: 'password', icon: 'eye' };
-  const confirmParams = confirmVisible
-    ? { type: 'text', icon: 'eye-blocked' }
-    : { type: 'password', icon: 'eye' };
+  const passwordParams = passwordVisible ? { type: 'text', icon: 'eye-blocked' } : { type: 'password', icon: 'eye' };
+  const confirmParams = confirmVisible ? { type: 'text', icon: 'eye-blocked' } : { type: 'password', icon: 'eye' };
   return (
     <div className="signup__body">
       <Formik
@@ -74,9 +69,7 @@ const SignupScreen = props => {
                     placeholder="Enter Firstname"
                   />
                   <ErrorMessage name="firstname">
-                    {message => (
-                      <label className="form__error">{message}</label>
-                    )}
+                    {message => <label className="form__error">{message}</label>}
                   </ErrorMessage>
                 </div>
                 <span className="form__name-space" />
@@ -88,104 +81,59 @@ const SignupScreen = props => {
                     placeholder="Enter Lastname"
                   />
                   <ErrorMessage name="lastname">
-                    {message => (
-                      <label className="form__error">{message}</label>
-                    )}
+                    {message => <label className="form__error">{message}</label>}
                   </ErrorMessage>
                 </div>
               </div>
-              <Field
-                className="form__input"
-                type="email"
-                name="email"
-                placeholder="Enter Email"
-              />
-              <ErrorMessage name="email">
-                {message => <label className="form__error">{message}</label>}
-              </ErrorMessage>
+              <Field className="form__input" type="email" name="email" placeholder="Enter Email" />
+              <ErrorMessage name="email">{message => <label className="form__error">{message}</label>}</ErrorMessage>
               <div className="form__input-parent">
                 <Field
                   className="form__input-nested"
-                  type={passwordParams.type}
+                  type={passwordVisible ? 'text' : 'password'}
                   name="password"
                   placeholder="Enter Password"
                 />
-                <button
-                  onClick={handlePasswordVisible}
-                  className="form__button-hide"
-                  type="button"
-                >
-                  <Icomoon
-                    color="#888888"
-                    icon={passwordParams.icon}
-                    size={20}
-                  />
+                <button onClick={handlePasswordVisible} className="form__button-hide" type="button">
+                  {passwordVisible ? <AiOutlineEyeInvisible size={20} /> : <AiOutlineEye size={20} />}
                 </button>
               </div>
-              <ErrorMessage name="password">
-                {message => <label className="form__error">{message}</label>}
-              </ErrorMessage>
+              <ErrorMessage name="password">{message => <label className="form__error">{message}</label>}</ErrorMessage>
               <div className="form__input-parent">
                 <Field
                   className="form__input-nested"
-                  type={confirmParams.type}
+                  type={confirmVisible ? 'text' : 'password'}
                   name="confirmPassword"
                   placeholder="Confirm Password"
                 />
-                <button
-                  onClick={handleConfirmPasswordVisible}
-                  className="form__button-hide"
-                  type="button"
-                >
-                  <Icomoon
-                    color="#888888"
-                    icon={confirmParams.icon}
-                    size={20}
-                  />
+                <button onClick={handleConfirmPasswordVisible} className="form__button-hide" type="button">
+                  {confirmVisible ? <AiOutlineEyeInvisible size={20} /> : <AiOutlineEye size={20} />}
                 </button>
               </div>
               <ErrorMessage name="confirmPassword">
                 {message => <label className="form__error">{message}</label>}
               </ErrorMessage>
 
-              <button
-                className="form__submit"
-                type="submit"
-                disabled={isSigningUp}
-              >
+              <button className="form__submit" type="submit" disabled={isSigningUp}>
                 Signup
               </button>
-              {signupError && (
-                <label className="form__error-main">{signupError}</label>
-              )}
+              {signupError && <label className="form__error-main">{signupError}</label>}
               <div className="form__separator-div">
                 <div className="form__separator-line" />
                 <div className="form__separator-label-div">OR</div>
                 <div className="form__separator-line" />
               </div>
-              <a
-                className="form__submit-google"
-                href={`${process.env.REACT_APP_BASE_URL}auth/google`}
-              >
+              <a className="form__submit-google" href={`${process.env.REACT_APP_BASE_URL}auth/google`}>
                 <div className="form__submit-google-div">
-                  <Icomoon icon="google2" size={35} color="#d2514d" />
                   <div className="form__submit-google-label-div">
-                    <label className="form__submit-google-label">
-                      Continue with Google
-                    </label>
+                    <label className="form__submit-google-label">Continue with Google</label>
                   </div>
                 </div>
               </a>
-              <a
-                className="form__submit-facebook"
-                href={`${process.env.REACT_APP_BASE_URL}auth/facebook`}
-              >
+              <a className="form__submit-facebook" href={`${process.env.REACT_APP_BASE_URL}auth/facebook`}>
                 <div className="form__submit-google-div">
-                  <Icomoon icon="facebook2" size={35} color="#4169E1" />
                   <div className="form__submit-google-label-div">
-                    <label className="form__submit-facebook-label">
-                      Continue with Facebook
-                    </label>
+                    <label className="form__submit-facebook-label">Continue with Facebook</label>
                   </div>
                 </div>
               </a>
@@ -211,6 +159,4 @@ const mapDispatchToProps = dispatch => {
   };
 };
 
-export default withRouter(
-  connect(mapStateToProps, mapDispatchToProps)(SignupScreen)
-);
+export default withRouter(connect(mapStateToProps, mapDispatchToProps)(SignupScreen));

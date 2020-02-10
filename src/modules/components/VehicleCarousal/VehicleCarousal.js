@@ -1,22 +1,23 @@
 import React from 'react';
 import Slider from 'react-slick';
+import { IoIosArrowDropleft, IoIosArrowDropright } from 'react-icons/io';
 
-import { Vehicle, Icomoon } from '../';
+import { Vehicle } from '../';
 
 import styles from './VehicleCarousal.module.css';
 
 const LeftButton = props => {
   return (
-    <div {...props} className={styles.prevArrowBtn}>
-      <Icomoon icon="circle-left" color="#000000" size={25} />
+    <div style={props.style} onClick={props.onClick} className={styles.prevArrowBtn}>
+      <IoIosArrowDropleft size={25} />
     </div>
   );
 };
 
 const RightButton = props => {
   return (
-    <div {...props} className={styles.nextArrowBtn}>
-      <Icomoon icon="circle-right" color="#000000" size={25} />
+    <div style={props.style} onClick={props.onClick} className={styles.nextArrowBtn}>
+      <IoIosArrowDropright size={25} />
     </div>
   );
 };
@@ -70,13 +71,7 @@ const VehicleCarousal = props => {
 
   const renderListItems = () => {
     return vehicles.map(carouselItem => {
-      return (
-        <Vehicle
-          key={carouselItem.id}
-          onBookClick={onBookClick}
-          vehicle={carouselItem}
-        />
-      );
+      return <Vehicle key={carouselItem.id} onBookClick={onBookClick} vehicle={carouselItem} />;
     });
   };
 
@@ -88,11 +83,7 @@ const VehicleCarousal = props => {
     return <h1>{error}</h1>;
   };
 
-  const itemToRender = error
-    ? renderError()
-    : isLoading
-    ? renderLoading()
-    : renderCarouselList();
+  const itemToRender = error ? renderError() : isLoading ? renderLoading() : renderCarouselList();
   return <div className={styles.parentDiv}>{itemToRender}</div>;
 };
 
