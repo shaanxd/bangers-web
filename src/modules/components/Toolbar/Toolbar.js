@@ -1,13 +1,12 @@
 import React from 'react';
 import { withRouter } from 'react-router-dom';
-import { connect } from 'react-redux';
 
 import { DrawerToggleButton } from '../';
 
 import './Toolbar.css';
 
 const Toolbar = props => {
-  const { authDetails } = props.auth;
+  const { auth } = props;
 
   const handleProfileClick = () => {
     props.history.push('/profile');
@@ -22,7 +21,7 @@ const Toolbar = props => {
   };
 
   const handleLogoutClick = () => {
-    props.history.push('/logout');
+    props.onLogoutClick();
   };
 
   const handleHomeClick = () => {
@@ -84,7 +83,7 @@ const Toolbar = props => {
     </ul>
   );
 
-  const navigationRoutes = authDetails ? renderAuthRoutes() : renderUnauthRoutes();
+  const navigationRoutes = auth ? renderAuthRoutes() : renderUnauthRoutes();
   return (
     <header className="toolbar">
       <nav className="toolbar__navigation">
@@ -104,14 +103,4 @@ const Toolbar = props => {
   );
 };
 
-const mapStateToProps = state => {
-  return {
-    auth: state.auth
-  };
-};
-
-const mapDispatchToProps = dispatch => {
-  return {};
-};
-
-export default withRouter(connect(mapStateToProps, mapDispatchToProps)(Toolbar));
+export default withRouter(Toolbar);

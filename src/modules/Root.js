@@ -2,10 +2,11 @@ import React, { useEffect, useState } from 'react';
 import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
 import { connect } from 'react-redux';
 
-import { Login, Signup, Landing, Logout, AuthRedirect, Vehicle, Vehicles, Profile, AdminHome } from './screens';
+import { Login, Signup, Landing, AuthRedirect, Vehicle, Vehicles, Profile, AdminHome } from './screens';
 import { checkAuthValid } from './actions/auth';
-import { Toolbar, SideDrawer, Backdrop, AuthRoute, UnauthRoute } from './components';
+import { Toolbar, SideDrawer, Backdrop, AuthRoute, UnauthRoute, Loading } from './components';
 import { USER_TYPES } from './constants/constants';
+import { logoutUser } from './actions/auth';
 
 import styles from './Root.module.css';
 import 'slick-carousel/slick/slick.css';
@@ -14,7 +15,7 @@ import 'slick-carousel/slick/slick-theme.css';
 const Root = props => {
   const [sideDrawerOpen, setSideDrawerOpen] = useState(false);
 
-  const { auth } = props;
+  const { auth, checkAuthLoading, logoutLoading, logout } = props;
 
   const drawerToggleClickHandler = () => {
     setSideDrawerOpen(prevSideDrawerOpen => !prevSideDrawerOpen);
@@ -28,11 +29,19 @@ const Root = props => {
     props.checkAuthValid();
     // eslint-disable-next-line
   }, []);
-  console.log(auth);
-  return (
+
+  const renderLoading = text => {
+    return <Loading text={text} />;
+  };
+
+  return checkAuthLoading ? (
+    renderLoading('Loading')
+  ) : logoutLoading ? (
+    renderLoading('Logging out')
+  ) : (
     <div className={styles.root}>
       <Router>
-        <Toolbar drawerClickHandler={drawerToggleClickHandler} />
+        <Toolbar drawerClickHandler={drawerToggleClickHandler} auth={auth} onLogoutClick={logout} />
         <SideDrawer isOpen={sideDrawerOpen} />
         {sideDrawerOpen && <Backdrop onClick={backdropClickHandler} />}
         <main className={styles.main}>
@@ -45,9 +54,6 @@ const Root = props => {
             </Route>
             <Route exact path="/signup">
               <UnauthRoute auth={auth} component={Signup} />
-            </Route>
-            <Route exact path="/logout">
-              <Logout />
             </Route>
             <Route exact path="/authRedirect">
               <UnauthRoute auth={auth} component={AuthRedirect} />
@@ -68,14 +74,17 @@ const Root = props => {
   );
 };
 
-const mapStateToProps = ({ auth: { auth } }) => {
-  return { auth };
+const mapStateToProps = ({ auth: { auth, checkAuthLoading, logoutLoading } }) => {
+  return { auth, checkAuthLoading, logoutLoading };
 };
 
 const mapDispatchToProps = dispatch => {
   return {
     checkAuthValid: () => {
       dispatch(checkAuthValid());
+    },
+    logout: () => {
+      dispatch(logoutUser());
     }
   };
 };
