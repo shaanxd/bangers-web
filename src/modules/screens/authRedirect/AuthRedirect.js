@@ -3,47 +3,42 @@ import QueryString from 'query-string';
 import { withRouter } from 'react-router-dom';
 import { connect } from 'react-redux';
 
-import { auth_redirect } from '../../actions/auth';
+import { authSuccess } from '../../actions/auth';
+import { Loading } from '../../components';
 
-const AuthRedirectScreen = props => {
+import styles from './AuthRedirect.module.css';
+
+const AuthRedirect = props => {
   useEffect(() => {
     const { token, type, expiresIn } = QueryString.parse(props.location.search);
-    const authDetails = {
+    const authData = {
       expiresInSeconds: parseInt(expiresIn),
       authToken: token,
       userType: type
     };
-    props.authRedirect(authDetails);
+    props.authSuccess(authData);
     // eslint-disable-next-line
   }, []);
 
-  useEffect(() => {
-    if (props.auth.authDetails) {
-      props.history.replace('/');
-    }
-  });
   return (
-    <div>
-      <h1>This is signin</h1>
-      {JSON.stringify(props.auth)}
+    <div className={styles.main__div}>
+      <Loading text="Loading" />
     </div>
   );
 };
 
 const mapStateToProps = state => {
   return {
-    auth: state.auth
+    auth: state.auth.auth
   };
 };
 
 const mapDispatchToProps = dispatch => {
   return {
-    authRedirect: authDetails => {
-      dispatch(auth_redirect(authDetails));
+    authSuccess: authData => {
+      dispatch(authSuccess(authData));
     }
   };
 };
 
-export default withRouter(
-  connect(mapStateToProps, mapDispatchToProps)(AuthRedirectScreen)
-);
+export default withRouter(connect(mapStateToProps, mapDispatchToProps)(AuthRedirect));

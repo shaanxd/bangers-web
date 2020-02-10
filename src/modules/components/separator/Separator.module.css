@@ -1,0 +1,16 @@
+.main__div {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 10px;
+}
+
+.line {
+  flex: 1;
+  border-bottom: 1px solid lightgray;
+}
+
+.label {
+  padding: 10px;
+  font-size: 0.8rem;
+}

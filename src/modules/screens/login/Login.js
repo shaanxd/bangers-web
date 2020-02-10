@@ -1,28 +1,36 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { connect } from 'react-redux';
-import { Formik, Field, ErrorMessage, Form } from 'formik';
+import { Formik, Form } from 'formik';
 import { withRouter } from 'react-router-dom';
 import * as Yup from 'yup';
-import { AiOutlineEye, AiOutlineEyeInvisible } from 'react-icons/ai';
 
-import './Login.css';
-import '../../shared/css/Forms.css';
-import { login } from '../../actions/auth';
+import { AppInput, AppButton, PasswordInput, Separator } from '../../components';
+import { useMergedState } from '../../helper/useMergedState';
+import { postLogin } from '../../api/auth';
+import { authSuccess } from '../../actions/auth';
+
+import styles from './Login.module.css';
 
 const LoginScreen = props => {
-  const [passwordVisible, setPasswordVisible] = useState(false);
+  const [state, setState] = useMergedState({
+    loading: false,
+    error: null
+  });
 
-  const handlePasswordVisible = () => {
-    setPasswordVisible(prevPasswordVisible => !prevPasswordVisible);
-  };
-  const { isLoggingIn, loginError } = props.auth;
+  const { loading, error } = state;
 
-  const handleLoginSubmit = ({ email, password }, { setSubmitting }) => {
-    props.loginUser({ email, password });
+  const handleLoginSubmit = async ({ email, password }) => {
+    try {
+      setState({ loading: true, error: null });
+      const result = await postLogin(email, password);
+      props.authSuccess(result);
+    } catch (err) {
+      setState({ loading: false, error: err.message });
+    }
   };
 
   return (
-    <div className="login__body">
+    <div className={styles.main__div}>
       <Formik
         initialValues={{ email: '', password: '' }}
         validationSchema={Yup.object().shape({
@@ -33,48 +41,41 @@ const LoginScreen = props => {
         })}
         onSubmit={handleLoginSubmit}
       >
-        {({ isSubmitting }) => {
+        {() => {
           return (
-            <Form className="login__form">
-              <span className="form__header">Hello there, let's login!</span>
-
-              <Field className="form__input" type="email" name="email" placeholder="Enter Email" />
-              <ErrorMessage name="email">{message => <label className="form__error">{message}</label>}</ErrorMessage>
-              <div className="form__input-parent">
-                <Field
-                  className="form__input-nested"
-                  type={passwordVisible ? 'text' : 'password'}
-                  name="password"
-                  placeholder="Enter Password"
-                />
-                <button onClick={handlePasswordVisible} className="form__button-hide" type="button">
-                  {passwordVisible ? <AiOutlineEyeInvisible size={20} /> : <AiOutlineEye size={20} />}
-                </button>
-              </div>
-              <ErrorMessage name="password">{message => <label className="form__error">{message}</label>}</ErrorMessage>
-              <button className="form__submit" type="submit" disabled={isLoggingIn}>
-                Login
-              </button>
-              {loginError && <label className="form__error-main">{loginError}</label>}
-              <div className="form__separator-div">
-                <div className="form__separator-line" />
-                <div className="form__separator-label-div">OR</div>
-                <div className="form__separator-line" />
-              </div>
-              <a className="form__submit-google" href={`${process.env.REACT_APP_BASE_URL}auth/google`}>
-                <div className="form__submit-google-div">
-                  <div className="form__submit-google-label-div">
-                    <label className="form__submit-google-label">Signup with Google</label>
-                  </div>
-                </div>
-              </a>
-              <a className="form__submit-facebook" href={`${process.env.REACT_APP_BASE_URL}auth/facebook`}>
-                <div className="form__submit-google-div">
-                  <div className="form__submit-google-label-div">
-                    <label className="form__submit-facebook-label">Continue with Facebook</label>
-                  </div>
-                </div>
-              </a>
+            <Form className={styles.login__form}>
+              <span className={styles.form__header}>Hello there, let's login!</span>
+              <AppInput
+                containerStyle={{ marginTop: '10px' }}
+                name="email"
+                type="email"
+                placeholder="someone@gmail.com"
+                loading={loading}
+              />
+              <PasswordInput
+                containerStyle={{ marginTop: '10px' }}
+                name="password"
+                placeholder="Password"
+                loading={loading}
+              />
+              <AppButton type="submit" text="Login" containerStyle={{ marginTop: '5px' }} loading={loading} />
+              {error && <label className={styles.main__error}>{error}</label>}
+              <Separator />
+              <AppButton
+                type="button"
+                onClick={() => {
+                  window.location.href = `${process.env.REACT_APP_BASE_URL}auth/google`;
+                }}
+                text="Login with Google"
+              />
+              <AppButton
+                type="button"
+                onClick={() => {
+                  window.location.href = `${process.env.REACT_APP_BASE_URL}auth/facebook`;
+                }}
+                text="Login with Facebook"
+                containerStyle={{ marginTop: '10px' }}
+              />
             </Form>
           );
         }}
@@ -83,16 +84,14 @@ const LoginScreen = props => {
   );
 };
 
-const mapStateToProps = ({ auth }, ownProps) => {
-  return {
-    auth
-  };
+const mapStateToProps = state => {
+  return {};
 };
 
 const mapDispatchToProps = dispatch => {
   return {
-    loginUser: userData => {
-      dispatch(login(userData));
+    authSuccess: authData => {
+      dispatch(authSuccess(authData));
     }
   };
 };

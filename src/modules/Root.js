@@ -1,15 +1,20 @@
 import React, { useEffect, useState } from 'react';
 import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
-import { Login, Signup, Landing, Logout, AuthRedirect, Vehicle, Vehicles, Profile, AdminHome } from './screens';
 import { connect } from 'react-redux';
-import { check_auth_state } from './actions/auth';
+
+import { Login, Signup, Landing, Logout, AuthRedirect, Vehicle, Vehicles, Profile, AdminHome } from './screens';
+import { checkAuthValid } from './actions/auth';
 import { Toolbar, SideDrawer, Backdrop, AuthRoute, UnauthRoute } from './components';
-import 'slick-carousel/slick/slick.css';
-import 'slick-carousel/slick/slick-theme.css';
 import { USER_TYPES } from './constants/constants';
 
-const RootScreen = props => {
+import styles from './Root.module.css';
+import 'slick-carousel/slick/slick.css';
+import 'slick-carousel/slick/slick-theme.css';
+
+const Root = props => {
   const [sideDrawerOpen, setSideDrawerOpen] = useState(false);
+
+  const { auth } = props;
 
   const drawerToggleClickHandler = () => {
     setSideDrawerOpen(prevSideDrawerOpen => !prevSideDrawerOpen);
@@ -20,38 +25,32 @@ const RootScreen = props => {
   };
 
   useEffect(() => {
-    props.checkAuthState();
+    props.checkAuthValid();
     // eslint-disable-next-line
   }, []);
-
+  console.log(auth);
   return (
-    <div style={{ height: '100%' }}>
+    <div className={styles.root}>
       <Router>
-        {props.authDetails && props.authDetails.userType === USER_TYPES.ADMIN ? null : (
-          <Toolbar drawerClickHandler={drawerToggleClickHandler} />
-        )}
+        <Toolbar drawerClickHandler={drawerToggleClickHandler} />
         <SideDrawer isOpen={sideDrawerOpen} />
         {sideDrawerOpen && <Backdrop onClick={backdropClickHandler} />}
-        <main
-          style={{
-            height: '100%'
-          }}
-        >
+        <main className={styles.main}>
           <Switch>
             <Route exact path="/">
-              {props.authDetails && props.authDetails.userType === USER_TYPES.ADMIN ? <AdminHome /> : <Landing />}
+              {auth && auth.userType === USER_TYPES.ADMIN ? <AdminHome /> : <Landing />}
             </Route>
             <Route exact path="/login">
-              <UnauthRoute component={Login} />
+              <UnauthRoute auth={auth} component={Login} />
             </Route>
             <Route exact path="/signup">
-              <UnauthRoute component={Signup} />
+              <UnauthRoute auth={auth} component={Signup} />
             </Route>
             <Route exact path="/logout">
               <Logout />
             </Route>
             <Route exact path="/authRedirect">
-              <AuthRedirect />
+              <UnauthRoute auth={auth} component={AuthRedirect} />
             </Route>
             <Route exact path="/vehicles">
               <Vehicles />
@@ -60,7 +59,7 @@ const RootScreen = props => {
               <Vehicle />
             </Route>
             <Route exact path="/profile">
-              <AuthRoute component={Profile} />
+              <AuthRoute auth={auth} component={Profile} />
             </Route>
           </Switch>
         </main>
@@ -69,16 +68,16 @@ const RootScreen = props => {
   );
 };
 
-const mapStateToProps = ({ auth: { authDetails } }) => {
-  return { authDetails };
+const mapStateToProps = ({ auth: { auth } }) => {
+  return { auth };
 };
 
 const mapDispatchToProps = dispatch => {
   return {
-    checkAuthState: () => {
-      dispatch(check_auth_state());
+    checkAuthValid: () => {
+      dispatch(checkAuthValid());
     }
   };
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(RootScreen);
+export default connect(mapStateToProps, mapDispatchToProps)(Root);

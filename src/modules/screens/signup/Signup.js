@@ -1,37 +1,36 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { connect } from 'react-redux';
-import { Formik, Field, ErrorMessage, Form } from 'formik';
+import { Formik, Form } from 'formik';
 import { withRouter } from 'react-router-dom';
 import * as Yup from 'yup';
-import { AiOutlineEye, AiOutlineEyeInvisible } from 'react-icons/ai';
 
-import './Signup.css';
-import '../../shared/css/Forms.css';
+import { PasswordInput, AppInput, AppButton, Separator } from '../../components';
+import { useMergedState } from '../../helper/useMergedState';
+import { postSignup } from '../../api/auth';
+import { authSuccess } from '../../actions/auth';
 
-import { signup } from '../../actions/auth';
+import styles from './Signup.module.css';
 
 const SignupScreen = props => {
-  const [passwordVisible, setPasswordVisible] = useState(false);
-  const [confirmVisible, setConfirmVisible] = useState(false);
+  const [state, setState] = useMergedState({
+    loading: false,
+    error: null
+  });
 
-  const handleSignupSubmit = (values, { setSubmitting }) => {
-    const { email, password, firstname, lastname } = values;
+  const { loading, error } = state;
 
-    props.signupUser({ email, password, firstname, lastname });
+  const handleSignupSubmit = async ({ confirmPassword, ...rest }) => {
+    try {
+      setState({ loading: true, error: null });
+      const result = await postSignup({ ...rest });
+      props.authSuccess(result);
+    } catch (err) {
+      setState({ loading: false, error: err.message });
+    }
   };
-
-  const handlePasswordVisible = () => {
-    setPasswordVisible(prevPasswordVisible => !prevPasswordVisible);
-  };
-
-  const handleConfirmPasswordVisible = () => {
-    setConfirmVisible(prevConfirmVisible => !prevConfirmVisible);
-  };
-
-  const { isSigningUp, signupError } = props.auth;
 
   return (
-    <div className="signup__body">
+    <div className={styles.main__div}>
       <Formik
         initialValues={{
           firstname: '',
@@ -57,85 +56,37 @@ const SignupScreen = props => {
       >
         {({ isSubmitting }) => {
           return (
-            <Form className="signup__form">
-              <span className="form__header">Hello there, let's sign up!</span>
-              <div className="form__name-parent">
-                <div className="form__name-child">
-                  <Field
-                    className="form__input form__name-input"
-                    type="text"
-                    name="firstname"
-                    placeholder="Enter Firstname"
-                  />
-                  <ErrorMessage name="firstname">
-                    {message => <label className="form__error">{message}</label>}
-                  </ErrorMessage>
-                </div>
-                <span className="form__name-space" />
-                <div className="form__name-child">
-                  <Field
-                    className="form__input form__name-input"
-                    type="text"
-                    name="lastname"
-                    placeholder="Enter Lastname"
-                  />
-                  <ErrorMessage name="lastname">
-                    {message => <label className="form__error">{message}</label>}
-                  </ErrorMessage>
-                </div>
-              </div>
-              <Field className="form__input" type="email" name="email" placeholder="Enter Email" />
-              <ErrorMessage name="email">{message => <label className="form__error">{message}</label>}</ErrorMessage>
-              <div className="form__input-parent">
-                <Field
-                  className="form__input-nested"
-                  type={passwordVisible ? 'text' : 'password'}
-                  name="password"
-                  placeholder="Enter Password"
-                />
-                <button onClick={handlePasswordVisible} className="form__button-hide" type="button">
-                  {passwordVisible ? <AiOutlineEyeInvisible size={20} /> : <AiOutlineEye size={20} />}
-                </button>
-              </div>
-              <ErrorMessage name="password">{message => <label className="form__error">{message}</label>}</ErrorMessage>
-              <div className="form__input-parent">
-                <Field
-                  className="form__input-nested"
-                  type={confirmVisible ? 'text' : 'password'}
-                  name="confirmPassword"
-                  placeholder="Confirm Password"
-                />
-                <button onClick={handleConfirmPasswordVisible} className="form__button-hide" type="button">
-                  {confirmVisible ? <AiOutlineEyeInvisible size={20} /> : <AiOutlineEye size={20} />}
-                </button>
-              </div>
-              <ErrorMessage name="confirmPassword">
-                {message => <label className="form__error">{message}</label>}
-              </ErrorMessage>
-
-              <button className="form__submit" type="submit" disabled={isSigningUp}>
-                Signup
-              </button>
-              {signupError && <label className="form__error-main">{signupError}</label>}
-              <div className="form__separator-div">
-                <div className="form__separator-line" />
-                <div className="form__separator-label-div">OR</div>
-                <div className="form__separator-line" />
-              </div>
-              <a className="form__submit-google" href={`${process.env.REACT_APP_BASE_URL}auth/google`}>
-                <div className="form__submit-google-div">
-                  <div className="form__submit-google-label-div">
-                    <label className="form__submit-google-label">Continue with Google</label>
-                  </div>
-                </div>
-              </a>
-              <a className="form__submit-facebook" href={`${process.env.REACT_APP_BASE_URL}auth/facebook`}>
-                <div className="form__submit-google-div">
-                  <div className="form__submit-google-label-div">
-                    <label className="form__submit-facebook-label">Continue with Facebook</label>
-                  </div>
-                </div>
-              </a>
+            <Form className={styles.signup__form}>
+              <span className={styles.form__header}>Hello there, let's sign up!</span>
+              <AppInput
+                containerStyle={{ marginTop: '10px' }}
+                name="firstname"
+                type="text"
+                placeholder="John"
+                loading={loading}
+              />
+              <AppInput name="lastname" type="text" placeholder="Doe" loading={loading} />
+              <AppInput name="email" type="email" placeholder="someone@gmail.com" loading={loading} />
+              <PasswordInput name="password" placeholder="Enter Password" loading={loading} />
+              <PasswordInput name="confirmPassword" placeholder="Repeat Password" loading={loading} />
+              <AppButton text="Signup" type="submit" loading={loading} containerStyle={{ marginTop: '5px' }} />
+              {error && <label className={styles.main__error}>{error}</label>}
+              <Separator />
+              <AppButton
+                type="button"
+                onClick={() => {
+                  window.location.href = `${process.env.REACT_APP_BASE_URL}auth/google`;
+                }}
+                text="Login with Google"
+              />
+              <AppButton
+                type="button"
+                onClick={() => {
+                  window.location.href = `${process.env.REACT_APP_BASE_URL}auth/facebook`;
+                }}
+                text="Login with Facebook"
+                containerStyle={{ marginTop: '10px' }}
+              />
             </Form>
           );
         }}
@@ -144,16 +95,14 @@ const SignupScreen = props => {
   );
 };
 
-const mapStateToProps = ({ auth }, ownProps) => {
-  return {
-    auth
-  };
+const mapStateToProps = ({ auth: { auth } }, ownProps) => {
+  return {};
 };
 
 const mapDispatchToProps = dispatch => {
   return {
-    signupUser: userData => {
-      dispatch(signup(userData));
+    authSuccess: authData => {
+      dispatch(authSuccess(authData));
     }
   };
 };

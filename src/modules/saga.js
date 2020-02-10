@@ -1,25 +1,9 @@
 import { all } from 'redux-saga/effects';
 
-import {
-  watchLogin,
-  watchSignup,
-  watchLogout,
-  watchCheckAuthState,
-  watchCheckAuthTimeout,
-  watchAuthRedirect
-} from './sagas/auth';
-import { watchVehicleSaga } from './sagas/vehicles';
+import watchAuthSaga from './sagas/auth';
 
 function* rootSaga() {
-  yield all([
-    watchLogin(),
-    watchSignup(),
-    watchLogout(),
-    watchCheckAuthState(),
-    watchCheckAuthTimeout(),
-    watchAuthRedirect(),
-    watchVehicleSaga()
-  ]);
+  yield all([watchAuthSaga()]);
 }
 
 export default rootSaga;

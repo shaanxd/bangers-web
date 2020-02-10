@@ -1,15 +1,15 @@
-export const setAuthDetails = authDetails => {
-  localStorage.setItem('authDetails', JSON.stringify(authDetails));
+export const set = auth => {
+  localStorage.setItem('auth', JSON.stringify(auth));
 };
 
-export const retrieveAuthDetails = () => {
-  const authDetails = localStorage.getItem('authDetails');
-  if (!authDetails || authDetails === '') {
+export const retrieve = () => {
+  const auth = localStorage.getItem('auth');
+  if (!auth || auth === '') {
     return null;
   }
-  return JSON.parse(authDetails);
+  return JSON.parse(auth);
 };
 
-export const removeAuthDetails = () => {
-  localStorage.removeItem('authDetails');
+export const remove = () => {
+  localStorage.removeItem('auth');
 };

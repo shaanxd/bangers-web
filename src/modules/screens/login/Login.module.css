@@ -1,0 +1,25 @@
+.main__div {
+  min-height: 100%;
+  box-sizing: border-box;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.login__form {
+  width: 100%;
+  max-width: 600px;
+}
+
+.main__error {
+  display: block;
+  margin-top: 10px;
+  text-align: center;
+  color: red;
+}
+
+.form__header {
+  display: block;
+  text-align: center;
+  font-size: 2rem;
+}

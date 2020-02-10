@@ -1,0 +1,20 @@
+.button {
+  padding: 10px;
+  background-color: black;
+  color: white;
+  border: 3px solid black;
+  font-size: 0.7rem;
+  font-weight: 700;
+  width: 100%;
+  font-family: inherit;
+  transition: color 0.2s ease-in-out, background-color 0.2s ease-in-out;
+}
+
+.button__container {
+  width: 100%;
+}
+
+.button:hover {
+  background-color: white;
+  color: black;
+}

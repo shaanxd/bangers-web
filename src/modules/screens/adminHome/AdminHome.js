@@ -108,9 +108,13 @@ const AdminHome = props => {
   );
 };
 
-const mapStateToProps = state => {
+const mapStateToProps = ({
+  auth: {
+    auth: { authToken: token }
+  }
+}) => {
   return {
-    token: state.auth.authDetails ? state.auth.authDetails.authToken : null
+    token
   };
 };
 

@@ -1,11 +1,11 @@
 import React from 'react';
 
-import RootScreen from './modules/Root.screen';
+import Root from './modules/Root';
 
 import './App.css';
 
 function App() {
-  return <RootScreen />;
+  return <Root />;
 }
 
 export default App;

@@ -1,139 +1,64 @@
-import { takeEvery, put, call, delay } from 'redux-saga/effects';
+import { takeEvery, all, delay, put } from 'redux-saga/effects';
 import Moment from 'moment';
-import {
-  setAuthDetails,
-  removeAuthDetails,
-  retrieveAuthDetails
-} from '../helper/localStorage';
 
 import {
-  LOGIN,
-  login_successful,
-  login_failure,
-  signup_successful,
-  SIGNUP,
-  signup_failure,
-  logout_failure,
-  logout_success,
-  LOGOUT,
-  CHECK_AUTH_STATE,
+  AUTH_SUCCESS,
   CHECK_AUTH_TIMEOUT,
-  logout,
-  check_auth_timeout,
-  AUTH_REDIRECT,
-  auth_redirect_failure,
-  auth_redirect_success
+  checkAuthTimeout,
+  CHECK_AUTH_VALID,
+  checkAuthValidSuccess,
+  LOGOUT_USER,
+  logoutSuccess,
+  logoutUser
 } from '../actions/auth';
+import { set, retrieve, remove } from '../helper/localStorage';
 
-import { postLogin, postSignup } from '../api/auth';
-
-function* handleLoginSaga({ type, payload: { email, password } }) {
-  try {
-    const response = yield call(postLogin, email, password);
+function* handleAuthSuccess({ type, payload }) {
+  if (payload) {
+    const expiresIn = payload.expiresInSeconds;
     const expirationDate = Moment()
-      .add(response.expiresInSeconds, 's')
+      .add(expiresIn, 's')
       .format();
-    yield setAuthDetails({ ...response, expirationDate });
-    yield put(login_successful(response));
-    yield put(check_auth_timeout(response.expiresInSeconds * 1000));
-  } catch (err) {
-    yield put(login_failure(err.message));
-  }
-}
-
-function* handleSignupSaga({ type, payload }) {
-  try {
-    const response = yield call(postSignup, payload);
-    const expirationDate = Moment()
-      .add(response.expiresInSeconds, 's')
-      .format();
-    yield setAuthDetails({ ...response, expirationDate });
-    yield put(signup_successful(response));
-    yield put(check_auth_timeout(response.expiresInSeconds * 1000));
-  } catch (err) {
-    yield put(signup_failure(err.message));
-  }
-}
-
-function* handleLogoutSaga({ type, payload }) {
-  try {
-    removeAuthDetails();
-    yield put(logout_success());
-  } catch (err) {
-    yield put(logout_failure(err.message));
-  }
-}
-
-function* handleCheckAuthState({ type, payload }) {
-  const token = yield retrieveAuthDetails();
-  if (!token) {
-    //  yield put(logout());
-  } else {
-    const expirationDate = yield Moment(token.expirationDate);
-    const currentMoment = yield Moment();
-    if (expirationDate.isBefore(currentMoment)) {
-      yield put(logout());
-    } else {
-      const { authToken, expiresInSeconds, userType } = token;
-      yield put(
-        login_successful({
-          authToken,
-          expiresInSeconds,
-          userType
-        })
-      );
-      yield put(check_auth_timeout(expirationDate.diff(currentMoment, 'ms')));
-    }
+    yield set({ ...payload, expirationDate });
+    yield put(checkAuthTimeout(expiresIn * 1000));
   }
 }
 
 function* handleCheckAuthTimeout({ type, payload }) {
   yield delay(payload);
-  yield put(logout());
+  yield put(logoutUser());
 }
 
-function* handleAuthRedirect({ type, payload }) {
-  try {
-    const expirationDate = Moment()
-      .add(payload.expiresInSeconds, 's')
-      .format();
-    yield setAuthDetails({ ...payload, expirationDate });
-    yield put(auth_redirect_success(payload));
-    yield put(check_auth_timeout(payload.expiresInSeconds * 1000));
-  } catch (err) {
-    yield put(auth_redirect_failure(err.message));
+function* handleCheckAuthValid() {
+  const token = yield retrieve();
+  let userData = null;
+  if (token) {
+    const { expirationDate, ...rest } = token;
+    const expirationMoment = yield Moment(expirationDate);
+    const currentMoment = yield Moment();
+    if (expirationMoment.isBefore(currentMoment)) {
+      yield remove();
+    } else {
+      userData = { ...rest };
+      yield put(checkAuthTimeout(expirationMoment.diff(currentMoment, 'ms')));
+    }
   }
+  yield put(checkAuthValidSuccess(userData));
 }
 
-function* watchLogin() {
-  yield takeEvery(LOGIN, handleLoginSaga);
+function* handleLogout() {
+  yield remove();
+  yield delay(1000);
+  yield put(logoutSuccess());
 }
 
-function* watchSignup() {
-  yield takeEvery(SIGNUP, handleSignupSaga);
+function* watchAuthSaga() {
+  yield all([
+    takeEvery(AUTH_SUCCESS, handleAuthSuccess),
+    takeEvery(CHECK_AUTH_TIMEOUT, handleCheckAuthTimeout),
+    takeEvery(CHECK_AUTH_VALID, handleCheckAuthValid),
+    takeEvery(LOGOUT_USER, handleLogout)
+  ]);
 }
 
-function* watchLogout() {
-  yield takeEvery(LOGOUT, handleLogoutSaga);
-}
-
-function* watchCheckAuthState() {
-  yield takeEvery(CHECK_AUTH_STATE, handleCheckAuthState);
-}
-
-function* watchCheckAuthTimeout() {
-  yield takeEvery(CHECK_AUTH_TIMEOUT, handleCheckAuthTimeout);
-}
-
-function* watchAuthRedirect() {
-  yield takeEvery(AUTH_REDIRECT, handleAuthRedirect);
-}
-
-export {
-  watchLogin,
-  watchSignup,
-  watchLogout,
-  watchCheckAuthState,
-  watchCheckAuthTimeout,
-  watchAuthRedirect
-};
+export default watchAuthSaga;
