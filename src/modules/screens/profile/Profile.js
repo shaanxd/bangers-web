@@ -28,6 +28,10 @@ const ProfileScreen = props => {
 
   const { file, filePreview, documents, documentError, fileType, profile, profileLoading, profileError } = state;
 
+  const {
+    auth: { authToken }
+  } = props;
+
   useEffect(
     () => () => {
       URL.revokeObjectURL(filePreview);
@@ -43,11 +47,6 @@ const ProfileScreen = props => {
 
   const getUserFromAPI = async () => {
     try {
-      const {
-        auth: {
-          authDetails: { authToken }
-        }
-      } = props;
       const response = await getUser(authToken);
       setState({ profile: response, profileLoading: false });
     } catch (err) {
@@ -57,11 +56,6 @@ const ProfileScreen = props => {
 
   const getDocumentsFromAPI = async () => {
     try {
-      const {
-        auth: {
-          authDetails: { authToken }
-        }
-      } = props;
       const response = await getDocuments(authToken);
       setState({ documents: [...response], documentLoading: false });
     } catch (err) {
@@ -90,11 +84,6 @@ const ProfileScreen = props => {
   };
 
   const handleFileUpload = async () => {
-    const {
-      auth: {
-        authDetails: { authToken }
-      }
-    } = props;
     try {
       if (fileType) {
         setState({ documentLoading: true, documentError: null });
@@ -191,9 +180,9 @@ const ProfileScreen = props => {
   return profileLoading ? renderLoading() : profileError ? renderProfileError() : profile && renderProfileContent();
 };
 
-const mapStateToProps = state => {
+const mapStateToProps = ({ auth: { auth } }) => {
   return {
-    auth: state.auth
+    auth
   };
 };
 

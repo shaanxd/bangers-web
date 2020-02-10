@@ -54,7 +54,7 @@ const VehicleScreen = props => {
     match: {
       params: { id }
     },
-    auth: { authDetails }
+    auth
   } = props;
 
   useEffect(
@@ -107,7 +107,7 @@ const VehicleScreen = props => {
   const handleBookClick = async () => {
     try {
       setState({ bookingLoading: true, bookingError: null });
-      if (authDetails) {
+      if (auth) {
         const startDateUTC = getDateStringInUTC(startDate);
         const returnDateUTC = getDateStringInUTC(returnDate);
         await createBooking(
@@ -117,7 +117,7 @@ const VehicleScreen = props => {
             vehicleId: id,
             equipment: selectedEquipment
           },
-          authDetails.authToken
+          auth.authToken
         );
         setState({ bookingLoading: false });
       } else {
@@ -154,12 +154,7 @@ const VehicleScreen = props => {
     };
     const { images } = vehicleDetails;
     const imageComponents = images.map((imageUrl, index) => (
-      <img
-        key={index}
-        className={styles.image}
-        src={getImageUrl(imageUrl)}
-        alt="Sample"
-      />
+      <img key={index} className={styles.image} src={getImageUrl(imageUrl)} alt="Sample" />
     ));
     return <Slider {...settings}>{imageComponents}</Slider>;
   };
@@ -193,11 +188,7 @@ const VehicleScreen = props => {
               showTimeSelect
             />
             {bookingLoading && <label>Loading</label>}
-            <button
-              type="button"
-              onClick={handleBookClick}
-              className={styles.bookBtn}
-            >
+            <button type="button" onClick={handleBookClick} className={styles.bookBtn}>
               Book Now!
             </button>
             {bookingError && <label>{bookingError}</label>}
@@ -218,17 +209,12 @@ const VehicleScreen = props => {
     );
   };
 
-  return vehicleError
-    ? renderError()
-    : vehicleLoading
-    ? renderLoading()
-    : vehicleDetails && renderVehicle();
+  return vehicleError ? renderError() : vehicleLoading ? renderLoading() : vehicleDetails && renderVehicle();
 };
 
-const mapStateToProps = state => {
+const mapStateToProps = ({ auth: { auth } }) => {
   return {
-    auth: state.auth,
-    vehicles: state.vehicles
+    auth
   };
 };
 
@@ -236,6 +222,4 @@ const mapDispatchToProps = dispatch => {
   return {};
 };
 
-export default withRouter(
-  connect(mapStateToProps, mapDispatchToProps)(VehicleScreen)
-);
+export default withRouter(connect(mapStateToProps, mapDispatchToProps)(VehicleScreen));
