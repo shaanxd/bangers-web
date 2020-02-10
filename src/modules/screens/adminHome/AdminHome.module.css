@@ -1,0 +1,75 @@
+.main__div {
+  min-height: 100%;
+  box-sizing: border-box;
+  overflow: auto;
+  display: flex;
+  flex-direction: column;
+}
+
+.bookings__div {
+  padding: 0px 5px;
+  box-sizing: border-box;
+  height: auto;
+}
+
+.booking__item {
+  border: 1px solid gray;
+  width: 100%;
+  box-sizing: border-box;
+  padding: 20px;
+  margin: 5px 0px;
+  display: flex;
+}
+
+.thumbnail {
+  max-width: 200px;
+}
+
+.booking__details {
+  flex: 1;
+  margin-left: 10px;
+  padding: 10px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.booking__header {
+  font-size: 0.9rem;
+  letter-spacing: 1px;
+  font-weight: 700;
+}
+
+.booking__content {
+  margin-top: 5px;
+  font-size: 0.8rem;
+  font-weight: 700;
+}
+
+.booking__id {
+  color: gray;
+}
+
+.header__title {
+  color: darkgray;
+  margin-right: 10px;
+}
+
+.equipment__content {
+  display: flex;
+  margin-top: 10px;
+  margin-top: 5px;
+  font-size: 0.8rem;
+  font-weight: 700;
+  align-items: center;
+}
+
+.equipment__name {
+  margin-right: 5px;
+  padding: 5px 10px;
+  background-color: gray;
+  color: white;
+  border-radius: 20px;
+  font-size: 0.7rem;
+  font-weight: 700;
+}

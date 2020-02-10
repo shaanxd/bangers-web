@@ -6,3 +6,4 @@ export { default as AuthRedirect } from './authRedirect/AuthRedirect';
 export { default as Vehicle } from './vehicle/Vehicle';
 export { default as Vehicles } from './vehicles/Vehicles';
 export { default as Profile } from './profile/Profile';
+export { default as AdminHome } from './adminHome/AdminHome';

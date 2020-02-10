@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
-import { Login, Signup, Landing, Logout, AuthRedirect, Vehicle, Vehicles, Profile } from './screens';
+import { Login, Signup, Landing, Logout, AuthRedirect, Vehicle, Vehicles, Profile, AdminHome } from './screens';
 import { connect } from 'react-redux';
 import { check_auth_state } from './actions/auth';
 import { Toolbar, SideDrawer, Backdrop, AuthRoute, UnauthRoute } from './components';
@@ -39,7 +39,7 @@ const RootScreen = props => {
         >
           <Switch>
             <Route exact path="/">
-              <Landing />
+              {props.authDetails && props.authDetails.userType === USER_TYPES.ADMIN ? <AdminHome /> : <Landing />}
             </Route>
             <Route exact path="/login">
               <UnauthRoute component={Login} />

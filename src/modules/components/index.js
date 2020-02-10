@@ -7,3 +7,4 @@ export { default as Vehicle } from './Vehicle/Vehicle';
 export { default as EquipmentSelect } from './EquipmentSelect/EquipmentSelect';
 export { default as AuthRoute } from './AuthRoute/AuthRoute';
 export { default as UnauthRoute } from './UnauthRoute/UnauthRoute';
+export { default as Loading } from './Loading/Loading';

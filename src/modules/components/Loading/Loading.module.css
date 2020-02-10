@@ -1,0 +1,14 @@
+.main__div {
+  min-height: 100%;
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.main__div span {
+  padding: 20px;
+  font-size: 1.5rem;
+  font-family: inherit;
+}
