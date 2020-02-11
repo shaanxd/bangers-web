@@ -3,22 +3,25 @@ import { withRouter } from 'react-router-dom';
 import { connect } from 'react-redux';
 import Moment from 'moment';
 
+import { Loading, StatusSelect } from '../../components';
+import { IoIosArrowDown, IoIosArrowUp } from 'react-icons/io';
+import { Collapse } from 'react-collapse';
 import { useMergedState } from '../../helper/useMergedState';
-import { getBookings } from '../../api/admin';
-import { getImageUrl } from '../../helper/vehicleHelper';
+import { getBookings, updateBooking } from '../../api/admin';
 
 import styles from './AdminHome.module.css';
-import { Loading } from '../../components';
+import './AdminHome.css';
 
 const AdminHome = props => {
   const [state, setState] = useMergedState({
     bookingsLoading: true,
     bookings: [],
-    bookingsError: null
+    bookingsError: null,
+    selectedId: null
   });
 
   const { token } = props;
-  const { bookingsLoading, bookings, bookingsError } = state;
+  const { bookingsLoading, bookings, bookingsError, selectedId } = state;
 
   useEffect(() => {
     loadBookingsFromApi();
@@ -37,6 +40,17 @@ const AdminHome = props => {
     }
   };
 
+  const onStatusChangeSubmit = async bookingData => {
+    try {
+      setState({ bookingsLoading: true });
+      await updateBooking(bookingData, token);
+      loadBookingsFromApi();
+    } catch (err) {
+      console.log(err.message);
+      setState({ bookingsLoading: false });
+    }
+  };
+
   const renderLoading = () => {
     return <Loading text="Loading" />;
   };
@@ -49,46 +63,55 @@ const AdminHome = props => {
     return <div>{bookingsError}</div>;
   };
 
-  const renderEquipment = equipment => {
-    const items = equipment.map(equipment => {
-      return <div className={styles.equipment__name}>{equipment.name}</div>;
-    });
-    return items;
+  const onBookingSelect = id => {
+    setState({ selectedId: selectedId === id ? null : id });
   };
 
   const renderBookingItems = () => {
     const items = bookings.map(booking => {
-      const { vehicle, id, user, startDate, returnDate, equipment } = booking;
-
+      const { vehicle, id, user, startDate, returnDate, bookingStatus } = booking;
       return (
-        <div className={styles.booking__item} key={id}>
-          <img src={getImageUrl(vehicle.defaultImage)} className={styles.thumbnail} alt="Vehicle" />
-          <div className={styles.booking__details}>
-            <div className={styles.booking__header}>
-              <span className={styles.header__title}>Booking ID : </span>
-              <span className={styles.booking__id}>{id.toUpperCase()}</span>
-            </div>
+        <div className={styles.booking__root} key={id}>
+          <div
+            className={styles.booking__item}
+            onClick={() => {
+              onBookingSelect(id);
+            }}
+          >
             <div className={styles.booking__content}>
-              <span className={styles.header__title}>Booked by : </span>
+              <span className={styles.header__title}>BOOKED BY:</span>
               <span className={styles.booking__id}>{`${user.firstname} ${user.lastname}`}</span>
             </div>
+            <div className={styles.separator} />
             <div className={styles.booking__content}>
-              <span className={styles.header__title}>Vehicle : </span>
+              <span className={styles.header__title}>VEHICLE</span>
               <span className={styles.booking__id}>{vehicle.name}</span>
             </div>
+            <div className={styles.separator} />
             <div className={styles.booking__content}>
-              <span className={styles.header__title}>From : </span>
+              <span className={styles.header__title}>PICKED UP ON:</span>
               <span className={styles.booking__id}>{Moment(startDate).format('dddd, MMMM Do YYYY')}</span>
             </div>
+            <div className={styles.separator} />
             <div className={styles.booking__content}>
-              <span className={styles.header__title}>To : </span>
+              <span className={styles.header__title}>RETURNED ON:</span>
               <span className={styles.booking__id}>{Moment(returnDate).format('dddd, MMMM Do YYYY')}</span>
             </div>
-            <div className={styles.equipment__content}>
-              <span className={styles.header__title}>Equipment : </span>
-              {renderEquipment(equipment)}
-            </div>
+            <button className={styles.button__container}>
+              {selectedId === id ? <IoIosArrowUp size={20} /> : <IoIosArrowDown size={20} />}
+            </button>
           </div>
+          <Collapse isOpened={selectedId === id}>
+            <div className={styles.collapse__div}>
+              <span className={styles.header__title}>BOOKING STATUS:</span>
+              <StatusSelect
+                value={bookingStatus}
+                onClick={value => {
+                  onStatusChangeSubmit({ status: value, id });
+                }}
+              />
+            </div>
+          </Collapse>
         </div>
       );
     });

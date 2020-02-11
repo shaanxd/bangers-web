@@ -1,0 +1,37 @@
+.main__div {
+  display: flex;
+  align-items: center;
+  padding: 40px;
+  box-sizing: border-box;
+  flex-direction: column;
+}
+.carousel__div {
+  max-width: 1000px;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+.header__div {
+  width: 100%;
+  max-width: 1000px;
+  display: flex;
+  align-items: center;
+  margin-bottom: 10px;
+}
+
+.separator {
+  flex: 1;
+  border-bottom: 3px solid rgb(231, 8, 135);
+}
+
+.title__text {
+  padding: 20px;
+  font-size: 1.5rem;
+  font-weight: 800;
+  letter-spacing: 1px;
+  text-align: center;
+}
+
+.pink__text {
+  color: rgb(231, 8, 135);
+}

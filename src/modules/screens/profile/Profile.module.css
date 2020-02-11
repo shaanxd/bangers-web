@@ -1,15 +1,20 @@
-.parentDiv {
+.main__div {
   height: 100%;
   box-sizing: border-box;
   padding: 20px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
-.innerDiv {
+.inner__div {
   height: 100%;
+  max-width: 700px;
+  width: 100%;
+  padding: 10px;
 }
 
-.profileInnerDiv {
-  background-color: rgb(247, 247, 247);
+.profile__header {
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -28,21 +33,10 @@
   font-weight: 300;
 }
 
-.editBtn,
 .name,
 .email {
   font-family: inherit;
   color: gray;
-}
-
-.editBtn {
-  margin-top: 20px;
-  background-color: transparent;
-  border: 1px solid gray;
-  padding: 10px 30px;
-  font-weight: 700;
-  font-family: inherit;
-  border-radius: 20px;
 }
 
 .image {
@@ -51,25 +45,14 @@
   vertical-align: bottom;
 }
 
-.editDiv {
-  margin-top: 10px;
+.edit__div {
+  padding: 10px;
   display: flex;
-  flex-direction: row;
+  flex-direction: column;
+  border-top: 2px solid gray;
 }
 
-.leftDiv {
-  flex: 1;
-  box-sizing: border-box;
-  padding: 10px;
-}
-
-.rightDiv {
-  flex: 1;
-  box-sizing: border-box;
-  padding: 10px;
-}
-
-.activeDiv {
+.active__div {
   padding: 20px;
 }
 
@@ -88,9 +71,10 @@
   font-weight: 600;
   text-align: center;
   margin-bottom: 10px;
+  margin-top: 10px;
 }
 
-.uploadBtn {
+.upload__btn {
   margin-top: 10px;
   width: 100%;
   padding: 20px;
@@ -101,68 +85,69 @@
   color: gray;
 }
 
-.displayDiv {
+.display__div {
   position: relative;
-  padding: 20px;
+  padding: 10px;
   display: flex;
   opacity: 1;
-  flex-direction: column;
+  border: 1px solid lightgray;
+  margin-top: 10px;
+  margin-bottom: 10px;
 }
 
-.removeBtn {
+.remove__btn {
   background-color: transparent;
   border: none;
-  width: 120px;
-  padding: 10px 20px;
-  margin-top: 10px;
-  border: 1px solid gray;
   cursor: pointer;
+  color: gray;
+  transition: color 0.3s ease-in-out;
 }
 
-.fileListDiv {
+.remove__btn:hover {
+  color: black;
+}
+
+.separator__div {
+  flex: 1;
+}
+
+.file__list {
   border: 1px solid gray;
-  padding: 10px;
-  margin-bottom: 10px;
   box-sizing: border-box;
 }
 
-.fileListItem {
+.file__item {
   border-bottom: 1px solid gray;
   padding: 15px;
   display: flex;
   justify-content: space-between;
+  font-size: 0.9rem;
 }
 
-.imageLabel {
+.final__item {
+  border: none;
+}
+
+.image__label {
   text-decoration: none;
+  color: gray;
+  transition: color 0.2s ease-in-out;
 }
 
-.imageLabel:hover {
-  color: red;
+.image__label:hover {
+  color: black;
 }
 
-.errorDiv {
-  margin-top: 10px;
-  padding: 10px;
+.file__error {
+  display: block;
   text-align: center;
   color: red;
+  font-size: 0.9rem;
 }
 
-.divHeader {
+.edit__title {
   font-family: inherit;
-  font-weight: 600;
   margin-bottom: 10px;
   display: block;
-}
-
-@media (max-width: 400px) {
-  .displayDiv {
-    flex-direction: column;
-  }
-}
-
-@media (max-width: 700px) {
-  .editDiv {
-    flex-direction: column;
-  }
+  font-size: 0.8rem;
 }

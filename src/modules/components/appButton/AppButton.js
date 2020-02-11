@@ -26,11 +26,7 @@ const AppButton = props => {
         onMouseEnter={onMouseEnter}
         onMouseLeave={onMouseLeave}
       >
-        {loading ? (
-          <PulseLoader size={5} color={hover ? '#000000' : '#FFFFFF'} loading />
-        ) : (
-          text.toUpperCase()
-        )}
+        {loading ? <PulseLoader size={5} color={hover ? '#000000' : '#FFFFFF'} loading /> : text.toUpperCase()}
       </button>
     </div>
   );

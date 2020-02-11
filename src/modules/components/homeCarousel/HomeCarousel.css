@@ -1,0 +1,16 @@
+.slick-slide {
+  padding: 10px;
+}
+
+.slick-prev:before,
+.slick-next:before {
+  content: '' !important;
+}
+
+.slick-next {
+  border: 1px solid blue;
+}
+
+.slick-prev {
+  border: 1px solid blue;
+}

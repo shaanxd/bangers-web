@@ -2,10 +2,13 @@ import React from 'react';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
 
-import styles from './Landing.module.css';
+import { USER_TYPES } from '../../constants/constants';
+import { AdminHome, UserHome } from '..';
 
 const LandingScreen = props => {
-  return <div className={styles.main__div}></div>;
+  const { auth } = props;
+  const Component = auth && auth.userType === USER_TYPES.ADMIN ? AdminHome : UserHome;
+  return <Component />;
 };
 
 const mapStateToProps = ({ auth: { auth } }) => {

@@ -2,10 +2,9 @@ import React, { useEffect, useState } from 'react';
 import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
 import { connect } from 'react-redux';
 
-import { Login, Signup, Landing, AuthRedirect, Vehicle, Vehicles, Profile, AdminHome } from './screens';
+import { Login, Signup, Landing, AuthRedirect, Vehicle, Vehicles, Profile } from './screens';
 import { checkAuthValid } from './actions/auth';
 import { Toolbar, SideDrawer, Backdrop, AuthRoute, UnauthRoute, Loading } from './components';
-import { USER_TYPES } from './constants/constants';
 import { logoutUser } from './actions/auth';
 
 import styles from './Root.module.css';
@@ -47,7 +46,7 @@ const Root = props => {
         <main className={styles.main}>
           <Switch>
             <Route exact path="/">
-              {auth && auth.userType === USER_TYPES.ADMIN ? <AdminHome /> : <Landing />}
+              <Landing />
             </Route>
             <Route exact path="/login">
               <UnauthRoute auth={auth} component={Login} />
