@@ -1,15 +1,11 @@
 import React from 'react';
-import { AiOutlineRight, AiOutlineLeft } from 'react-icons/ai';
+import { IoIosArrowForward, IoIosArrowBack } from 'react-icons/io';
 
 const SliderButton = props => {
   const { className, style, onClick, isPrev } = props;
   return (
     <div className={className} style={style} onClick={onClick}>
-      {isPrev ? (
-        <AiOutlineLeft size={25} color="rgb(231, 8, 135)" />
-      ) : (
-        <AiOutlineRight size={25} color="rgb(231, 8, 135)" />
-      )}
+      {isPrev ? <IoIosArrowBack size={25} color="black" /> : <IoIosArrowForward size={25} color="black" />}
     </div>
   );
 };

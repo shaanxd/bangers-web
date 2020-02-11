@@ -1,35 +1,41 @@
 import React from 'react';
 
 import { getImageUrl } from '../../helper/vehicleHelper';
+import { AppButton } from '..';
 
 import styles from './Vehicle.module.css';
 
 const Vehicle = props => {
   const {
-    vehicle: { id, defaultImage, name },
-    onBookClick
+    vehicle: {
+      id,
+      defaultImage,
+      name,
+      vehicleType: { type, numberOfSeats, pricePerDay }
+    },
+    onBookClick,
+    vehicle
   } = props;
 
   const handleOnClick = () => {
     onBookClick(id);
   };
 
+  console.log(vehicle);
+
   return (
-    <div key={id} className={styles.parentDiv}>
-      <div className={styles.childDiv}>
-        <img
-          alt="haha"
-          className={styles.image}
-          src={getImageUrl(defaultImage)}
-        />
-        <label className={styles.headerLabel}>{name}</label>
-        <button
-          className={styles.bookBtn}
-          type="button"
-          onClick={handleOnClick}
-        >
-          Rent
-        </button>
+    <div key={id} className={styles.main__div}>
+      <div className={styles.child__div}>
+        <img alt="haha" className={styles.image} src={getImageUrl(defaultImage)} />
+        <div className={styles.hover__div} onClick={handleOnClick}>
+          <label className={styles.header__label}>{name}</label>
+          <span className={styles.detail__label}>{type}</span>
+          <span className={styles.detail__label}>{`${numberOfSeats} seats`}</span>
+          <div className={styles.price__div}>
+            <span className={styles.price__label}>{`$${pricePerDay.toFixed(2)}`}</span>
+            <span className={styles.detail__label}>/ day</span>
+          </div>
+        </div>
       </div>
     </div>
   );

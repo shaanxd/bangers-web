@@ -6,6 +6,7 @@ import { useMergedState } from '../../helper/useMergedState';
 
 import styles from './CarImage.module.css';
 import './CarImage.css';
+import { SliderButton } from '..';
 
 const CarImage = props => {
   const largeRef = useRef(null);
@@ -43,7 +44,9 @@ const CarImage = props => {
     speed: 500,
     slidesToShow: 4,
     slidesToScroll: 1,
-    initialSlide: 0
+    initialSlide: 0,
+    prevArrow: <SliderButton isPrev />,
+    nextArrow: <SliderButton />
   };
 
   const { images } = props;

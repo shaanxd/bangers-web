@@ -1,7 +1,32 @@
 .div {
-  padding: 5px;
-  border-bottom: 1px solid grey;
+  border-bottom: 1px solid lightgray;
+  display: flex;
+}
+
+.final {
+  display: flex;
+}
+
+.radio {
   padding: 10px;
+  flex: 1;
+  text-align: left;
+  background: transparent;
+  border: none;
+}
+
+.hidden {
+  width: 0px;
+  background: #e70887;
+  transition: width 0.3s ease-in-out;
+  overflow: hidden;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.visible {
+  width: 40px;
 }
 
 .checkboxLabel {
@@ -10,12 +35,22 @@
   font-size: 0.9rem;
 }
 
-.parentDiv {
+.parent__div {
   margin-top: 20px;
 }
 
-.parentLabel {
+.parent__label {
   font-family: inherit;
   font-weight: 600;
   font-size: 1rem;
+  margin-bottom: 5px;
+  display: block;
+}
+
+.radio:focus {
+  outline: none;
+}
+
+.radio::-moz-focus-inner {
+  border: 0;
 }
