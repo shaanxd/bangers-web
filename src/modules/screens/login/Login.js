@@ -3,6 +3,7 @@ import { connect } from 'react-redux';
 import { Formik, Form } from 'formik';
 import { withRouter } from 'react-router-dom';
 import * as Yup from 'yup';
+import { AiFillFacebook, AiFillGoogleSquare } from 'react-icons/ai';
 
 import { AppInput, AppButton, PasswordInput, Separator } from '../../components';
 import { useMergedState } from '../../helper/useMergedState';
@@ -67,6 +68,8 @@ const LoginScreen = props => {
                   window.location.href = `${process.env.REACT_APP_BASE_URL}auth/google`;
                 }}
                 text="Login with Google"
+                icon={AiFillGoogleSquare}
+                size={35}
               />
               <AppButton
                 type="button"
@@ -75,6 +78,8 @@ const LoginScreen = props => {
                 }}
                 text="Login with Facebook"
                 containerStyle={{ marginTop: '10px' }}
+                icon={AiFillFacebook}
+                size={35}
               />
             </Form>
           );

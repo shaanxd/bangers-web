@@ -1,22 +1,35 @@
 .button {
   padding: 10px;
-  background-color: black;
-  color: white;
-  border: 3px solid black;
   font-size: 0.7rem;
   letter-spacing: 1px;
   width: 100%;
   font-family: inherit;
-  transition: color 0.2s ease-in-out, background-color 0.2s ease-in-out;
+  border: none;
+  background: transparent;
+  color: inherit;
 }
 
 .button__container {
   width: 100%;
+  position: relative;
+  background-color: black;
+  border: 3px solid black;
+  color: white;
+  transition: color 0.2s ease-in-out, background-color 0.2s ease-in-out;
 }
 
-.button:hover {
+.button__container:hover {
   background-color: white;
   color: black;
+}
+
+.icon__container {
+  position: absolute;
+  display: flex;
+  align-items: center;
+  height: 100%;
+  padding: 0px;
+  box-sizing: border-box;
 }
 
 .button:focus {

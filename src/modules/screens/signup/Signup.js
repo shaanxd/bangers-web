@@ -10,6 +10,7 @@ import { postSignup } from '../../api/auth';
 import { authSuccess } from '../../actions/auth';
 
 import styles from './Signup.module.css';
+import { AiFillGoogleSquare, AiFillFacebook } from 'react-icons/ai';
 
 const SignupScreen = props => {
   const [state, setState] = useMergedState({
@@ -58,14 +59,11 @@ const SignupScreen = props => {
           return (
             <Form className={styles.signup__form}>
               <span className={styles.form__header}>Hello there, let's sign up!</span>
-              <AppInput
-                containerStyle={{ marginTop: '10px' }}
-                name="firstname"
-                type="text"
-                placeholder="John"
-                loading={loading}
-              />
-              <AppInput name="lastname" type="text" placeholder="Doe" loading={loading} />
+              <div className={styles.name__div}>
+                <AppInput name="firstname" type="text" placeholder="John" loading={loading} />
+                <div className={styles.separator__div} />
+                <AppInput name="lastname" type="text" placeholder="Doe" loading={loading} />
+              </div>
               <AppInput name="email" type="email" placeholder="someone@gmail.com" loading={loading} />
               <PasswordInput name="password" placeholder="Enter Password" loading={loading} />
               <PasswordInput name="confirmPassword" placeholder="Repeat Password" loading={loading} />
@@ -78,6 +76,8 @@ const SignupScreen = props => {
                   window.location.href = `${process.env.REACT_APP_BASE_URL}auth/google`;
                 }}
                 text="Login with Google"
+                icon={AiFillGoogleSquare}
+                size={35}
               />
               <AppButton
                 type="button"
@@ -86,6 +86,8 @@ const SignupScreen = props => {
                 }}
                 text="Login with Facebook"
                 containerStyle={{ marginTop: '10px' }}
+                icon={AiFillFacebook}
+                size={35}
               />
             </Form>
           );

@@ -22,4 +22,13 @@
   display: block;
   text-align: center;
   font-size: 2rem;
+  margin-bottom: 20px;
+}
+
+.name__div {
+  display: flex;
+}
+
+.separator__div {
+  width: 20px;
 }

@@ -4,7 +4,7 @@ import { PulseLoader } from 'react-spinners';
 import styles from './AppButton.module.css';
 
 const AppButton = props => {
-  const { containerStyle, loading, onClick, type, text } = props;
+  const { containerStyle, loading, onClick, type, text, icon: Icon, size = 30 } = props;
 
   const [hover, setHover] = useState(false);
 
@@ -18,6 +18,11 @@ const AppButton = props => {
 
   return (
     <div className={styles.button__container} style={containerStyle}>
+      {Icon && (
+        <div className={styles.icon__container}>
+          <Icon size={size} />
+        </div>
+      )}
       <button
         className={styles.button}
         disabled={loading}
