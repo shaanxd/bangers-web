@@ -37,7 +37,7 @@
 
 .side__drawer {
   width: 100%;
-  max-width: 500px;
+  max-width: 600px;
   background-color: white;
   transform: translateX(100%);
   animation: anim 0.3s ease-in-out forwards;

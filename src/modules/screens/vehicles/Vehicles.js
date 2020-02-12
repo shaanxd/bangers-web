@@ -6,6 +6,7 @@ import styles from './Vehicles.module.css';
 import { getVehicleList, getVehicleTypes } from '../../api/vehicles';
 import { Vehicle } from '../../components';
 import Select from 'react-select';
+import { withRouter } from 'react-router-dom';
 
 const VehiclesScreen = props => {
   const [state, setState] = useMergedState({
@@ -61,8 +62,8 @@ const VehiclesScreen = props => {
     }
   };
 
-  const handleOnBookClick = () => {
-    console.log('Booked');
+  const handleOnBookClick = id => {
+    props.history.push(`/vehicles/${id}`);
   };
 
   const handleOnTypeChange = selectedValue => {
@@ -103,16 +104,8 @@ const VehiclesScreen = props => {
     return (
       <div className={styles.vehicleTypeDivParent}>
         <label className={styles.vehicleTypeHeader}>VEHICLE TYPE:</label>
-        <Select
-          value={selectedFilterType}
-          onChange={handleOnTypeChange}
-          options={vehicleTypes}
-        />
-        <button
-          type="button"
-          className={styles.clearBtn}
-          onClick={handleClearClick}
-        >
+        <Select value={selectedFilterType} onChange={handleOnTypeChange} options={vehicleTypes} />
+        <button type="button" className={styles.clearBtn} onClick={handleClearClick}>
           CLEAR
         </button>
       </div>
@@ -142,14 +135,10 @@ const VehiclesScreen = props => {
     <div className={styles.parentDiv}>
       <div className={styles.childDiv}>
         {renderVehicleFilters()}
-        {vehiclesLoading
-          ? renderVehicleLoading()
-          : vehiclesError
-          ? renderVehicleError()
-          : renderVehicleList()}
+        {vehiclesLoading ? renderVehicleLoading() : vehiclesError ? renderVehicleError() : renderVehicleList()}
       </div>
     </div>
   );
 };
 
-export default VehiclesScreen;
+export default withRouter(VehiclesScreen);

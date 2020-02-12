@@ -10,6 +10,7 @@ import { logoutUser } from './actions/auth';
 import styles from './Root.module.css';
 import 'slick-carousel/slick/slick.css';
 import 'slick-carousel/slick/slick-theme.css';
+import { USER_TYPES } from './constants/constants';
 
 const Root = props => {
   const [sideDrawerOpen, setSideDrawerOpen] = useState(false);
@@ -64,10 +65,10 @@ const Root = props => {
               <Vehicle />
             </Route>
             <Route exact path="/profile">
-              <AuthRoute auth={auth} component={Profile} />
+              <AuthRoute auth={auth} component={Profile} user={USER_TYPES.CUSTOMER} />
             </Route>
             <Route exact path="/bookings">
-              <AuthRoute auth={auth} component={Bookings} />
+              <AuthRoute auth={auth} component={Bookings} user={USER_TYPES.CUSTOMER} />
             </Route>
           </Switch>
         </main>
