@@ -16,3 +16,5 @@ export { default as CarImage } from './carImage/CarImage';
 export { default as HomeCarousel } from './homeCarousel/HomeCarousel';
 export { default as SliderButton } from './sliderButton/SliderButton';
 export { default as StatusSelect } from './statusSelect/StatusSelect';
+export { default as BookingItem } from './bookingItem/BookingItem';
+export { default as ExtendBooking } from './extendBooking/ExtendBooking';

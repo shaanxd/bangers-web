@@ -41,7 +41,7 @@ const HomeCarousel = props => {
 
   const renderVehicleCarousel = () => {
     const components = items.map(vehicle => {
-      return <Vehicle vehicle={vehicle} onBookClick={onItemClick} />;
+      return <Vehicle vehicle={vehicle} onBookClick={onItemClick} key={vehicle.id} />;
     });
     return <Slider {...miniSettings}>{components}</Slider>;
   };

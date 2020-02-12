@@ -14,3 +14,8 @@ export const getDocuments = authToken => {
   const endpoint = 'users/user-documents';
   return GET(endpoint, authToken);
 };
+
+export const getBookings = authToken => {
+  const endpoint = `bookings/get-bookings`;
+  return GET(endpoint, authToken);
+};

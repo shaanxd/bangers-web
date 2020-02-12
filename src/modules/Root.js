@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
 import { connect } from 'react-redux';
 
-import { Login, Signup, Landing, AuthRedirect, Vehicle, Vehicles, Profile } from './screens';
+import { Login, Signup, Landing, AuthRedirect, Vehicle, Vehicles, Profile, Bookings } from './screens';
 import { checkAuthValid } from './actions/auth';
 import { Toolbar, SideDrawer, Backdrop, AuthRoute, UnauthRoute, Loading } from './components';
 import { logoutUser } from './actions/auth';
@@ -65,6 +65,9 @@ const Root = props => {
             </Route>
             <Route exact path="/profile">
               <AuthRoute auth={auth} component={Profile} />
+            </Route>
+            <Route exact path="/bookings">
+              <AuthRoute auth={auth} component={Bookings} />
             </Route>
           </Switch>
         </main>

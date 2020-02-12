@@ -1,7 +1,6 @@
 import React from 'react';
 
 import { getImageUrl } from '../../helper/vehicleHelper';
-import { AppButton } from '..';
 
 import styles from './Vehicle.module.css';
 
@@ -13,15 +12,12 @@ const Vehicle = props => {
       name,
       vehicleType: { type, numberOfSeats, pricePerDay }
     },
-    onBookClick,
-    vehicle
+    onBookClick
   } = props;
 
   const handleOnClick = () => {
     onBookClick(id);
   };
-
-  console.log(vehicle);
 
   return (
     <div key={id} className={styles.main__div}>

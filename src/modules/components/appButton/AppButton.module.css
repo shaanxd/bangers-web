@@ -4,7 +4,7 @@
   color: white;
   border: 3px solid black;
   font-size: 0.7rem;
-  font-weight: 700;
+  letter-spacing: 1px;
   width: 100%;
   font-family: inherit;
   transition: color 0.2s ease-in-out, background-color 0.2s ease-in-out;
@@ -17,4 +17,12 @@
 .button:hover {
   background-color: white;
   color: black;
+}
+
+.button:focus {
+  outline: none;
+}
+
+.button::-moz-focus-inner {
+  border: 0;
 }

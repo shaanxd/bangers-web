@@ -1,0 +1,39 @@
+.main__div {
+}
+
+.content__div {
+  padding: 15px 15px;
+  border-bottom: 1px solid #d2d2d2;
+  display: flex;
+}
+
+.text__group {
+  display: flex;
+  flex-direction: column;
+  padding: 0px 10px;
+}
+
+.text__header {
+  font-size: 0.6rem;
+  font-weight: 700;
+  color: gray;
+}
+
+.text__value {
+  font-size: 0.8rem;
+  font-weight: 700;
+  letter-spacing: 1px;
+  margin-top: 2px;
+  width: 180px;
+}
+
+.separator {
+  border-right: 1px solid #d2d2d2;
+}
+
+.button__container {
+  flex: 1;
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+}

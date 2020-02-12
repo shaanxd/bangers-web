@@ -1,7 +1,6 @@
 import moment from 'moment';
 
-export const getImageUrl = imageUrl =>
-  `${process.env.REACT_APP_IMAGE_URL}${imageUrl}`;
+export const getImageUrl = imageUrl => `${process.env.REACT_APP_IMAGE_URL}${imageUrl}`;
 
 export const getTomorrow = () =>
   moment()
@@ -26,3 +25,18 @@ export const getDateStringInUTC = date =>
   moment(date)
     .utc()
     .format();
+
+export const getDateFromUTC = date =>
+  moment(date)
+    .local()
+    .format();
+
+export const getDateObjFromUTC = date =>
+  moment(date)
+    .local()
+    .toDate();
+
+export const formatDateFromUtc = date =>
+  moment(date)
+    .local()
+    .format('dddd, MMMM Do YYYY, h:mm a');

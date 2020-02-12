@@ -4,6 +4,7 @@ import { withRouter } from 'react-router-dom';
 import { DrawerToggleButton } from '../';
 
 import './Toolbar.css';
+import { USER_TYPES } from '../../constants/constants';
 
 const Toolbar = props => {
   const { auth } = props;
@@ -83,7 +84,24 @@ const Toolbar = props => {
     </ul>
   );
 
-  const navigationRoutes = auth ? renderAuthRoutes() : renderUnauthRoutes();
+  const renderAdminRoutes = () => (
+    <ul>
+      <li>
+        <span className={'toolbar__navigation-link'} onClick={handleLogoutClick}>
+          Users
+        </span>
+        <span className={'toolbar__navigation-link'} onClick={handleLogoutClick}>
+          Logout
+        </span>
+      </li>
+    </ul>
+  );
+
+  const navigationRoutes = !auth
+    ? renderUnauthRoutes()
+    : auth.userType === USER_TYPES.ADMIN
+    ? renderAdminRoutes()
+    : renderAuthRoutes();
   return (
     <header className="toolbar">
       <nav className="toolbar__navigation">

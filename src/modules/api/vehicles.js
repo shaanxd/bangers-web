@@ -29,3 +29,8 @@ export const getVehicleTypes = () => {
   const endpoint = 'vehicles/vehicle-types';
   return GET(endpoint);
 };
+
+export const extendBooking = (bookingData, authToken) => {
+  const endpoint = 'bookings/extend-booking';
+  return POST(endpoint, bookingData, authToken);
+};
