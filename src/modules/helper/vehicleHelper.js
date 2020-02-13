@@ -40,3 +40,8 @@ export const formatDateFromUtc = date =>
   moment(date)
     .local()
     .format('dddd, MMMM Do YYYY, h:mm a');
+
+export const formatDateFromUtcWithoutTime = date =>
+  moment(date)
+    .local()
+    .format('dddd, MMMM Do YYYY');

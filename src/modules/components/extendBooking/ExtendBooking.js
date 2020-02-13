@@ -5,7 +5,12 @@ import { Formik, Form, ErrorMessage } from 'formik';
 import moment from 'moment';
 
 import { BOOKING_STATUS } from '../../constants/constants';
-import { formatDateFromUtc, getDateFromUTC, getDateObjFromUTC } from '../../helper/vehicleHelper';
+import {
+  formatDateFromUtc,
+  getDateFromUTC,
+  getDateObjFromUTC,
+  formatDateFromUtcWithoutTime
+} from '../../helper/vehicleHelper';
 
 import './ExtendBooking.css';
 import styles from './ExtendBooking.module.css';
@@ -18,7 +23,8 @@ const ExtendBooking = props => {
       startDate,
       returnDate,
       bookingStatus,
-      vehicle: { name }
+      vehicle: { name },
+      equipment
     },
     onSubmit,
     loading
@@ -41,6 +47,21 @@ const ExtendBooking = props => {
     return returnMoment.isAfter(actualReturnMoment);
   };
 
+  const renderEquipmentList = () => {
+    if (equipment.length === 0) {
+      return 'None';
+    }
+    let val = '';
+    for (let i = 0; i < equipment.length; i++) {
+      if (i === equipment.length - 1) {
+        val += `${equipment[i].name}`;
+      } else {
+        val += `${equipment[i].name}, `;
+      }
+    }
+    return val;
+  };
+
   const renderBookingExtensionDiv = () => {
     return (
       <div className={styles.extension__main}>
@@ -57,6 +78,11 @@ const ExtendBooking = props => {
           {({ values, setFieldValue, setFieldTouched }) => {
             return (
               <Form className={styles.extension__div}>
+                <span className={styles.status__message}>
+                  {`Please note that this booking can only be extended till 4:00 PM on ${formatDateFromUtcWithoutTime(
+                    returnDate
+                  )}`}
+                </span>
                 <ReactDatePicker
                   selected={values.returnDate}
                   onChange={value => {
@@ -111,11 +137,15 @@ const ExtendBooking = props => {
         <div className={styles.header__light}>STATUS</div>
         <span className={styles.header__title}>{bookingStatus}</span>
       </div>
+      <div className={styles.header__div}>
+        <div className={styles.header__light}>EQUIPMENT</div>
+        <span className={styles.header__title}>{renderEquipmentList()}</span>
+      </div>
       <span className={styles.section__header}>EXTEND BOOKING</span>
       {bookingStatus === BOOKING_STATUS.COLLECTED || bookingStatus === BOOKING_STATUS.BOOKED ? (
         renderBookingExtensionDiv()
       ) : (
-        <span className={styles.status__message}>THIS BOOKING CANNOT BE EXTENDED</span>
+        <span className={styles.status__message}>Sorry, this booking cannot be extended</span>
       )}
     </div>
   );
