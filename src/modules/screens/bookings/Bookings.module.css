@@ -49,6 +49,43 @@
   flex: 1;
 }
 
+.close__div {
+  display: flex;
+  justify-content: flex-end;
+  padding: 20px;
+}
+
+.close__button {
+  display: flex;
+  border: none;
+  background: none;
+  justify-content: center;
+  align-items: center;
+  transition: border 0.2s ease-in-out;
+  letter-spacing: 1px;
+}
+
+.close__button:focus {
+  outline: none;
+}
+
+.close__button::-moz-focus-inner {
+  border: 0;
+}
+
+.close__button:hover span {
+  border-bottom: 1px solid gray;
+}
+
+.close__button span {
+  margin-top: -1px;
+  font-size: 0.7rem;
+  padding: 3px;
+  cursor: pointer;
+  border-bottom: 1px solid transparent;
+  transition: border 0.2s ease-in-out;
+}
+
 @keyframes anim {
   from {
     transform: translateX(100%);

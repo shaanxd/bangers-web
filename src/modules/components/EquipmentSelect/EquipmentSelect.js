@@ -4,7 +4,7 @@ import styles from './EquipmentSelect.module.css';
 import { IoIosCheckmark } from 'react-icons/io';
 
 const EquipmentSelect = props => {
-  const { equipment, selectedEquipment, handleCheckedChange } = props;
+  const { equipment, selectedEquipment, handleCheckedChange, loading } = props;
 
   const handleEquipmentCheck = id => {
     handleCheckedChange(id);
@@ -17,7 +17,7 @@ const EquipmentSelect = props => {
       return (
         <div className={style} key={id}>
           <div className={hiddenStyle}>
-            <IoIosCheckmark size={40} color="white" />
+            <IoIosCheckmark size={40} />
           </div>
           <button
             onClick={() => {
@@ -25,6 +25,7 @@ const EquipmentSelect = props => {
             }}
             type="button"
             className={styles.radio}
+            disabled={loading}
           >
             {name}
           </button>

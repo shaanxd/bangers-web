@@ -1,13 +1,14 @@
 import React, { useEffect } from 'react';
 import { connect } from 'react-redux';
 
-import { BookingItem, ExtendBooking } from '../../components';
+import { BookingItem, ExtendBooking, PageHeader } from '../../components';
 import { getBookings } from '../../api/user';
 import { useMergedState } from '../../helper/useMergedState';
 
 import styles from './Bookings.module.css';
 import { extendBooking } from '../../api/vehicles';
 import { getDateStringInUTC } from '../../helper/vehicleHelper';
+import { IoIosClose } from 'react-icons/io';
 
 const Bookings = props => {
   const [state, setState] = useMergedState({
@@ -77,11 +78,20 @@ const Bookings = props => {
 
   return (
     <div className={styles.main__div}>
-      <div className={styles.booking__list}>{renderBookingList()}</div>
+      <div className={styles.booking__list}>
+        <PageHeader text="YOUR BOOKINGS" />
+        {renderBookingList()}
+      </div>
       {selectedBooking && (
         <div className={styles.modal__div}>
           <div className={styles.backdrop__div} onClick={onBookingDeSelect}></div>
           <div className={styles.side__drawer}>
+            <div className={styles.close__div}>
+              <button type="button" className={styles.close__button} onClick={onBookingDeSelect}>
+                <IoIosClose size={20} />
+                <span>CLOSE</span>
+              </button>
+            </div>
             <div className={styles.flex__div} />
             <ExtendBooking booking={selectedBooking} onSubmit={onExtensionSubmit} loading={extensionLoading} />
             <div className={styles.flex__div} />

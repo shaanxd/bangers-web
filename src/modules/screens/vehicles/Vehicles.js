@@ -1,12 +1,12 @@
 import React, { useEffect } from 'react';
-
-import { useMergedState } from '../../helper/useMergedState';
-
-import styles from './Vehicles.module.css';
-import { getVehicleList, getVehicleTypes } from '../../api/vehicles';
-import { Vehicle } from '../../components';
 import Select from 'react-select';
 import { withRouter } from 'react-router-dom';
+
+import { useMergedState } from '../../helper/useMergedState';
+import { getVehicleList, getVehicleTypes } from '../../api/vehicles';
+import { Vehicle, Loading, Glitch } from '../../components';
+
+import styles from './Vehicles.module.css';
 
 const VehiclesScreen = props => {
   const [state, setState] = useMergedState({
@@ -42,6 +42,7 @@ const VehiclesScreen = props => {
 
   const getVehiclesFromAPI = async vehicleType => {
     try {
+      setState({ vehiclesLoading: true, vehiclesError: null });
       const response = await getVehicleList(vehicleType);
       setState({ vehicles: response, vehiclesLoading: false });
     } catch (err) {
@@ -51,6 +52,7 @@ const VehiclesScreen = props => {
 
   const getVehicleTypesFromAPI = async () => {
     try {
+      setState({ vehicleTypesLoading: true, vehicleTypesError: null });
       const response = await getVehicleTypes();
       const vehicleTypes = response.map(({ id, type }) => ({
         value: id,
@@ -112,31 +114,36 @@ const VehiclesScreen = props => {
     );
   };
 
-  const renderVehicleFilters = () => {
-    const componentToRender = vehicleTypesLoading ? (
-      <label>Loading</label>
-    ) : vehicleTypesError ? (
-      <label>{vehicleTypesError}</label>
-    ) : (
-      renderVehicleFilterList()
+  const renderLoading = () => {
+    return <Loading text="Loading" />;
+  };
+
+  const renderGlitch = () => {
+    return (
+      <Glitch
+        text={vehicleTypesError || vehiclesError}
+        onRetry={vehicleTypesError ? getVehicleTypesFromAPI : getVehiclesFromAPI}
+      />
     );
+  };
+
+  const renderVehicleFilters = () => {
+    const componentToRender = renderVehicleFilterList();
     return <div className={styles.filterListDiv}>{componentToRender}</div>;
-  };
-
-  const renderVehicleLoading = () => {
-    return <div className={styles.loadingDiv}>Loading</div>;
-  };
-
-  const renderVehicleError = () => {
-    return <div className={styles.errorDiv}>{vehiclesError}</div>;
   };
 
   return (
     <div className={styles.parentDiv}>
-      <div className={styles.childDiv}>
-        {renderVehicleFilters()}
-        {vehiclesLoading ? renderVehicleLoading() : vehiclesError ? renderVehicleError() : renderVehicleList()}
-      </div>
+      {vehicleTypesLoading || vehiclesLoading ? (
+        renderLoading()
+      ) : vehicleTypesError || vehiclesError ? (
+        renderGlitch()
+      ) : (
+        <div className={styles.childDiv}>
+          {renderVehicleFilters()}
+          {renderVehicleList()}
+        </div>
+      )}
     </div>
   );
 };

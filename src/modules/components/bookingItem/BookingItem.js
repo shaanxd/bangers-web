@@ -43,7 +43,7 @@ const BookingItem = props => {
           <span className={styles.text__value}>{bookingStatus}</span>
         </div>
         <div className={styles.button__container}>
-          <AppButton onClick={handleOnClick} text="View" containerStyle={{ maxWidth: '100px' }} />
+          <AppButton onClick={handleOnClick} text="View" />
         </div>
       </div>
     </div>

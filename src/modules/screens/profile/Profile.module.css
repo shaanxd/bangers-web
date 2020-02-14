@@ -1,42 +1,17 @@
 .main__div {
   height: 100%;
+  min-height: 100%;
   box-sizing: border-box;
-  padding: 20px;
   display: flex;
-  align-items: center;
+  padding: 20px;
   justify-content: center;
 }
 
 .inner__div {
-  height: 100%;
-  max-width: 700px;
+  max-width: 1200px;
   width: 100%;
   padding: 10px;
-}
-
-.profile__header {
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  padding: 30px;
-}
-
-.name {
-  margin-top: 10px;
-  font-weight: 600;
-  font-size: 1.2rem;
-}
-
-.email {
-  font-size: 1rem;
-  font-weight: 300;
-}
-
-.name,
-.email {
-  font-family: inherit;
-  color: gray;
+  min-height: 80%;
 }
 
 .image {
@@ -49,7 +24,6 @@
   padding: 10px;
   display: flex;
   flex-direction: column;
-  border-top: 2px solid gray;
 }
 
 .active__div {
@@ -150,4 +124,7 @@
   margin-bottom: 10px;
   display: block;
   font-size: 0.8rem;
+  letter-spacing: 1px;
+  display: block;
+  text-align: center;
 }

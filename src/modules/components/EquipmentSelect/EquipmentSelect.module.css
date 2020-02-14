@@ -13,26 +13,24 @@
   text-align: left;
   background: transparent;
   border: none;
+  font-weight: 300;
+  letter-spacing: 1px;
 }
 
 .hidden {
-  width: 0px;
-  background: #e70887;
-  transition: width 0.3s ease-in-out;
+  width: 10px;
+  background: black;
+  transition: width 0.3s ease-in-out, color 0.4s ease-in-out;
   overflow: hidden;
   display: flex;
   justify-content: center;
   align-items: center;
+  color: black;
 }
 
 .visible {
   width: 40px;
-}
-
-.checkboxLabel {
-  font-family: inherit;
-  padding: 0px 10px;
-  font-size: 0.9rem;
+  color: white;
 }
 
 .parent__div {
@@ -41,10 +39,12 @@
 
 .parent__label {
   font-family: inherit;
-  font-weight: 600;
-  font-size: 1rem;
-  margin-bottom: 5px;
+  font-size: 0.7rem;
+  margin-top: 10px;
+  margin-bottom: 10px;
   display: block;
+  letter-spacing: 1px;
+  margin-bottom: 5px;
 }
 
 .radio:focus {

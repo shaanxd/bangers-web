@@ -12,12 +12,13 @@ import {
   getDateStringInUTC
 } from '../../helper/vehicleHelper';
 import { getVehicle, createBooking, getEquipment } from '../../api/vehicles';
-import { EquipmentSelect, CarImage } from '../../components';
+import { EquipmentSelect, CarImage, PageHeader, AppButton, Loading, Glitch } from '../../components';
 import { useMergedState } from '../../helper/useMergedState';
 
 import 'react-datepicker/dist/react-datepicker.css';
 import styles from './Vehicle.module.css';
 import './Vehicle.css';
+import { PulseLoader } from 'react-spinners';
 
 const VehicleScreen = props => {
   const [state, setState] = useMergedState({
@@ -65,6 +66,7 @@ const VehicleScreen = props => {
 
   const getVehicleAPICall = async () => {
     try {
+      setState({ vehicleLoading: false, vehicleError: null });
       const response = await getVehicle(id);
       setState({ vehicleLoading: false, vehicleDetails: response });
     } catch (err) {
@@ -117,7 +119,7 @@ const VehicleScreen = props => {
           },
           auth.authToken
         );
-        setState({ bookingLoading: false });
+        props.history.push('/bookings');
       } else {
         props.history.push('/login');
       }
@@ -127,64 +129,66 @@ const VehicleScreen = props => {
   };
 
   const renderLoading = () => {
-    return (
-      <div>
-        <h1>Loading</h1>
-      </div>
-    );
+    return <Loading text="Loading" />;
   };
 
   const renderError = () => {
-    return (
-      <div>
-        <h1>{vehicleError}</h1>
-      </div>
-    );
+    return <Glitch text={vehicleError} onRetry={getVehicleAPICall} />;
   };
 
   const renderVehicle = () => {
     const { name } = vehicleDetails;
     return (
-      <div className={styles.parentDiv}>
-        <div className={styles.childDiv}>
-          <CarImage images={vehicleDetails.images} />
-          <div className={styles.bookingDiv}>
-            <label className={styles.vehicleHeader}>{name.toUpperCase()}</label>
-            <label className={styles.datePickerLabel}>PICK-UP DATE</label>
-            <DatePicker
-              selected={startDate}
-              onChange={handleStartDateChange}
-              className={styles.datePicker}
-              minDate={getMinStartDate()}
-              dateFormat="MMMM d, yyyy h:mm aa"
-              showTimeSelect
-            />
-            <label className={styles.datePickerLabel}>DROP-OFF DATE</label>
-            <DatePicker
-              selected={returnDate}
-              onChange={handleReturnDateChange}
-              className={styles.datePicker}
-              maxDate={getMaxReturnDate(startDate)}
-              minDate={getMinReturnDate(startDate)}
-              dateFormat="MMMM d, yyyy h:mm aa"
-              showTimeSelect
-            />
-            {bookingLoading && <label>Loading</label>}
-            <button type="button" onClick={handleBookClick} className={styles.bookBtn}>
-              Book Now!
-            </button>
-            {bookingError && <label>{bookingError}</label>}
-            {equipmentError ? (
-              <label>{equipmentError}</label>
-            ) : equipmentLoading ? (
-              <label>Loading</label>
-            ) : (
-              <EquipmentSelect
-                equipment={equipment}
-                selectedEquipment={selectedEquipment}
-                handleCheckedChange={handleCheckedChange}
+      <div className={styles.main__div}>
+        <div className={styles.inner__div}>
+          <PageHeader text={name.toUpperCase()} />
+          <div className={styles.details__container}>
+            <CarImage images={vehicleDetails.images} />
+            <div className={styles.booking__div}>
+              <label className={styles.date__label}>PICK-UP DATE</label>
+              <DatePicker
+                selected={startDate}
+                onChange={handleStartDateChange}
+                className={styles.date__picker}
+                minDate={getMinStartDate()}
+                dateFormat="MMMM d, yyyy h:mm aa"
+                showTimeSelect
+                disabled={bookingLoading}
               />
-            )}
+              <label className={styles.date__label}>DROP-OFF DATE</label>
+              <DatePicker
+                selected={returnDate}
+                onChange={handleReturnDateChange}
+                className={styles.date__picker}
+                maxDate={getMaxReturnDate(startDate)}
+                minDate={getMinReturnDate(startDate)}
+                dateFormat="MMMM d, yyyy h:mm aa"
+                showTimeSelect
+                disabled={bookingLoading}
+              />
+              <AppButton
+                onClick={handleBookClick}
+                text="BOOK NOW"
+                loading={bookingLoading}
+                containerStyle={{ marginTop: '20px' }}
+              />
+              {bookingError && <span className={styles.form__error}>{bookingError}</span>}
+              {equipmentError ? (
+                <span className={styles.form__error}>{equipmentError}</span>
+              ) : equipmentLoading ? (
+                <div className={styles.equipment__label}>
+                  <PulseLoader size={10} />
+                  <span>Loading Equipment</span>
+                </div>
+              ) : (
+                <EquipmentSelect
+                  equipment={equipment}
+                  selectedEquipment={selectedEquipment}
+                  handleCheckedChange={handleCheckedChange}
+                  loading={bookingLoading}
+                />
+              )}
+            </div>
           </div>
         </div>
       </div>

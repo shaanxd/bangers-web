@@ -1,0 +1,18 @@
+.main__div {
+  display: flex;
+  align-items: center;
+  margin: 10px 0px;
+}
+
+.line__div {
+  flex: 1;
+  border-bottom: 1px solid #d2d2d2;
+}
+
+.main__div span {
+  padding: 20px;
+  font-size: 1.5rem;
+  letter-spacing: 10px;
+  font-weight: 300;
+  text-align: center;
+}

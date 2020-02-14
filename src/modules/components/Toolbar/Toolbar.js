@@ -1,10 +1,11 @@
 import React from 'react';
 import { withRouter } from 'react-router-dom';
+import { AiOutlineUser, AiOutlineExport, AiOutlineMail } from 'react-icons/ai';
 
 import { DrawerToggleButton } from '../';
+import { USER_TYPES } from '../../constants/constants';
 
 import './Toolbar.css';
-import { USER_TYPES } from '../../constants/constants';
 
 const Toolbar = props => {
   const { auth } = props;
@@ -63,23 +64,18 @@ const Toolbar = props => {
   const renderAuthRoutes = () => (
     <ul>
       <li>
-        <div className="toolbar__navigation-div">
-          <div className="toolbar__navigation-display-div">
-            <label className="toolbar__navigation-profile-label">Profile</label>
-          </div>
-          <div className="toolbar__navigation-dropdown">
-            <span className="toolbar__navigation-dropdown-item" onClick={handleProfileClick}>
-              Profile
-            </span>
-
-            <span className="toolbar__navigation-dropdown-item" onClick={handleBookingClick}>
-              Bookings
-            </span>
-            <span className="toolbar__navigation-dropdown-item" onClick={handleLogoutClick}>
-              Logout
-            </span>
-          </div>
-        </div>
+        <span className="toolbar__navigation-link" onClick={handleProfileClick}>
+          <AiOutlineUser size={20} />
+          <span>Profile</span>
+        </span>
+        <span className="toolbar__navigation-link" onClick={handleBookingClick}>
+          <AiOutlineMail size={20} />
+          <span>Bookings</span>
+        </span>
+        <span className="toolbar__navigation-link" onClick={handleLogoutClick}>
+          <AiOutlineExport size={20} />
+          <span>Logout</span>
+        </span>
       </li>
     </ul>
   );
@@ -87,9 +83,6 @@ const Toolbar = props => {
   const renderAdminRoutes = () => (
     <ul>
       <li>
-        <span className={'toolbar__navigation-link'} onClick={handleLogoutClick}>
-          Users
-        </span>
         <span className={'toolbar__navigation-link'} onClick={handleLogoutClick}>
           Logout
         </span>
@@ -110,8 +103,8 @@ const Toolbar = props => {
         </div>
         <div className="toolbar__logo">
           <span onClick={handleHomeClick}>
-            <span className="toolbar__logo-light">BANGERS</span>
-            <span className="toolbar__logo-dark">RENTALS</span>
+            <span className="toolbar__logo-light">BANG</span>
+            <span className="toolbar__logo-dark">ERS</span>
           </span>
         </div>
         <div className="spacer" />

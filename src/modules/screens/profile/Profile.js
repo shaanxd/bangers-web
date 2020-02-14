@@ -9,7 +9,7 @@ import { useMergedState } from '../../helper/useMergedState';
 import { addDocument, getUser, getDocuments } from '../../api/user';
 import { documentTypes, documentTypesArray } from '../../constants/constants';
 import { getImageUrl } from '../../helper/vehicleHelper';
-import { AppButton } from '../../components';
+import { AppButton, PageHeader } from '../../components';
 
 import styles from './Profile.module.css';
 
@@ -145,12 +145,9 @@ const ProfileScreen = props => {
     return (
       <div className={styles.main__div}>
         <div className={styles.inner__div}>
-          <div className={styles.profile__header}>
-            <label className={styles.name}>{`${profile.firstname} ${profile.lastname}`}</label>
-            <label className={styles.email}>{profile.email}</label>
-          </div>
+          <PageHeader text="YOUR PROFILE" />
           <div className={styles.edit__div}>
-            <label className={styles.edit__title}>USER DOCUMENTS</label>
+            <label className={styles.edit__title}>YOUR DOCUMENTS</label>
             {documents.length > 0 && <div className={styles.file__list}>{renderFileList()}</div>}
             {file ? (
               <div className={styles.display__div}>
