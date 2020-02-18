@@ -43,6 +43,7 @@
   animation: anim 0.3s ease-in-out forwards;
   display: flex;
   flex-direction: column;
+  overflow-y: scroll;
 }
 
 .flex__div {

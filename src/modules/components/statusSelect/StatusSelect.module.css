@@ -1,22 +1,35 @@
 .main__div {
-  margin-top: 5px;
+  padding: 20px;
+  width: 100%;
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+}
+
+.list__div {
+  padding-top: 10px;
+  display: flex;
+  flex-direction: column;
+  margin: -5px 0px;
 }
 
 .radio {
+  flex: 1;
   background: transparent;
-  border: 2px solid lightgray;
-  padding: 5px;
-  font-size: 0.7rem;
+  border: 1px solid black;
+  padding: 10px;
+  font-size: 0.8rem;
   margin-right: 5px;
-  border-radius: 5px;
   cursor: pointer;
   min-width: 100px;
-  color: gray;
+  color: black;
+  margin: 5px 0px;
+  letter-spacing: 1px;
 }
 
 .selected {
-  border-color: black;
-  color: black;
+  color: white;
+  background-color: black;
 }
 
 .radio:focus {
@@ -25,4 +38,40 @@
 
 .radio::-moz-focus-inner {
   border: 0;
+}
+.header__div {
+  border-bottom: 1px solid #d2d2d2;
+  padding: 5px;
+  display: flex;
+  font-size: 0.8rem;
+  letter-spacing: 1px;
+}
+
+.header__title {
+  display: block;
+  text-align: right;
+  flex: 1;
+}
+
+.header__light {
+  display: block;
+}
+
+.section__header {
+  display: block;
+  text-align: center;
+  padding: 10px;
+  font-size: 1.2rem;
+  letter-spacing: 5px;
+  border-bottom: 1px solid #d2d2d2;
+  font-weight: 300;
+}
+
+.status__message {
+  display: block;
+  text-align: center;
+  padding: 5px;
+  font-size: 0.8rem;
+  letter-spacing: 1px;
+  margin-top: 5px;
 }
