@@ -6,11 +6,11 @@ import { getVehicleList } from '../../api/vehicles';
 import { Loading, Glitch, HomeCarousel } from '../../components';
 import { withRouter } from 'react-router-dom';
 
-const UserHome = props => {
+const UserHome = (props) => {
   const [state, setState] = useMergedState({
     vehiclesLoading: true,
     vehiclesError: null,
-    vehicles: []
+    vehicles: [],
   });
 
   const { vehiclesLoading, vehiclesError, vehicles } = state;
@@ -32,7 +32,7 @@ const UserHome = props => {
     }
   };
 
-  const onVehicleClick = id => {
+  const onVehicleClick = (id) => {
     props.history.push(`/vehicles/${id}`);
   };
 
@@ -51,13 +51,7 @@ const UserHome = props => {
   const renderContent = () => {
     return (
       <div>
-        <HomeCarousel
-          onMoreClick={onMoreClick}
-          onItemClick={onVehicleClick}
-          items={vehicles}
-          leftHeader="OUR"
-          rightHeader="FLEET"
-        />
+        <HomeCarousel onMoreClick={onMoreClick} onItemClick={onVehicleClick} items={vehicles} header="Our Fleet" />
       </div>
     );
   };

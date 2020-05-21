@@ -10,12 +10,12 @@ import { getBookings, updateBooking } from '../../api/admin';
 
 import styles from './AdminHome.module.css';
 
-const AdminHome = props => {
+const AdminHome = (props) => {
   const [state, setState] = useMergedState({
     bookingsLoading: true,
     bookings: [],
     bookingsError: null,
-    selectedBooking: null
+    selectedBooking: null,
   });
 
   const { token } = props;
@@ -38,7 +38,7 @@ const AdminHome = props => {
     }
   };
 
-  const onStatusChangeSubmit = async bookingData => {
+  const onStatusChangeSubmit = async (bookingData) => {
     try {
       setState({ bookingsLoading: true });
       await updateBooking(bookingData, token);
@@ -65,7 +65,7 @@ const AdminHome = props => {
     return <Glitch text={bookingsError} onRetry={loadBookingsFromApi} />;
   };
 
-  const onBookingSelect = booking => {
+  const onBookingSelect = (booking) => {
     setState({ selectedBooking: { ...booking } });
   };
 
@@ -76,7 +76,7 @@ const AdminHome = props => {
   };
 
   const renderBookingList = () => {
-    const components = bookings.map(booking => {
+    const components = bookings.map((booking) => {
       return <BookingItem item={booking} key={booking.id} onSelect={onBookingSelect} />;
     });
 
@@ -92,7 +92,7 @@ const AdminHome = props => {
   ) : (
     <div className={styles.main__div}>
       <div className={styles.booking__list}>
-        <PageHeader text="ALL BOOKINGS" />
+        <PageHeader text="All Bookings" />
         {renderBookingList()}
       </div>
       {selectedBooking && (
@@ -108,7 +108,7 @@ const AdminHome = props => {
             <div className={styles.flex__div} />
             <StatusSelect
               value={selectedBooking.bookingStatus}
-              onClick={value => {
+              onClick={(value) => {
                 onStatusChangeSubmit({ status: value, id: selectedBooking.id });
               }}
               booking={selectedBooking}
@@ -123,15 +123,15 @@ const AdminHome = props => {
 
 const mapStateToProps = ({
   auth: {
-    auth: { authToken: token }
-  }
+    auth: { authToken: token },
+  },
 }) => {
   return {
-    token
+    token,
   };
 };
 
-const mapDispatchToProps = dispatch => {
+const mapDispatchToProps = (dispatch) => {
   return {};
 };
 

@@ -5,7 +5,7 @@
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  font-size: 1.1rem;
+  font-size: 1.5rem;
   font-weight: 600;
   letter-spacing: 1px;
   padding: 10px;
@@ -13,12 +13,11 @@
 }
 
 .button__container {
-  margin-top: 10px;
   width: 100px;
 }
 
 .error__text {
   display: block;
-  margin-top: 10px;
+  padding: 20px;
   text-align: center;
 }

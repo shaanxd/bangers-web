@@ -5,7 +5,7 @@ export const getCarouselList = () => {
   return GET(endpoint);
 };
 
-export const getVehicle = vehicleID => {
+export const getVehicle = (vehicleID) => {
   const endpoint = `vehicles/${vehicleID}`;
   return GET(endpoint);
 };
@@ -20,7 +20,7 @@ export const getEquipment = () => {
   return GET(endpoint);
 };
 
-export const getVehicleList = typeId => {
+export const getVehicleList = (typeId) => {
   const endpoint = typeId ? `vehicles?type=${typeId}` : 'vehicles';
   return GET(endpoint);
 };
@@ -33,4 +33,9 @@ export const getVehicleTypes = () => {
 export const extendBooking = (bookingData, authToken) => {
   const endpoint = 'bookings/extend-booking';
   return POST(endpoint, bookingData, authToken);
+};
+
+export const getRates = () => {
+  const endpoint = 'vehicles/vehicle-comparisons';
+  return GET(endpoint);
 };

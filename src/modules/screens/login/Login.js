@@ -5,17 +5,17 @@ import { withRouter } from 'react-router-dom';
 import * as Yup from 'yup';
 import { AiFillFacebook, AiFillGoogleSquare } from 'react-icons/ai';
 
-import { AppInput, AppButton, PasswordInput, Separator } from '../../components';
+import { AppInput, AppButton, PasswordInput, Separator, PageHeader } from '../../components';
 import { useMergedState } from '../../helper/useMergedState';
 import { postLogin } from '../../api/auth';
 import { authSuccess } from '../../actions/auth';
 
 import styles from './Login.module.css';
 
-const LoginScreen = props => {
+const LoginScreen = (props) => {
   const [state, setState] = useMergedState({
     loading: false,
-    error: null
+    error: null,
   });
 
   const { loading, error } = state;
@@ -35,17 +35,15 @@ const LoginScreen = props => {
       <Formik
         initialValues={{ email: '', password: '' }}
         validationSchema={Yup.object().shape({
-          email: Yup.string()
-            .email('Invalid email')
-            .required('Email is required'),
-          password: Yup.string().required('Password is required')
+          email: Yup.string().email('Invalid email').required('Email is required'),
+          password: Yup.string().required('Password is required'),
         })}
         onSubmit={handleLoginSubmit}
       >
         {() => {
           return (
             <Form className={styles.login__form}>
-              <span className={styles.form__header}>Hello there, let's login!</span>
+              <PageHeader text="Hello there, Let's Login!" />
               <AppInput
                 containerStyle={{ marginTop: '10px' }}
                 name="email"
@@ -89,15 +87,15 @@ const LoginScreen = props => {
   );
 };
 
-const mapStateToProps = state => {
+const mapStateToProps = (state) => {
   return {};
 };
 
-const mapDispatchToProps = dispatch => {
+const mapDispatchToProps = (dispatch) => {
   return {
-    authSuccess: authData => {
+    authSuccess: (authData) => {
       dispatch(authSuccess(authData));
-    }
+    },
   };
 };
 

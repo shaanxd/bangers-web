@@ -10,13 +10,13 @@ import { extendBooking } from '../../api/vehicles';
 import { getDateStringInUTC } from '../../helper/vehicleHelper';
 import { IoIosClose } from 'react-icons/io';
 
-const Bookings = props => {
+const Bookings = (props) => {
   const [state, setState] = useMergedState({
     loading: true,
     error: null,
     bookings: [],
     selectedBooking: null,
-    extensionLoading: false
+    extensionLoading: false,
   });
 
   const { loading, bookings, selectedBooking, extensionLoading } = state;
@@ -48,7 +48,7 @@ const Bookings = props => {
       setState({ extensionLoading: true });
       const body = {
         bookingId,
-        returnDate: getDateStringInUTC(returnDate)
+        returnDate: getDateStringInUTC(returnDate),
       };
       await extendBooking(body, token);
       setState({ selectedBooking: null, extensionLoading: false });
@@ -59,14 +59,14 @@ const Bookings = props => {
   };
 
   const renderBookingList = () => {
-    const components = bookings.map(booking => {
+    const components = bookings.map((booking) => {
       return <BookingItem item={booking} key={booking.id} onSelect={onBookingSelect} />;
     });
 
     return components;
   };
 
-  const onBookingSelect = booking => {
+  const onBookingSelect = (booking) => {
     setState({ selectedBooking: { ...booking } });
   };
 
@@ -79,7 +79,7 @@ const Bookings = props => {
   return (
     <div className={styles.main__div}>
       <div className={styles.booking__list}>
-        <PageHeader text="YOUR BOOKINGS" />
+        <PageHeader text="Your Bookings" />
         {renderBookingList()}
       </div>
       {selectedBooking && (
@@ -104,13 +104,13 @@ const Bookings = props => {
 
 const mapStateToProps = ({
   auth: {
-    auth: { authToken: token }
-  }
+    auth: { authToken: token },
+  },
 }) => {
   return { token };
 };
 
-const mapDispatchToProps = dispatch => {
+const mapDispatchToProps = (dispatch) => {
   return {};
 };
 

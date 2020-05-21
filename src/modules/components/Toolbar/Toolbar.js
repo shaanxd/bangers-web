@@ -1,13 +1,15 @@
 import React from 'react';
 import { withRouter } from 'react-router-dom';
-import { AiOutlineUser, AiOutlineExport, AiOutlineMail } from 'react-icons/ai';
+import { AiOutlineUser, AiOutlineMail } from 'react-icons/ai';
+import { FiDollarSign, FiLogIn, FiLogOut } from 'react-icons/fi';
+import { FaPencilAlt, FaSignature } from 'react-icons/fa';
 
 import { DrawerToggleButton } from '../';
 import { USER_TYPES } from '../../constants/constants';
 
 import './Toolbar.css';
 
-const Toolbar = props => {
+const Toolbar = (props) => {
   const { auth } = props;
 
   const handleProfileClick = () => {
@@ -34,9 +36,19 @@ const Toolbar = props => {
     props.history.push('/bookings');
   };
 
+  const handleRatesClick = () => {
+    props.history.push('/rate-comparisons');
+  };
+
   const renderUnauthRoutes = () => {
     return (
       <ul>
+        <li>
+          <span className="toolbar__navigation-link" onClick={handleRatesClick}>
+            <FiDollarSign size={20} />
+            <span>Rates</span>
+          </span>
+        </li>
         <li>
           <span
             className={
@@ -44,7 +56,8 @@ const Toolbar = props => {
             }
             onClick={handleLoginClick}
           >
-            Login
+            <FiLogIn size={20} />
+            <span>Login</span>
           </span>
         </li>
         <li>
@@ -54,7 +67,8 @@ const Toolbar = props => {
             }
             onClick={handleSignupClick}
           >
-            Signup
+            <FaSignature size={20} />
+            <span>Signup</span>
           </span>
         </li>
       </ul>
@@ -63,6 +77,12 @@ const Toolbar = props => {
 
   const renderAuthRoutes = () => (
     <ul>
+      <li>
+        <span className="toolbar__navigation-link" onClick={handleRatesClick}>
+          <FiDollarSign size={20} />
+          <span>Rates</span>
+        </span>
+      </li>
       <li>
         <span className="toolbar__navigation-link" onClick={handleProfileClick}>
           <AiOutlineUser size={20} />
@@ -73,7 +93,7 @@ const Toolbar = props => {
           <span>Bookings</span>
         </span>
         <span className="toolbar__navigation-link" onClick={handleLogoutClick}>
-          <AiOutlineExport size={20} />
+          <FiLogOut size={20} />
           <span>Logout</span>
         </span>
       </li>
@@ -83,8 +103,15 @@ const Toolbar = props => {
   const renderAdminRoutes = () => (
     <ul>
       <li>
+        <span className="toolbar__navigation-link" onClick={handleRatesClick}>
+          <FiDollarSign size={20} />
+          <span>Rates</span>
+        </span>
+      </li>
+      <li>
         <span className={'toolbar__navigation-link'} onClick={handleLogoutClick}>
-          Logout
+          <FiLogOut size={20} />
+          <span>Logout</span>
         </span>
       </li>
     </ul>

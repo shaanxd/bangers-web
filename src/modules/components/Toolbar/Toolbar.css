@@ -1,6 +1,6 @@
 .toolbar {
   position: fixed;
-  height: 70px;
+  height: 80px;
   width: 100%;
   background-color: #212121;
   top: 0;
@@ -21,12 +21,12 @@
 }
 
 .toolbar__logo span {
-  color: white;
   text-decoration: none;
-  font-size: 1.3rem;
+  font-size: 2rem;
   letter-spacing: 1.5px;
   text-align: center;
   cursor: pointer;
+  font-weight: 700;
 }
 
 .spacer {
@@ -49,7 +49,7 @@
   border-bottom: 3px solid #212121;
   font-family: inherit;
   font-weight: 600;
-  font-size: 0.8rem;
+  font-size: 1.2rem;
   cursor: pointer;
 }
 
@@ -83,12 +83,12 @@
 
 .toolbar__logo-light {
   font-family: inherit;
-  font-weight: 300;
+  color: rgb(231, 8, 135);
 }
 
 .toolbar__logo-dark {
   font-family: inherit;
-  font-weight: 800;
+  color: white;
 }
 
 .toolbar__navigation-div {

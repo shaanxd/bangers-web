@@ -1,0 +1,53 @@
+.root__div {
+  height: 100%;
+  padding: 30px;
+  display: flex;
+  justify-content: center;
+}
+
+.rates__div {
+}
+
+.rates__div > span {
+  text-align: center;
+  display: block;
+  padding: 10px;
+  letter-spacing: 1px;
+}
+
+.vehicle__div {
+  border-bottom: 1px solid #d2d2d2;
+  padding: 10px;
+  display: flex;
+}
+
+.external__div {
+  padding-bottom: 30px;
+}
+
+.header__div > span,
+.vehicle__div > span {
+  padding: 10px;
+}
+
+.header__div > span {
+  color: white;
+}
+
+.vehicle__div > span.fixed__span,
+.header__div > span.fixed__span {
+  width: 120px;
+  text-align: center;
+}
+
+.header__div {
+  display: flex;
+  padding: 10px;
+  background-color: #818181;
+  margin-top: 30px;
+}
+
+.header__div > span.name__span,
+.vehicle__div > span.name__span {
+  flex: 1;
+}

@@ -8,3 +8,4 @@ export { default as Profile } from './profile/Profile';
 export { default as AdminHome } from './adminHome/AdminHome';
 export { default as UserHome } from './userHome/UserHome';
 export { default as Bookings } from './bookings/Bookings';
+export { default as Comparison } from './comparison/Comparison';

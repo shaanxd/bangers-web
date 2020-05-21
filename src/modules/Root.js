@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
 import { connect } from 'react-redux';
 
-import { Login, Signup, Landing, AuthRedirect, Vehicle, Vehicles, Profile, Bookings } from './screens';
+import { Login, Signup, Landing, AuthRedirect, Vehicle, Vehicles, Profile, Bookings, Comparison } from './screens';
 import { checkAuthValid } from './actions/auth';
 import { Toolbar, SideDrawer, Backdrop, AuthRoute, UnauthRoute, Loading } from './components';
 import { logoutUser } from './actions/auth';
@@ -12,13 +12,13 @@ import 'slick-carousel/slick/slick.css';
 import 'slick-carousel/slick/slick-theme.css';
 import { USER_TYPES } from './constants/constants';
 
-const Root = props => {
+const Root = (props) => {
   const [sideDrawerOpen, setSideDrawerOpen] = useState(false);
 
   const { auth, checkAuthLoading, logoutLoading, logout } = props;
 
   const drawerToggleClickHandler = () => {
-    setSideDrawerOpen(prevSideDrawerOpen => !prevSideDrawerOpen);
+    setSideDrawerOpen((prevSideDrawerOpen) => !prevSideDrawerOpen);
   };
 
   const backdropClickHandler = () => {
@@ -30,7 +30,7 @@ const Root = props => {
     // eslint-disable-next-line
   }, []);
 
-  const renderLoading = text => {
+  const renderLoading = (text) => {
     return <Loading text={text} />;
   };
 
@@ -58,6 +58,9 @@ const Root = props => {
             <Route exact path="/authRedirect">
               <UnauthRoute auth={auth} component={AuthRedirect} />
             </Route>
+            <Route exact path="/rate-comparisons">
+              <Comparison />
+            </Route>
             <Route exact path="/vehicles">
               <Vehicles />
             </Route>
@@ -81,14 +84,14 @@ const mapStateToProps = ({ auth: { auth, checkAuthLoading, logoutLoading } }) =>
   return { auth, checkAuthLoading, logoutLoading };
 };
 
-const mapDispatchToProps = dispatch => {
+const mapDispatchToProps = (dispatch) => {
   return {
     checkAuthValid: () => {
       dispatch(checkAuthValid());
     },
     logout: () => {
       dispatch(logoutUser());
-    }
+    },
   };
 };
 

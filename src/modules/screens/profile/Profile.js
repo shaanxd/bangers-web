@@ -13,7 +13,7 @@ import { AppButton, PageHeader } from '../../components';
 
 import styles from './Profile.module.css';
 
-const ProfileScreen = props => {
+const ProfileScreen = (props) => {
   const [state, setState] = useMergedState({
     documents: [],
     documentLoading: true,
@@ -25,7 +25,7 @@ const ProfileScreen = props => {
 
     profile: null,
     profileLoading: true,
-    profileError: null
+    profileError: null,
   });
 
   const {
@@ -37,11 +37,11 @@ const ProfileScreen = props => {
     fileType,
     profile,
     profileLoading,
-    profileError
+    profileError,
   } = state;
 
   const {
-    auth: { authToken }
+    auth: { authToken },
   } = props;
 
   useEffect(
@@ -75,11 +75,11 @@ const ProfileScreen = props => {
     }
   };
 
-  const onDrop = acceptedFiles => {
+  const onDrop = (acceptedFiles) => {
     if (acceptedFiles.length > 0) {
       setState({
         file: acceptedFiles[0],
-        filePreview: URL.createObjectURL(acceptedFiles[0])
+        filePreview: URL.createObjectURL(acceptedFiles[0]),
       });
     }
   };
@@ -88,10 +88,10 @@ const ProfileScreen = props => {
     multiple: false,
     accept: 'image/jpeg',
     onDrop,
-    disabled: file
+    disabled: file,
   });
 
-  const handleTypeChange = selectedValue => {
+  const handleTypeChange = (selectedValue) => {
     setState({ fileType: selectedValue });
   };
 
@@ -102,7 +102,7 @@ const ProfileScreen = props => {
         const response = await addDocument(
           {
             type: fileType.value,
-            document: state.file
+            document: state.file,
           },
           authToken
         );
@@ -110,7 +110,7 @@ const ProfileScreen = props => {
           documentLoading: false,
           documents: [...response],
           file: null,
-          fileType: null
+          fileType: null,
         });
       } else {
         setState({ documentError: 'Please select a document type.' });
@@ -145,7 +145,7 @@ const ProfileScreen = props => {
     return (
       <div className={styles.main__div}>
         <div className={styles.inner__div}>
-          <PageHeader text="YOUR PROFILE" />
+          <PageHeader text="Your Profile" />
           <div className={styles.edit__div}>
             <label className={styles.edit__title}>YOUR DOCUMENTS</label>
             {documents.length > 0 && <div className={styles.file__list}>{renderFileList()}</div>}
@@ -188,11 +188,11 @@ const ProfileScreen = props => {
 
 const mapStateToProps = ({ auth: { auth } }) => {
   return {
-    auth
+    auth,
   };
 };
 
-const mapDispatchToProps = dispatch => {
+const mapDispatchToProps = (dispatch) => {
   return {};
 };
 
