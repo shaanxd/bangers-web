@@ -3,6 +3,7 @@
   padding: 30px;
   display: flex;
   justify-content: center;
+  box-sizing: border-box;
 }
 
 .rates__div {
@@ -22,7 +23,7 @@
 }
 
 .external__div {
-  padding-bottom: 30px;
+  padding-bottom: 50px;
 }
 
 .header__div > span,

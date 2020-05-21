@@ -1,8 +1,8 @@
 import React from 'react';
 import { withRouter } from 'react-router-dom';
-import { AiOutlineUser, AiOutlineMail } from 'react-icons/ai';
+import { AiOutlineUser, AiOutlineMail, AiOutlineCar, AiOutlineTool } from 'react-icons/ai';
 import { FiDollarSign, FiLogIn, FiLogOut } from 'react-icons/fi';
-import { FaPencilAlt, FaSignature } from 'react-icons/fa';
+import { FaSignature } from 'react-icons/fa';
 
 import { DrawerToggleButton } from '../';
 import { USER_TYPES } from '../../constants/constants';
@@ -40,9 +40,23 @@ const Toolbar = (props) => {
     props.history.push('/rate-comparisons');
   };
 
+  const handleVehiclesClick = () => {
+    props.history.push('/vehicles');
+  };
+
+  const handleEquipment = () => {
+    props.history.push('/equipment');
+  };
+
   const renderUnauthRoutes = () => {
     return (
       <ul>
+        <li>
+          <span className="toolbar__navigation-link" onClick={handleVehiclesClick}>
+            <AiOutlineCar size={20} />
+            <span>Our Fleet</span>
+          </span>
+        </li>
         <li>
           <span className="toolbar__navigation-link" onClick={handleRatesClick}>
             <FiDollarSign size={20} />
@@ -78,6 +92,12 @@ const Toolbar = (props) => {
   const renderAuthRoutes = () => (
     <ul>
       <li>
+        <span className="toolbar__navigation-link" onClick={handleVehiclesClick}>
+          <AiOutlineCar size={20} />
+          <span>Our Fleet</span>
+        </span>
+      </li>
+      <li>
         <span className="toolbar__navigation-link" onClick={handleRatesClick}>
           <FiDollarSign size={20} />
           <span>Rates</span>
@@ -102,6 +122,12 @@ const Toolbar = (props) => {
 
   const renderAdminRoutes = () => (
     <ul>
+      <li>
+        <span className="toolbar__navigation-link" onClick={handleEquipment}>
+          <AiOutlineTool size={20} />
+          <span>Equipment</span>
+        </span>
+      </li>
       <li>
         <span className="toolbar__navigation-link" onClick={handleRatesClick}>
           <FiDollarSign size={20} />

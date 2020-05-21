@@ -4,11 +4,11 @@ import { withRouter } from 'react-router-dom';
 
 import { useMergedState } from '../../helper/useMergedState';
 import { getVehicleList, getVehicleTypes } from '../../api/vehicles';
-import { Vehicle, Loading, Glitch } from '../../components';
+import { Vehicle, Loading, Glitch, PageHeader, AppButton } from '../../components';
 
 import styles from './Vehicles.module.css';
 
-const VehiclesScreen = props => {
+const VehiclesScreen = (props) => {
   const [state, setState] = useMergedState({
     vehicles: [],
     vehiclesLoading: true,
@@ -18,7 +18,7 @@ const VehiclesScreen = props => {
     vehicleTypesLoading: true,
     vehicleTypesError: null,
 
-    selectedFilterType: null
+    selectedFilterType: null,
   });
 
   useEffect(
@@ -37,10 +37,10 @@ const VehiclesScreen = props => {
     vehicleTypes,
     vehicleTypesLoading,
     vehicleTypesError,
-    selectedFilterType
+    selectedFilterType,
   } = state;
 
-  const getVehiclesFromAPI = async vehicleType => {
+  const getVehiclesFromAPI = async (vehicleType) => {
     try {
       setState({ vehiclesLoading: true, vehiclesError: null });
       const response = await getVehicleList(vehicleType);
@@ -56,7 +56,7 @@ const VehiclesScreen = props => {
       const response = await getVehicleTypes();
       const vehicleTypes = response.map(({ id, type }) => ({
         value: id,
-        label: type
+        label: type,
       }));
       setState({ vehicleTypes, vehicleTypesLoading: false });
     } catch (err) {
@@ -64,16 +64,16 @@ const VehiclesScreen = props => {
     }
   };
 
-  const handleOnBookClick = id => {
+  const handleOnBookClick = (id) => {
     props.history.push(`/vehicles/${id}`);
   };
 
-  const handleOnTypeChange = selectedValue => {
+  const handleOnTypeChange = (selectedValue) => {
     const { value } = selectedValue;
     setState({
       vehiclesLoading: true,
       vehiclesError: null,
-      selectedFilterType: selectedValue
+      selectedFilterType: selectedValue,
     });
     getVehiclesFromAPI(value);
   };
@@ -82,7 +82,7 @@ const VehiclesScreen = props => {
     setState({
       vehiclesLoading: true,
       vehiclesError: null,
-      selectedFilterType: null
+      selectedFilterType: null,
     });
     getVehiclesFromAPI();
   };
@@ -105,11 +105,11 @@ const VehiclesScreen = props => {
   const renderVehicleFilterList = () => {
     return (
       <div className={styles.vehicleTypeDivParent}>
-        <label className={styles.vehicleTypeHeader}>VEHICLE TYPE:</label>
+        <label className={styles.vehicleTypeHeader}>Filter by vehicle type</label>
         <Select value={selectedFilterType} onChange={handleOnTypeChange} options={vehicleTypes} />
-        <button type="button" className={styles.clearBtn} onClick={handleClearClick}>
-          CLEAR
-        </button>
+        <div className={styles.button__container}>
+          <AppButton type="button" onClick={handleClearClick} text="Clear" />
+        </div>
       </div>
     );
   };
@@ -140,6 +140,7 @@ const VehiclesScreen = props => {
         renderGlitch()
       ) : (
         <div className={styles.childDiv}>
+          <PageHeader text="Our Fleet" />
           {renderVehicleFilters()}
           {renderVehicleList()}
         </div>

@@ -1,21 +1,27 @@
-.main__div {
+.root__div {
   height: 100%;
-  min-height: 100%;
-  box-sizing: border-box;
   display: flex;
   justify-content: center;
-  overflow: auto;
-  padding: 20px;
+  box-sizing: border-box;
+  padding: 30px;
 }
 
-.booking__list {
-  padding: 10px;
-  display: flex;
-  flex-direction: column;
+.equipment__div {
+  max-width: 800px;
   width: 100%;
-  max-width: 1200px;
-  height: auto;
-  min-height: 80%;
+}
+
+.equipment__item {
+  border-bottom: 1px solid #d2d2d2;
+}
+
+.equipment__item > span {
+  padding: 15px;
+  display: block;
+}
+
+.button__container {
+  margin-top: 30px;
 }
 
 .modal__div {
@@ -87,6 +93,17 @@
   transition: border 0.2s ease-in-out;
 }
 
+.form__div {
+  padding: 20px;
+}
+
+.add__error {
+  display: block;
+  text-align: center;
+  color: red;
+  margin-top: 10px;
+}
+
 @keyframes anim {
   from {
     transform: translateX(100%);
@@ -94,21 +111,4 @@
   to {
     transform: translateX(0%);
   }
-}
-
-.empty__div {
-  height: 100%;
-  min-height: 100%;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  font-size: 1.1rem;
-  font-weight: 600;
-  letter-spacing: 1px;
-}
-
-.empty__div span {
-  margin-top: 10px;
-  display: block;
 }
