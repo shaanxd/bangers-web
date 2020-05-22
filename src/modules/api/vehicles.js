@@ -39,3 +39,8 @@ export const getRates = () => {
   const endpoint = 'vehicles/vehicle-comparisons';
   return GET(endpoint);
 };
+
+export const addAdditionalEquipment = (equipmentData, authToken) => {
+  const endpoint = 'bookings/add-equipment';
+  return POST(endpoint, equipmentData, authToken);
+};

@@ -3,20 +3,21 @@ import ReactDatePicker from 'react-datepicker';
 import * as Yup from 'yup';
 import { Formik, Form, ErrorMessage } from 'formik';
 import moment from 'moment';
+import Select from 'react-select';
 
 import { BOOKING_STATUS } from '../../constants/constants';
 import {
   formatDateFromUtc,
   getDateFromUTC,
   getDateObjFromUTC,
-  formatDateFromUtcWithoutTime
+  formatDateFromUtcWithoutTime,
 } from '../../helper/vehicleHelper';
+import { AppButton } from '..';
 
 import './ExtendBooking.css';
 import styles from './ExtendBooking.module.css';
-import { AppButton } from '..';
 
-const ExtendBooking = props => {
+const ExtendBooking = (props) => {
   const {
     booking: {
       id,
@@ -24,23 +25,23 @@ const ExtendBooking = props => {
       returnDate,
       bookingStatus,
       vehicle: { name },
-      equipment
+      equipment,
     },
     onSubmit,
-    loading
+    onAddEquipmentSubmit,
+    loading,
+    equipment: allEquipment,
+    extensionError,
+    addEquipmentError,
   } = props;
 
-  const validateBeforeFour = value => {
+  const validateBeforeFour = (value) => {
     const returnMoment = moment(value);
-    const momentAtFour = moment()
-      .year(returnMoment.year())
-      .date(returnMoment.date())
-      .hour(16)
-      .minute(0);
+    const momentAtFour = moment().year(returnMoment.year()).date(returnMoment.date()).hour(16).minute(0);
     return returnMoment.isBefore(momentAtFour);
   };
 
-  const validateSameDate = value => {
+  const validateSameDate = (value) => {
     const returnMoment = moment(value);
     const actualReturnMoment = moment(returnDate);
 
@@ -62,6 +63,17 @@ const ExtendBooking = props => {
     return val;
   };
 
+  const getSelectEquipment = () => {
+    const array = allEquipment.filter((x) => !equipment.filter((y) => y.id === x.id).length);
+
+    return array.map(({ id, name }) => {
+      return {
+        value: id,
+        label: name,
+      };
+    });
+  };
+
   const renderBookingExtensionDiv = () => {
     return (
       <div className={styles.extension__main}>
@@ -71,7 +83,7 @@ const ExtendBooking = props => {
             returnDate: Yup.date()
               .typeError('Invalid type.')
               .test('Same test', 'Return date cannot be the or before the previous return date', validateSameDate)
-              .test('Return test', 'You can only extend booking till 4:00 PM on same day', validateBeforeFour)
+              .test('Return test', 'You can only extend booking till 4:00 PM on same day', validateBeforeFour),
           })}
           onSubmit={onSubmit}
         >
@@ -85,7 +97,7 @@ const ExtendBooking = props => {
                 </span>
                 <ReactDatePicker
                   selected={values.returnDate}
-                  onChange={value => {
+                  onChange={(value) => {
                     setFieldValue('returnDate', value);
                   }}
                   className={styles.date__picker}
@@ -98,14 +110,55 @@ const ExtendBooking = props => {
                   disabled={loading}
                 />
                 <ErrorMessage name="returnDate">
-                  {message => <label className={styles.form__error}>{message}</label>}
+                  {(message) => <label className={styles.form__error}>{message}</label>}
                 </ErrorMessage>
                 <AppButton
                   text="Extend Booking"
                   type="submit"
-                  containerStyle={{ marginTop: '10px' }}
+                  containerStyle={{ marginTop: '10px', marginBottom: '10px' }}
                   loading={loading}
                 />
+                {extensionError && <label className={styles.form__error}>{extensionError}</label>}
+              </Form>
+            );
+          }}
+        </Formik>
+        <Formik
+          initialValues={{ equipment: [], bookingId: id }}
+          validationSchema={Yup.object().shape({
+            equipment: Yup.array()
+              .nullable()
+              .required('Please select at least one equipment.')
+              .min(1, 'Please select at least one equipment.'),
+          })}
+          onSubmit={onAddEquipmentSubmit}
+        >
+          {({ values, setFieldValue, setFieldTouched }) => {
+            return (
+              <Form className={styles.extension__div}>
+                <span className={styles.section__header}>ADDITIONAL EQUIPMENT</span>
+                <Select
+                  value={values.equipment}
+                  onChange={(updated) => {
+                    setFieldValue('equipment', updated);
+                  }}
+                  onBlur={() => {
+                    setFieldTouched('equipment');
+                  }}
+                  options={getSelectEquipment()}
+                  isMulti
+                  isDisabled={loading}
+                />
+                <ErrorMessage name="equipment">
+                  {(message) => <label className={styles.form__error}>{message}</label>}
+                </ErrorMessage>
+                <AppButton
+                  text="Add Equipment"
+                  type="submit"
+                  containerStyle={{ marginTop: '10px', marginBottom: '10px' }}
+                  loading={loading}
+                />
+                {addEquipmentError && <label className={styles.form__error}>{addEquipmentError}</label>}
               </Form>
             );
           }}
@@ -145,7 +198,7 @@ const ExtendBooking = props => {
       {bookingStatus === BOOKING_STATUS.COLLECTED || bookingStatus === BOOKING_STATUS.BOOKED ? (
         renderBookingExtensionDiv()
       ) : (
-        <span className={styles.status__message}>Sorry, this booking cannot be extended</span>
+        <span className={styles.status__message}>Sorry, this booking cannot be updated</span>
       )}
     </div>
   );
