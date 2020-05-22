@@ -3,10 +3,11 @@ import { withRouter } from 'react-router-dom';
 import { connect } from 'react-redux';
 import { IoIosClose } from 'react-icons/io';
 import { AiOutlineBook } from 'react-icons/ai';
+import Select from 'react-select';
 
-import { Loading, StatusSelect, PageHeader, BookingItem, Glitch } from '../../components';
+import { Loading, StatusSelect, PageHeader, BookingItem, Glitch, AppButton } from '../../components';
 import { useMergedState } from '../../helper/useMergedState';
-import { getBookings, updateBooking } from '../../api/admin';
+import { getBookings, updateBooking, getUsers } from '../../api/admin';
 
 import styles from './AdminHome.module.css';
 
@@ -16,13 +17,27 @@ const AdminHome = (props) => {
     bookings: [],
     bookingsError: null,
     selectedBooking: null,
+    usersLoading: true,
+    users: [],
+    usersError: null,
+    selectedCustomer: null,
   });
 
   const { token } = props;
-  const { bookingsLoading, bookings, bookingsError, selectedBooking } = state;
+  const {
+    bookingsLoading,
+    bookings,
+    bookingsError,
+    selectedBooking,
+    users,
+    usersLoading,
+    usersError,
+    selectedCustomer,
+  } = state;
 
   useEffect(() => {
     loadBookingsFromApi();
+    loadUsersFromApi();
     //eslint-disable-next-line
   }, []);
 
@@ -38,6 +53,30 @@ const AdminHome = (props) => {
     }
   };
 
+  const loadUsersFromApi = async () => {
+    try {
+      if (!usersLoading) {
+        setState({ usersLoading: true, usersError: null });
+      }
+      const result = await getUsers(token);
+      const list = result.users.map(({ id, firstname, lastname }) => ({
+        value: id,
+        label: `${firstname} ${lastname}`,
+      }));
+      setState({ usersLoading: false, users: [...list] });
+    } catch (err) {
+      setState({ usersLoading: false, usersError: err.message });
+    }
+  };
+
+  const toggleSelectedCustomer = (value) => {
+    setState({ selectedCustomer: value });
+  };
+
+  const clearSelectedCustomer = () => {
+    setState({ selectedCustomer: null });
+  };
+
   const onStatusChangeSubmit = async (bookingData) => {
     try {
       setState({ bookingsLoading: true });
@@ -49,7 +88,7 @@ const AdminHome = (props) => {
   };
 
   const renderLoading = () => {
-    return <Loading text="Loading" />;
+    return <Loading text={bookingsLoading ? 'Loading Bookings' : 'Loading Users'} />;
   };
 
   const renderEmpty = () => {
@@ -62,7 +101,9 @@ const AdminHome = (props) => {
   };
 
   const renderError = () => {
-    return <Glitch text={bookingsError} onRetry={loadBookingsFromApi} />;
+    return (
+      <Glitch text={bookingsError || usersError} onRetry={bookingsError ? loadBookingsFromApi : loadUsersFromApi} />
+    );
   };
 
   const onBookingSelect = (booking) => {
@@ -76,16 +117,29 @@ const AdminHome = (props) => {
   };
 
   const renderBookingList = () => {
-    const components = bookings.map((booking) => {
+    const arrayToRender = selectedCustomer
+      ? bookings.filter(({ user: { id } }) => id === selectedCustomer.value)
+      : [...bookings];
+    const components = arrayToRender.map((booking) => {
       return <BookingItem item={booking} key={booking.id} onSelect={onBookingSelect} />;
     });
 
     return components;
   };
 
-  return bookingsLoading ? (
+  const renderCustomerFilter = () => {
+    return (
+      <div className={styles.filter__div}>
+        <label className={styles.filter__header}>Filter by Customer</label>
+        <Select value={selectedCustomer} onChange={toggleSelectedCustomer} options={users} isClearable />
+        <AppButton type="button" onClick={clearSelectedCustomer} text="Clear" containerStyle={{ marginTop: '25px' }} />
+      </div>
+    );
+  };
+
+  return bookingsLoading || usersLoading ? (
     renderLoading()
-  ) : bookingsError ? (
+  ) : bookingsError || usersError ? (
     renderError()
   ) : bookings.length === 0 ? (
     renderEmpty()
@@ -93,6 +147,7 @@ const AdminHome = (props) => {
     <div className={styles.main__div}>
       <div className={styles.booking__list}>
         <PageHeader text="All Bookings" />
+        {renderCustomerFilter()}
         {renderBookingList()}
       </div>
       {selectedBooking && (

@@ -14,3 +14,8 @@ export const addEquipment = (equipmentData, authToken) => {
   const endpoint = 'admin/add-equipment';
   return POST(endpoint, equipmentData, authToken);
 };
+
+export const getUsers = (authToken) => {
+  const endpoint = 'admin/get-users';
+  return GET(endpoint, authToken);
+};
