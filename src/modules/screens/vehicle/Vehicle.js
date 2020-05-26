@@ -9,7 +9,7 @@ import {
   getMinStartDate,
   getMinReturnDate,
   getMaxReturnDate,
-  getDateStringInUTC
+  getDateStringInUTC,
 } from '../../helper/vehicleHelper';
 import { getVehicle, createBooking, getEquipment } from '../../api/vehicles';
 import { EquipmentSelect, CarImage, PageHeader, AppButton, Loading, Glitch } from '../../components';
@@ -20,7 +20,7 @@ import styles from './Vehicle.module.css';
 import './Vehicle.css';
 import { PulseLoader } from 'react-spinners';
 
-const VehicleScreen = props => {
+const VehicleScreen = (props) => {
   const [state, setState] = useMergedState({
     startDate: new Date(),
     returnDate: getTomorrow(),
@@ -32,7 +32,7 @@ const VehicleScreen = props => {
     equipment: [],
     equipmentLoading: true,
     equipmentError: null,
-    selectedEquipment: []
+    selectedEquipment: [],
   });
 
   const {
@@ -46,14 +46,14 @@ const VehicleScreen = props => {
     equipment,
     equipmentLoading,
     equipmentError,
-    selectedEquipment
+    selectedEquipment,
   } = state;
 
   const {
     match: {
-      params: { id }
+      params: { id },
     },
-    auth
+    auth,
   } = props;
 
   useEffect(
@@ -83,21 +83,21 @@ const VehicleScreen = props => {
     }
   };
 
-  const handleStartDateChange = selectedDate => {
+  const handleStartDateChange = (selectedDate) => {
     setState({
       startDate: selectedDate,
-      returnDate: getNextDate(selectedDate)
+      returnDate: getNextDate(selectedDate),
     });
   };
 
-  const handleReturnDateChange = selectedDate => {
+  const handleReturnDateChange = (selectedDate) => {
     setState({ returnDate: selectedDate });
   };
 
-  const handleCheckedChange = id => {
+  const handleCheckedChange = (id) => {
     let newArray;
     if (selectedEquipment.includes(id)) {
-      newArray = selectedEquipment.filter(equipment => equipment !== id);
+      newArray = selectedEquipment.filter((equipment) => equipment !== id);
     } else {
       newArray = [...selectedEquipment, id];
     }
@@ -115,7 +115,7 @@ const VehicleScreen = props => {
             startDate: startDateUTC,
             returnDate: returnDateUTC,
             vehicleId: id,
-            equipment: selectedEquipment
+            equipment: selectedEquipment,
           },
           auth.authToken
         );
@@ -137,57 +137,80 @@ const VehicleScreen = props => {
   };
 
   const renderVehicle = () => {
-    const { name } = vehicleDetails;
+    const {
+      name,
+      vehicleType: { type, pricePerDay, numberOfSeats },
+    } = vehicleDetails;
     return (
       <div className={styles.main__div}>
         <div className={styles.inner__div}>
           <PageHeader text={name.toUpperCase()} />
           <div className={styles.details__container}>
-            <CarImage images={vehicleDetails.images} />
+            <div className={styles.images__container}>
+              <CarImage images={vehicleDetails.images} />
+            </div>
             <div className={styles.booking__div}>
-              <label className={styles.date__label}>PICK-UP DATE</label>
-              <DatePicker
-                selected={startDate}
-                onChange={handleStartDateChange}
-                className={styles.date__picker}
-                minDate={getMinStartDate()}
-                dateFormat="MMMM d, yyyy h:mm aa"
-                showTimeSelect
-                disabled={bookingLoading}
-              />
-              <label className={styles.date__label}>DROP-OFF DATE</label>
-              <DatePicker
-                selected={returnDate}
-                onChange={handleReturnDateChange}
-                className={styles.date__picker}
-                maxDate={getMaxReturnDate(startDate)}
-                minDate={getMinReturnDate(startDate)}
-                dateFormat="MMMM d, yyyy h:mm aa"
-                showTimeSelect
-                disabled={bookingLoading}
-              />
-              <AppButton
-                onClick={handleBookClick}
-                text="BOOK NOW"
-                loading={bookingLoading}
-                containerStyle={{ marginTop: '20px' }}
-              />
-              {bookingError && <span className={styles.form__error}>{bookingError}</span>}
-              {equipmentError ? (
-                <span className={styles.form__error}>{equipmentError}</span>
-              ) : equipmentLoading ? (
-                <div className={styles.equipment__label}>
-                  <PulseLoader size={10} />
-                  <span>Loading Equipment</span>
+              <div className={styles.details__div}>
+                <label className={styles.div__title}>VEHICLE DETAILS</label>
+                <div className={styles.details__group}>
+                  <span className={styles.group__label}>Vehicle Type</span>
+                  <span className={styles.group__value}>{type}</span>
                 </div>
-              ) : (
-                <EquipmentSelect
-                  equipment={equipment}
-                  selectedEquipment={selectedEquipment}
-                  handleCheckedChange={handleCheckedChange}
-                  loading={bookingLoading}
+                <div className={styles.details__group}>
+                  <span className={styles.group__label}>Price Per Day</span>
+                  <span className={styles.group__value}>{`$ ${pricePerDay.toFixed(2)}`}</span>
+                </div>
+                <div className={styles.details__group}>
+                  <span className={styles.group__label}>Number Of Seats</span>
+                  <span className={styles.group__value}>{numberOfSeats}</span>
+                </div>
+              </div>
+              <div className={styles.details__div}>
+                <label className={styles.div__title}>BOOKING DETAILS</label>
+                <label className={styles.date__label}>PICK-UP DATE</label>
+                <DatePicker
+                  selected={startDate}
+                  onChange={handleStartDateChange}
+                  className={styles.date__picker}
+                  minDate={getMinStartDate()}
+                  dateFormat="MMMM d, yyyy h:mm aa"
+                  showTimeSelect
+                  disabled={bookingLoading}
                 />
-              )}
+                <label className={styles.date__label}>DROP-OFF DATE</label>
+                <DatePicker
+                  selected={returnDate}
+                  onChange={handleReturnDateChange}
+                  className={styles.date__picker}
+                  maxDate={getMaxReturnDate(startDate)}
+                  minDate={getMinReturnDate(startDate)}
+                  dateFormat="MMMM d, yyyy h:mm aa"
+                  showTimeSelect
+                  disabled={bookingLoading}
+                />
+                <AppButton
+                  onClick={handleBookClick}
+                  text="BOOK NOW"
+                  loading={bookingLoading}
+                  containerStyle={{ marginTop: '20px' }}
+                />
+                {bookingError && <span className={styles.form__error}>{bookingError}</span>}
+                {equipmentError ? (
+                  <span className={styles.form__error}>{equipmentError}</span>
+                ) : equipmentLoading ? (
+                  <div className={styles.equipment__label}>
+                    <PulseLoader size={10} />
+                    <span>Loading Equipment</span>
+                  </div>
+                ) : (
+                  <EquipmentSelect
+                    equipment={equipment}
+                    selectedEquipment={selectedEquipment}
+                    handleCheckedChange={handleCheckedChange}
+                    loading={bookingLoading}
+                  />
+                )}
+              </div>
             </div>
           </div>
         </div>
@@ -200,11 +223,11 @@ const VehicleScreen = props => {
 
 const mapStateToProps = ({ auth: { auth } }) => {
   return {
-    auth
+    auth,
   };
 };
 
-const mapDispatchToProps = dispatch => {
+const mapDispatchToProps = (dispatch) => {
   return {};
 };
 

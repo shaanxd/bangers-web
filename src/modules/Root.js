@@ -13,6 +13,9 @@ import {
   Bookings,
   Comparison,
   Equipment,
+  VehicleType,
+  Customers,
+  AddVehicle,
 } from './screens';
 import { checkAuthValid } from './actions/auth';
 import { Toolbar, SideDrawer, Backdrop, AuthRoute, UnauthRoute, Loading } from './components';
@@ -86,6 +89,15 @@ const Root = (props) => {
             </Route>
             <Route exact path="/equipment">
               <AuthRoute auth={auth} component={Equipment} user={USER_TYPES.ADMIN} />
+            </Route>
+            <Route exact path="/vehicle-types">
+              <AuthRoute auth={auth} component={VehicleType} user={USER_TYPES.ADMIN} />
+            </Route>
+            <Route exact path="/customers">
+              <AuthRoute auth={auth} component={Customers} user={USER_TYPES.ADMIN} />
+            </Route>
+            <Route exact path="/add-vehicle">
+              <AuthRoute auth={auth} component={AddVehicle} user={USER_TYPES.ADMIN} />
             </Route>
           </Switch>
         </main>

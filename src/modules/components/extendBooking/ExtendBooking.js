@@ -26,6 +26,7 @@ const ExtendBooking = (props) => {
       bookingStatus,
       vehicle: { name },
       equipment,
+      totalPrice,
     },
     onSubmit,
     onAddEquipmentSubmit,
@@ -189,6 +190,10 @@ const ExtendBooking = (props) => {
       <div className={styles.header__div}>
         <div className={styles.header__light}>STATUS</div>
         <span className={styles.header__title}>{bookingStatus}</span>
+      </div>
+      <div className={styles.header__div}>
+        <div className={styles.header__light}>TOTAL PRICE</div>
+        <span className={styles.header__title}>{`$ ${totalPrice}`}</span>
       </div>
       <div className={styles.header__div}>
         <div className={styles.header__light}>EQUIPMENT</div>

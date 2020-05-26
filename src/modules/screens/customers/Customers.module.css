@@ -1,0 +1,56 @@
+.root__div {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  box-sizing: border-box;
+  padding: 30px;
+}
+
+.customers__div {
+  max-width: 1000px;
+  width: 100%;
+  padding-bottom: 50px;
+}
+
+.title__div {
+  background-color: #818181;
+}
+
+.title__div,
+.user__item {
+  display: flex;
+  width: 100%;
+  font-size: 0.8rem;
+}
+
+.user__item {
+  border-bottom: 1px solid #d2d2d2;
+}
+
+.title__div > span {
+  padding: 15px;
+  color: white;
+  letter-spacing: 1px;
+}
+
+.user__item > span {
+  padding: 15px;
+  letter-spacing: 1px;
+}
+
+.span__flex {
+  flex: 1;
+}
+
+.span__normal {
+  width: 120px;
+  margin: auto 0;
+  text-align: right;
+}
+
+.span__button {
+  width: 120px;
+  padding: 10px;
+  box-sizing: border-box;
+}

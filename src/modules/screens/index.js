@@ -10,3 +10,6 @@ export { default as UserHome } from './userHome/UserHome';
 export { default as Bookings } from './bookings/Bookings';
 export { default as Comparison } from './comparison/Comparison';
 export { default as Equipment } from './equipment/Equipment';
+export { default as VehicleType } from './vehicleType/VehicleType';
+export { default as Customers } from './customers/Customers';
+export { default as AddVehicle } from './addVehicle/AddVehicle';

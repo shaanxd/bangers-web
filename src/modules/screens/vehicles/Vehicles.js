@@ -7,6 +7,8 @@ import { getVehicleList, getVehicleTypes } from '../../api/vehicles';
 import { Vehicle, Loading, Glitch, PageHeader, AppButton } from '../../components';
 
 import styles from './Vehicles.module.css';
+import { connect } from 'react-redux';
+import { USER_TYPES } from '../../constants/constants';
 
 const VehiclesScreen = (props) => {
   const [state, setState] = useMergedState({
@@ -65,6 +67,9 @@ const VehiclesScreen = (props) => {
   };
 
   const handleOnBookClick = (id) => {
+    if (props.auth && props.auth.userType === USER_TYPES.ADMIN) {
+      return;
+    }
     props.history.push(`/vehicles/${id}`);
   };
 
@@ -89,7 +94,7 @@ const VehiclesScreen = (props) => {
 
   const renderVehicleItem = (vehicle, key) => {
     return (
-      <div className={styles.vehicleDiv}>
+      <div className={styles.vehicleDiv} key={key}>
         <Vehicle vehicle={vehicle} onBookClick={handleOnBookClick} />
       </div>
     );
@@ -102,14 +107,26 @@ const VehiclesScreen = (props) => {
     return <div className={styles.vehicleListDiv}>{listItems}</div>;
   };
 
+  const handleAddVehicleClick = () => {
+    props.history.push('/add-vehicle');
+  };
+
   const renderVehicleFilterList = () => {
     return (
       <div className={styles.vehicleTypeDivParent}>
         <label className={styles.vehicleTypeHeader}>Filter by vehicle type</label>
         <Select value={selectedFilterType} onChange={handleOnTypeChange} options={vehicleTypes} />
-        <div className={styles.button__container}>
-          <AppButton type="button" onClick={handleClearClick} text="Clear" />
-        </div>
+        {props.auth && props.auth.userType === USER_TYPES.ADMIN ? (
+          <div className={styles.button__container}>
+            <AppButton type="button" onClick={handleClearClick} text="Clear" />
+            <div className={styles.separator} />
+            <AppButton type="button" onClick={handleAddVehicleClick} text="Add Vehicle" />
+          </div>
+        ) : (
+          <div className={styles.button__container}>
+            <AppButton type="button" onClick={handleClearClick} text="Clear" />
+          </div>
+        )}
       </div>
     );
   };
@@ -149,4 +166,14 @@ const VehiclesScreen = (props) => {
   );
 };
 
-export default withRouter(VehiclesScreen);
+const mapStateToProps = ({ auth: { auth } }) => {
+  return {
+    auth,
+  };
+};
+
+const mapDispatchToProps = (dispatch) => {
+  return {};
+};
+
+export default withRouter(connect(mapStateToProps, mapDispatchToProps)(VehiclesScreen));

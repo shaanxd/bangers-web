@@ -4,14 +4,15 @@
   box-sizing: border-box;
   display: flex;
   padding: 20px;
-  justify-content: center;
+  align-items: center;
+  flex-direction: column;
 }
 
 .inner__div {
-  max-width: 1200px;
+  max-width: 800px;
   width: 100%;
   padding: 10px;
-  min-height: 80%;
+  padding-bottom: 20px;
 }
 
 .image {
@@ -20,7 +21,26 @@
   vertical-align: bottom;
 }
 
-.edit__div {
+.group__div {
+  padding: 10px;
+  border-bottom: 1px solid #d2d2d2;
+}
+
+.group__div > span {
+  display: block;
+  letter-spacing: 1.5px;
+  text-align: center;
+}
+
+.group__title {
+  font-size: 0.7rem;
+}
+
+.group__value {
+  font-size: 1rem;
+}
+
+.child__div {
   padding: 10px;
   display: flex;
   flex-direction: column;
@@ -98,6 +118,25 @@
   font-size: 0.9rem;
 }
 
+.image__div {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 5px;
+  margin-bottom: 10px;
+}
+
+.profile__img {
+  border-radius: 100px;
+  height: 200px;
+  width: 200px;
+}
+
+.file__item > label,
+.file__item > a {
+  letter-spacing: 1.5px;
+}
+
 .final__item {
   border: none;
 }
@@ -119,7 +158,7 @@
   font-size: 0.9rem;
 }
 
-.edit__title {
+.div__title {
   font-family: inherit;
   margin-bottom: 10px;
   display: block;

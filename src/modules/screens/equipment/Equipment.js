@@ -45,7 +45,7 @@ const Equipment = (props) => {
   };
 
   const toggleAddSelected = () => {
-    setState({ isAddSelected: !isAddSelected });
+    setState({ isAddSelected: !isAddSelected, isAddError: null });
   };
 
   const renderLoading = (text) => {

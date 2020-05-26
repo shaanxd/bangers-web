@@ -3,6 +3,7 @@ import { withRouter } from 'react-router-dom';
 import { AiOutlineUser, AiOutlineMail, AiOutlineCar, AiOutlineTool } from 'react-icons/ai';
 import { FiDollarSign, FiLogIn, FiLogOut } from 'react-icons/fi';
 import { FaSignature } from 'react-icons/fa';
+import { RiCarWashingLine } from 'react-icons/ri';
 
 import { DrawerToggleButton } from '../';
 import { USER_TYPES } from '../../constants/constants';
@@ -46,6 +47,14 @@ const Toolbar = (props) => {
 
   const handleEquipment = () => {
     props.history.push('/equipment');
+  };
+
+  const handleVehicleTypes = () => {
+    props.history.push('/vehicle-types');
+  };
+
+  const handleCustomersClick = () => {
+    props.history.push('/customers');
   };
 
   const renderUnauthRoutes = () => {
@@ -122,6 +131,24 @@ const Toolbar = (props) => {
 
   const renderAdminRoutes = () => (
     <ul>
+      <li>
+        <span className="toolbar__navigation-link" onClick={handleCustomersClick}>
+          <AiOutlineCar size={20} />
+          <span>Customers</span>
+        </span>
+      </li>
+      <li>
+        <span className="toolbar__navigation-link" onClick={handleVehiclesClick}>
+          <AiOutlineCar size={20} />
+          <span>Our Fleet</span>
+        </span>
+      </li>
+      <li>
+        <span className="toolbar__navigation-link" onClick={handleVehicleTypes}>
+          <RiCarWashingLine size={20} />
+          <span>Types</span>
+        </span>
+      </li>
       <li>
         <span className="toolbar__navigation-link" onClick={handleEquipment}>
           <AiOutlineTool size={20} />

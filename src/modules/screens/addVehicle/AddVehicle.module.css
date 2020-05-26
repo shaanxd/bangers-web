@@ -1,0 +1,156 @@
+.root__div {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  box-sizing: border-box;
+  padding: 30px;
+}
+
+.form__div {
+  max-width: 800px;
+  width: 100%;
+  padding-bottom: 30px;
+}
+
+.dropzone {
+  background-color: #fafafa;
+  display: flex;
+  border: 2px dashed gray;
+  border-radius: 2px;
+  color: #bdbdbd;
+  align-items: center;
+  justify-content: center;
+  font-family: inherit;
+  font-weight: 600;
+  height: 100px;
+  margin-top: 3px;
+  margin-bottom: 7px;
+}
+
+.file__div {
+  margin-top: 2px;
+  width: 100%;
+  padding: 10px;
+  border: 1px solid #d2d2d2;
+  justify-content: space-between;
+  align-items: center;
+  display: flex;
+  position: relative;
+}
+
+.remove__btn {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  left: 0;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  margin: auto;
+  display: none;
+  cursor: pointer;
+  background: rgba(0, 0, 0, 0.5);
+  border: none;
+}
+
+.main__error {
+  color: red;
+  font-size: 1rem;
+  margin-top: 10px;
+  display: block;
+  text-align: center;
+}
+
+.file__div:hover .remove__btn {
+  display: block;
+}
+
+.thumbnail__div {
+  border: 1px solid red;
+}
+
+.thumbnail__div {
+  margin-top: 5px;
+  width: 100%;
+  box-sizing: border-box;
+  border: 1px solid red;
+  padding: 10px;
+  border: 1px solid #d2d2d2;
+  justify-content: space-between;
+  align-items: center;
+  display: flex;
+  position: relative;
+}
+
+.main__error {
+  color: red;
+  font-size: 1rem;
+  margin-top: 10px;
+  display: block;
+  text-align: center;
+}
+
+.form__error {
+  color: red;
+  margin-top: 3px;
+  font-size: 0.7rem;
+}
+
+.success__div {
+  text-align: center;
+  font-size: 1.5rem;
+  font-weight: 700;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 100%;
+}
+
+.success__msg {
+  margin-top: 10px;
+}
+
+.list__image {
+  height: 100px;
+}
+
+.image__div {
+  position: relative;
+  margin: 5px;
+}
+
+.images__div {
+  display: flex;
+  flex-direction: row;
+  overflow: auto;
+  border: 1px solid #d2d2d2;
+  margin-top: 10px;
+  box-sizing: border-box;
+  padding: 5px;
+  overflow-x: scroll;
+}
+
+.image__div:hover .delete__btn {
+  display: block;
+}
+
+.thumbnail__div:hover .delete__btn {
+  display: block;
+}
+
+.delete__btn {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  left: 0;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  margin: auto;
+  display: none;
+  cursor: pointer;
+  background: rgba(0, 0, 0, 0.5);
+  border: none;
+}

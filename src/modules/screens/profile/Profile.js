@@ -10,6 +10,7 @@ import { addDocument, getUser, getDocuments } from '../../api/user';
 import { documentTypes, documentTypesArray } from '../../constants/constants';
 import { getImageUrl } from '../../helper/vehicleHelper';
 import { AppButton, PageHeader } from '../../components';
+import { FemaleAvatar } from '../../../images';
 
 import styles from './Profile.module.css';
 
@@ -142,12 +143,31 @@ const ProfileScreen = (props) => {
   };
 
   const renderProfileContent = () => {
+    const { firstname, lastname, email, license } = profile;
     return (
       <div className={styles.main__div}>
         <div className={styles.inner__div}>
           <PageHeader text="Your Profile" />
-          <div className={styles.edit__div}>
-            <label className={styles.edit__title}>YOUR DOCUMENTS</label>
+          <div className={styles.child__div}>
+            <div className={styles.image__div}>
+              <img src={FemaleAvatar} alt="Profile" className={styles.profile__img} />
+            </div>
+            <label className={styles.div__title}>PROFILE DETAILS</label>
+            <div className={styles.group__div}>
+              <span className={styles.group__title}>Name</span>
+              <span className={styles.group__value}>{`${firstname} ${lastname}`}</span>
+            </div>
+            <div className={styles.group__div}>
+              <span className={styles.group__title}>Email Address</span>
+              <span className={styles.group__value}>{email}</span>
+            </div>
+            <div className={styles.group__div}>
+              <span className={styles.group__title}>License No.</span>
+              <span className={styles.group__value}>{license}</span>
+            </div>
+          </div>
+          <div className={styles.child__div}>
+            <label className={styles.div__title}>YOUR DOCUMENTS</label>
             {documents.length > 0 && <div className={styles.file__list}>{renderFileList()}</div>}
             {file ? (
               <div className={styles.display__div}>
@@ -172,8 +192,8 @@ const ProfileScreen = (props) => {
               onClick={handleFileUpload}
               containerStyle={{ marginTop: '10px' }}
             />
+            {documentError && <span className={styles.file__error}>{documentError}</span>}
           </div>
-          {documentError && <span className={styles.file__error}>{documentError}</span>}
         </div>
       </div>
     );

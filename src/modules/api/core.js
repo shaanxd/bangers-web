@@ -14,7 +14,7 @@ export const GET = (endpoint, authorization = null) => {
     try {
       const response = await fetch(url, {
         method: 'GET',
-        headers
+        headers,
       });
       const data = await response.json();
       if (response.status >= 400) {
@@ -41,7 +41,7 @@ const APIPOST = (url, body, headers) => {
       const response = await fetch(url, {
         method: 'POST',
         headers,
-        body
+        body,
       });
       const data = await response.json();
       if (response.status >= 400) {
@@ -54,39 +54,45 @@ const APIPOST = (url, body, headers) => {
   });
 };
 
-const createRequestUrl = endpoint => {
+const createRequestUrl = (endpoint) => {
   return `${process.env.REACT_APP_BASE_URL}${endpoint}`;
 };
 
-const createRequestBody = requestBody => {
+const createRequestBody = (requestBody) => {
   return JSON.stringify(requestBody);
 };
 
-const createRequestHeader = authorization => {
+const createRequestHeader = (authorization) => {
   return authorization
     ? {
         'Content-Type': 'application/json',
-        Authorization: `Bearer ${authorization}`
+        Authorization: `Bearer ${authorization}`,
       }
     : {
-        'Content-Type': 'application/json'
+        'Content-Type': 'application/json',
       };
 };
 
-const createFormDataBody = obj => {
+const createFormDataBody = (obj) => {
   let data = new FormData();
   for (let key in obj) {
     if (obj.hasOwnProperty(key)) {
-      data.append(key, obj[key]);
+      if (Array.isArray(obj[key])) {
+        obj[key].forEach((element) => {
+          data.append(key, element);
+        });
+      } else {
+        data.append(key, obj[key]);
+      }
     }
   }
   return data;
 };
 
-const createFormDataHeader = authorization => {
+const createFormDataHeader = (authorization) => {
   return authorization
     ? {
-        Authorization: `Bearer ${authorization}`
+        Authorization: `Bearer ${authorization}`,
       }
     : {};
 };

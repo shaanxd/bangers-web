@@ -1,4 +1,4 @@
-import { GET, POST } from './core';
+import { GET, POST, FDPOST } from './core';
 
 export const getBookings = (authToken) => {
   const endpoint = `admin/get-bookings`;
@@ -18,4 +18,24 @@ export const addEquipment = (equipmentData, authToken) => {
 export const getUsers = (authToken) => {
   const endpoint = 'admin/get-users';
   return GET(endpoint, authToken);
+};
+
+export const addVehicleType = (typeData, authToken) => {
+  const endpoint = 'admin/add-vehicle-type';
+  return POST(endpoint, typeData, authToken);
+};
+
+export const enableUser = (id, authToken) => {
+  const endpoint = `admin/enable-user/${id}`;
+  return POST(endpoint, {}, authToken);
+};
+
+export const disableUser = (id, authToken) => {
+  const endpoint = `admin/disable-user/${id}`;
+  return POST(endpoint, {}, authToken);
+};
+
+export const addVehicle = (vehicleData, authToken) => {
+  const endpoint = 'admin/add-vehicle';
+  return FDPOST(endpoint, vehicleData, authToken);
 };
