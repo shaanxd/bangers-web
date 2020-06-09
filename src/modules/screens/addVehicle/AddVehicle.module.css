@@ -13,6 +13,24 @@
   padding-bottom: 30px;
 }
 
+.first__span {
+  display: block;
+  margin-top: 10px;
+  font-size: 0.8rem;
+  letter-spacing: 2px;
+  padding-top: 10px;
+  padding-bottom: 10px;
+}
+
+.other__spans {
+  display: block;
+  margin-top: 10px;
+  font-size: 0.8rem;
+  letter-spacing: 2px;
+  padding-top: 10px;
+  padding-bottom: 5px;
+}
+
 .dropzone {
   background-color: #fafafa;
   display: flex;

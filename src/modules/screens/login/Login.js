@@ -44,13 +44,9 @@ const LoginScreen = (props) => {
           return (
             <Form className={styles.login__form}>
               <PageHeader text="Hello there, Let's Login!" />
-              <AppInput
-                containerStyle={{ marginTop: '10px' }}
-                name="email"
-                type="email"
-                placeholder="someone@gmail.com"
-                loading={loading}
-              />
+              <span className={styles.form__span}>Email Address</span>
+              <AppInput name="email" type="email" placeholder="someone@gmail.com" loading={loading} />
+              <span className={styles.form__span}>Password</span>
               <PasswordInput
                 containerStyle={{ marginTop: '10px' }}
                 name="password"

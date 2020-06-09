@@ -199,6 +199,7 @@ const AddVehicle = (props) => {
             return (
               <Form className={styles.tag__form}>
                 <PageHeader text="Add Vehicle" />
+                <span className={styles.first__span}>Vehicle type</span>
                 <Select
                   value={type}
                   onChange={(value) => {
@@ -213,13 +214,9 @@ const AddVehicle = (props) => {
                 <ErrorMessage name="type">
                   {(message) => <label className={styles.form__error}>{message}</label>}
                 </ErrorMessage>
-                <AppInput
-                  type="text"
-                  name="name"
-                  placeholder="Vehicle name"
-                  loading={loading}
-                  containerStyle={{ marginTop: '5px' }}
-                />
+                <span className={styles.other__spans}>Vehicle name</span>
+                <AppInput type="text" name="name" placeholder="Vehicle name" loading={loading} />
+                <span className={styles.first__span}>Vehicle thumbnail</span>
                 {thumbnail ? (
                   <div className={styles.thumbnail__div}>
                     <img src={thumbnailPreview} className={styles.image} alt="Selected" />
@@ -234,6 +231,7 @@ const AddVehicle = (props) => {
                   </div>
                 )}
                 {thumbnailError && <label className={styles.form__error}>{thumbnailError}</label>}
+                <span className={styles.first__span}>Vehicle Images</span>
                 <div {...getImagesRootProps({ className: styles.dropzone })}>
                   <input {...getImagesInputProps()} />
                   <p className={styles.dropzone__text}>Drag 'n' drop some files here, or click to select files</p>

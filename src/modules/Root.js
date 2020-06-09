@@ -56,7 +56,7 @@ const Root = (props) => {
     <div className={styles.root}>
       <Router>
         <Toolbar drawerClickHandler={drawerToggleClickHandler} auth={auth} onLogoutClick={logout} />
-        <SideDrawer isOpen={sideDrawerOpen} />
+        <SideDrawer isOpen={sideDrawerOpen} auth={auth} onLogoutClick={logout} />
         {sideDrawerOpen && <Backdrop onClick={backdropClickHandler} />}
         <main className={styles.main}>
           <Switch>

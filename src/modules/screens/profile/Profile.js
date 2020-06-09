@@ -4,12 +4,14 @@ import { useDropzone } from 'react-dropzone';
 import { withRouter } from 'react-router-dom';
 import Select from 'react-select';
 import { AiOutlineDelete } from 'react-icons/ai';
+import DatePicker from 'react-datepicker';
 
+import { getDateStringInUTC } from '../../helper/vehicleHelper';
 import { useMergedState } from '../../helper/useMergedState';
 import { addDocument, getUser, getDocuments } from '../../api/user';
 import { documentTypes, documentTypesArray } from '../../constants/constants';
 import { getImageUrl } from '../../helper/vehicleHelper';
-import { AppButton, PageHeader } from '../../components';
+import { AppButton, PageHeader, Loading, Glitch } from '../../components';
 import { FemaleAvatar } from '../../../images';
 
 import styles from './Profile.module.css';
@@ -27,6 +29,8 @@ const ProfileScreen = (props) => {
     profile: null,
     profileLoading: true,
     profileError: null,
+
+    issuedDate: new Date(),
   });
 
   const {
@@ -39,6 +43,7 @@ const ProfileScreen = (props) => {
     profile,
     profileLoading,
     profileError,
+    issuedDate,
   } = state;
 
   const {
@@ -54,14 +59,15 @@ const ProfileScreen = (props) => {
 
   useEffect(() => {
     getUserFromAPI();
-    getDocumentsFromAPI();
     //eslint-disable-next-line
   }, []);
 
   const getUserFromAPI = async () => {
     try {
+      setState({ profileLoading: true, profileError: null });
       const response = await getUser(authToken);
       setState({ profile: response, profileLoading: false });
+      getDocumentsFromAPI();
     } catch (err) {
       setState({ profileLoading: false, profileError: err.message });
     }
@@ -99,11 +105,13 @@ const ProfileScreen = (props) => {
   const handleFileUpload = async () => {
     try {
       if (fileType) {
+        const dateInUtc = getDateStringInUTC(issuedDate);
         setState({ documentLoading: true, documentError: null });
         const response = await addDocument(
           {
             type: fileType.value,
             document: state.file,
+            issuedDate: dateInUtc,
           },
           authToken
         );
@@ -123,6 +131,10 @@ const ProfileScreen = (props) => {
 
   const handleRemoveFile = () => {
     setState({ file: null, filePreview: null });
+  };
+
+  const handleIssuedDateChange = (selectedDate) => {
+    setState({ issuedDate: selectedDate });
   };
 
   const renderFileList = () => {
@@ -169,6 +181,7 @@ const ProfileScreen = (props) => {
           <div className={styles.child__div}>
             <label className={styles.div__title}>YOUR DOCUMENTS</label>
             {documents.length > 0 && <div className={styles.file__list}>{renderFileList()}</div>}
+            <label className={styles.div__title}>UPLOAD DOCUMENTS</label>
             {file ? (
               <div className={styles.display__div}>
                 <img className={styles.image} src={filePreview} alt="Selected" />
@@ -185,7 +198,17 @@ const ProfileScreen = (props) => {
                 </div>
               </div>
             )}
+            <label className={styles.form__label}>Document Type</label>
             <Select options={documentTypesArray} value={fileType} onChange={handleTypeChange} />
+            <label className={styles.form__label}>Issued Date</label>
+            <DatePicker
+              selected={issuedDate}
+              onChange={handleIssuedDateChange}
+              className={styles.date__picker}
+              maxDate={new Date()}
+              dateFormat="MMMM d, yyyy"
+              disabled={documentLoading}
+            />
             <AppButton
               text="upload"
               loading={documentLoading || file === null}
@@ -199,9 +222,9 @@ const ProfileScreen = (props) => {
     );
   };
 
-  const renderLoading = () => <div>Loading</div>;
+  const renderLoading = () => <Loading text="Loading Profile" />;
 
-  const renderProfileError = () => <div>{profileError}</div>;
+  const renderProfileError = () => <Glitch text={profileError} onRetry={getUserFromAPI} />;
 
   return profileLoading ? renderLoading() : profileError ? renderProfileError() : profile && renderProfileContent();
 };

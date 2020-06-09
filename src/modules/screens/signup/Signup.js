@@ -61,13 +61,23 @@ const SignupScreen = (props) => {
             <Form className={styles.signup__form}>
               <PageHeader text="Hello there, Let's Signup!" />
               <div className={styles.name__div}>
-                <AppInput name="firstname" type="text" placeholder="John" loading={loading} />
+                <div className={styles.nested__div}>
+                  <span className={styles.form__span}>First name</span>
+                  <AppInput name="firstname" type="text" placeholder="John" loading={loading} />
+                </div>
                 <div className={styles.separator__div} />
-                <AppInput name="lastname" type="text" placeholder="Doe" loading={loading} />
+                <div className={styles.nested__div}>
+                  <span className={styles.form__span}>Last name</span>
+                  <AppInput name="lastname" type="text" placeholder="Doe" loading={loading} />
+                </div>
               </div>
+              <span className={styles.form__span}>Email Address</span>
               <AppInput name="email" type="email" placeholder="someone@gmail.com" loading={loading} />
+              <span className={styles.form__span}>License</span>
               <AppInput name="license" type="text" placeholder="H1RJHJKE" loading={loading} />
+              <span className={styles.form__span}>Password</span>
               <PasswordInput name="password" placeholder="Enter Password" loading={loading} />
+              <span className={styles.form__span}>Repeat Password</span>
               <PasswordInput name="confirmPassword" placeholder="Repeat Password" loading={loading} />
               <AppButton text="Signup" type="submit" loading={loading} containerStyle={{ marginTop: '5px' }} />
               {error && <label className={styles.main__error}>{error}</label>}

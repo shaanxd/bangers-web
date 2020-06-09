@@ -4,11 +4,12 @@
   position: fixed;
   top: 0;
   left: 0;
-  width: 70%;
-  max-width: 300px;
+  width: 100%;
+  max-width: 500px;
   z-index: 200;
   transform: translateX(-100%);
   transition: transform 0.3s ease-in;
+  background-color: black;
 }
 
 .side-drawer.open {
@@ -22,25 +23,33 @@
   flex-direction: column;
   justify-content: center;
   height: 100%;
+  margin: 0px;
+  padding: 0.5rem;
 }
 
 .side-drawer li {
-  margin: 0.5rem 0;
+  margin: 0.5rem;
 }
 
 .side-drawer span {
-  color: red;
+  color: white;
+  font-family: inherit;
   text-decoration: none;
   font-size: 1.1rem;
   cursor: pointer;
+  display: block;
+  text-align: center;
+  padding: 15px;
+  letter-spacing: 2px;
 }
 
 .side-drawer span:hover,
 .side-drawer span:active {
-  color: blue;
+  background-color: rgb(231, 8, 135);
+  transition: background-color 0.2s ease-in-out, color 0.2s ease-in-out;
 }
 
-@media (min-width: 769px) {
+@media (min-width: 1000px) {
   .side-drawer {
     display: none;
   }
